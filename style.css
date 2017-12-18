@@ -43,6 +43,10 @@ h1 {
     width: auto;
 }
 
+#seasonFooter hr {
+    background-color: black;
+}
+
 #seasonFooter {
     width: 15%;
     margin: auto;
@@ -74,7 +78,7 @@ h2 {
 h3 {
     font-family: halfshell;
     font-size: 1.7em;
-    color: black;
+    color: #5b4b50;
     text-align: center;
     border-radius: 50%;
     width: 40px;
@@ -111,7 +115,7 @@ h3 {
 }
 
 hr {
-    background-color: #000;
+    background-color: #5b4b50;
     height: 1px;
     border: 0;
 }
@@ -139,6 +143,7 @@ a:hover {
     text-align: center;
     margin: 5px;
     padding: 0;
+    color: #5b4b50;
 }
 @media only screen and (max-width: 400px) {
     .divisionScore { font-size: 60%;}
@@ -184,6 +189,8 @@ a:hover {
     font-size: 1.8em;
     text-align: center;
     font-family: halfshell;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #c5be93;
 }
 #totalMid {
     margin-top: 10px;
@@ -191,6 +198,8 @@ a:hover {
     font-size: 1.8em;
     text-align: center;
     font-family: halfshell;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #c5be93;
 }
 #totalJumbo {
     margin-top: 10px;
@@ -198,6 +207,8 @@ a:hover {
     font-size: 1.8em;
     text-align: center;
     font-family: halfshell;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #c5be93;
 }
 @media only screen and (max-width: 799px) {
     #totalLeader, #totalMid, #totalJumbo { font-size: 120%;}
@@ -272,6 +283,7 @@ a:hover {
     font-size: 0.85em;
     text-align: left;
     margin: 5px;
+    color: #5b4b50;
 }
 @media only screen and (max-width: 799px) {
     .teamPosition { font-size: 60%;}
