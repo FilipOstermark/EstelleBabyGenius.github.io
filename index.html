@@ -513,9 +513,16 @@ function trophies() {
                 currentActual = shortName.teams[currentActual];
             };
 
+            if (i == 0)
+            {
+            	document.getElementById(trophyString[j] + userIdString[i]).style.fontFamily="ralewayHeavy";
+            }
+
             if (currentString == currentActual) {
-                currentString = "<b>" + currentString + "</b>";
-                if (i > 0) trophyScores[i-1][j] += 3;
+                if (i > 0) {
+                	document.getElementById(trophyString[j] + userIdString[i]).style.fontStyle="italic";
+                	trophyScores[i-1][j] += 3;
+                };
             };
 
             document.getElementById(trophyString[j] + userIdString[i]).innerHTML = currentString;
@@ -648,7 +655,7 @@ function execute() {
             <div id="metropolitanScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="metroActual" class="divisionColumn">
-                        <h3>Standings</h3>
+                        <h3>NHL</h3>
                         <hr>
                         <p id="metroActual1" class="teamPosition"></p>
                         <p id="metroActual2" class="teamPosition"></p>
@@ -662,7 +669,7 @@ function execute() {
                         <p class="divisionScore">Score:</p>
                     </div>
                     <div id="metroFilip" class="divisionColumn">
-                        <h3>F</h3>
+                        <h3 class="h3Filip">F</h3>
                         <hr>
                         <p id="metroFilip1" class="teamPosition"></p>
                         <p id="metroFilip2" class="teamPosition"></p>
@@ -677,7 +684,7 @@ function execute() {
                     </div>
 
                     <div id="metroViktor" class="divisionColumn">
-                        <h3>V</h3>
+                        <h3 class="h3Viktor">V</h3>
                         <hr>
                         <p id="metroViktor1" class="teamPosition"></p>
                         <p id="metroViktor2" class="teamPosition"></p>
@@ -691,7 +698,7 @@ function execute() {
                         <p id="metroViktorScore" class="divisionScore"></p>
                     </div>
                     <div id="metroElias" class="divisionColumn">
-                        <h3>E</h3>
+                        <h3 class="h3Elias">E</h3>
                         <hr>
                         <p id="metroElias1" class="teamPosition"></p>
                         <p id="metroElias2" class="teamPosition"></p>
@@ -715,7 +722,7 @@ function execute() {
             <div id="atlanticScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="atlanticActual" class="divisionColumn">
-                        <h3>Standings</h3>
+                        <h3>NHL</h3>
                         <hr>
                         <p id="atlanticActual1" class="teamPosition"></p>
                         <p id="atlanticActual2" class="teamPosition"></p>
@@ -729,7 +736,7 @@ function execute() {
                         <p class="divisionScore">Score: </p>
                     </div>
                     <div id="atlanticFilip" class="divisionColumn">
-                        <h3>F</h3>
+                        <h3 class="h3Filip">F</h3>
                         <hr>
                         <p id="atlanticFilip1" class="teamPosition"></p>
                         <p id="atlanticFilip2" class="teamPosition"></p>
@@ -743,7 +750,7 @@ function execute() {
                         <p id="atlanticFilipScore" class="divisionScore"></p>
                     </div>
                     <div id="atlanticViktor" class="divisionColumn">
-                        <h3>V</h3>
+                        <h3 class="h3Viktor">V</h3>
                         <hr>
                         <p id="atlanticViktor1" class="teamPosition"></p>
                         <p id="atlanticViktor2" class="teamPosition"></p>
@@ -757,7 +764,7 @@ function execute() {
                         <p id="atlanticViktorScore" class="divisionScore"></p>
                     </div>
                     <div id="atlanticElias" class="divisionColumn">
-                        <h3>E</h3>
+                        <h3 class="h3Elias">E</h3>
                         <hr>
                         <p id="atlanticElias1" class="teamPosition"></p>
                         <p id="atlanticElias2" class="teamPosition"></p>
@@ -781,7 +788,7 @@ function execute() {
             <div id="centralScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="centralActual" class="divisionColumn">
-                        <h3>Standings</h3>
+                        <h3>NHL</h3>
                         <hr>
                         <p id="centralActual1" class="teamPosition"></p>
                         <p id="centralActual2" class="teamPosition"></p>
@@ -794,7 +801,7 @@ function execute() {
                         <p class="divisionScore">Score: </p>
                     </div>
                     <div id="centralFilip" class="divisionColumn">
-                        <h3>F</h3>
+                        <h3 class="h3Filip">F</h3>
                         <hr>
                         <p id="centralFilip1" class="teamPosition"></p>
                         <p id="centralFilip2" class="teamPosition"></p>
@@ -807,7 +814,7 @@ function execute() {
                         <p id="centralFilipScore" class="divisionScore"></p>
                     </div>
                     <div id="centralViktor" class="divisionColumn">
-                        <h3>V</h3>
+                        <h3 class="h3Viktor">V</h3>
                         <hr>
                         <p id="centralViktor1" class="teamPosition"></p>
                         <p id="centralViktor2" class="teamPosition"></p>
@@ -820,7 +827,7 @@ function execute() {
                         <p id="centralViktorScore" class="divisionScore"></p>
                     </div>
                     <div id="centralElias" class="divisionColumn">
-                        <h3>E</h3>
+                        <h3 class="h3Elias">E</h3>
                         <hr>
                         <p id="centralElias1" class="teamPosition"></p>
                         <p id="centralElias2" class="teamPosition"></p>
@@ -843,7 +850,7 @@ function execute() {
             <div id="pacificScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="pacificActual" class="divisionColumn">
-                        <h3>Standings</h3>
+                        <h3>NHL</h3>
                         <hr>
                         <p id="pacificActual1" class="teamPosition"></p>
                         <p id="pacificActual2" class="teamPosition"></p>
@@ -857,7 +864,7 @@ function execute() {
                         <p class="divisionScore">Score: </p>
                     </div>
                     <div id="pacificFilip" class="divisionColumn">
-                        <h3>F</h3>
+                        <h3 class="h3Filip">F</h3>
                         <hr>
                         <p id="pacificFilip1" class="teamPosition"></p>
                         <p id="pacificFilip2" class="teamPosition"></p>
@@ -871,7 +878,7 @@ function execute() {
                         <p id="pacificFilipScore" class="divisionScore"></p>
                     </div>
                     <div id="pacificViktor" class="divisionColumn">
-                        <h3>V</h3>
+                        <h3 class="h3Viktor">V</h3>
                         <hr>
                         <p id="pacificViktor1" class="teamPosition"></p>
                         <p id="pacificViktor2" class="teamPosition"></p>
@@ -885,7 +892,7 @@ function execute() {
                         <p id="pacificViktorScore" class="divisionScore"></p>
                     </div>
                     <div id="pacificElias" class="divisionColumn">
-                        <h3>E</h3>
+                        <h3 class="h3Elias">E</h3>
                         <hr>
                         <p id="pacificElias1" class="teamPosition"></p>
                         <p id="pacificElias2" class="teamPosition"></p>
@@ -909,7 +916,7 @@ function execute() {
             <div id="trophyScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="presidentActual" class="divisionColumn">
-                        <h3>Presidents Trophy</h3>
+                        <h3 class="h3Trophy">Presidents Trophy</h3>
                     </div>
                 </div>
                 <div class="flex-center">
@@ -920,24 +927,24 @@ function execute() {
                 </div>
                 <div class="flex-center">
                     <div id="presidentFilip" class="divisionColumn">
-                        <h3>F</h3>
-                        <hr>
+                        <h3 class="h3Filip">F</h3>
+                        
                         <p id="presidentFilipP" class="teamPosition"></p>
                     </div>
                     <div id="presidentViktor" class="divisionColumn">
-                        <h3>V</h3>
-                        <hr>
+                        <h3 class="h3Viktor">V</h3>
+                        
                         <p id="presidentViktorP" class="teamPosition"></p>
                     </div>
                     <div id="presidentElias" class="divisionColumn">
-                        <h3>E</h3>
-                        <hr>
+                        <h3 class="h3Elias">E</h3>
+                        
                         <p id="presidentEliasP" class="teamPosition"></p>
                     </div>
                 </div>
                 <div class="flex-center">
                     <div id="antiPresidentActual" class="divisionColumn">
-                        <h3>Anti-Presidents Trophy</h3>
+                        <h3 class="h3Trophy">Anti-Presidents Trophy</h3>
                     </div>
                 </div>
                 <div class="flex-center">
@@ -948,24 +955,24 @@ function execute() {
                 </div>
                 <div class="flex-center">
                     <div id="antiPresidentFilip" class="divisionColumn">
-                        <h3>F</h3>
-                        <hr>
+                        <h3 class="h3Filip">F</h3>
+                        
                         <p id="antiPresidentFilipP" class="teamPosition"></p>
                     </div>
                     <div id="antiPresidentViktor" class="divisionColumn">
-                        <h3>V</h3>
-                        <hr>
+                        <h3 class="h3Viktor">V</h3>
+                        
                         <p id="antiPresidentViktorP" class="teamPosition"></p>
                     </div>
                     <div id="antiPresidentElias" class="divisionColumn">
-                        <h3>E</h3>
-                        <hr>
+                        <h3 class="h3Elias">E</h3>
+                        
                         <p id="antiPresidentEliasP" class="teamPosition"></p>
                     </div>
                 </div>
                 <div class="flex-center">
                     <div id="princeActual" class="divisionColumn">
-                        <h3>Prince of Wales</h3>
+                        <h3 class="h3Trophy">Prince of Wales</h3>
                     </div>
                 </div>
                 <div class="flex-center">
@@ -976,24 +983,24 @@ function execute() {
                 </div>
                 <div class="flex-center">
                     <div id="princeFilip" class="divisionColumn">
-                        <h3>F</h3>
-                        <hr>
+                        <h3 class="h3Filip">F</h3>
+                        
                         <p id="princeFilipP" class="teamPosition"></p>
                     </div>
                     <div id="princeViktor" class="divisionColumn">
-                        <h3>V</h3>
-                        <hr>
+                        <h3 class="h3Viktor">V</h3>
+                        
                         <p id="princeViktorP" class="teamPosition"></p>
                     </div>
                     <div id="princeElias" class="divisionColumn">
-                        <h3>E</h3>
-                        <hr>
+                        <h3 class="h3Elias">E</h3>
+                        
                         <p id="princeEliasP" class="teamPosition"></p>
                     </div>
                 </div>
                 <div class="flex-center">
                     <div id="clarenceActual" class="divisionColumn">
-                        <h3>Clarence S. Cambell</h3>
+                        <h3 class="h3Trophy">Clarence S. Cambell</h3>
                     </div>
                 </div>
                 <div class="flex-center">
@@ -1004,46 +1011,56 @@ function execute() {
                 </div>
                 <div class="flex-center">
                     <div id="clarenceFilip" class="divisionColumn">
-                        <h3>F</h3>
-                        <hr>
+                        <h3 class="h3Filip">F</h3>
+                        
                         <p id="clarenceFilipP" class="teamPosition"></p>
                     </div>
                     <div id="clarenceViktor" class="divisionColumn">
-                        <h3>V</h3>
-                        <hr>
+                        <h3 class="h3Viktor">V</h3>
+                        
                         <p id="clarenceViktorP" class="teamPosition"></p>
                     </div>
                     <div id="clarenceElias" class="divisionColumn">
-                        <h3>E</h3>
-                        <hr>
+                        <h3 class="h3Elias">E</h3>
+                        
                         <p id="clarenceEliasP" class="teamPosition"></p>
                     </div>
                 </div>
                 <div class="flex-center">
                     <div id="trophySummary" class="divisionColumn">
-                        <h3 id="trophySummaryh3">Trophy Score</h3>
+                        <h3 class="h3Trophy" id="trophySummaryh3">Trophy Score</h3>
                     </div>
                 </div>
                 <div class="flex-center">
                     <div id="trophySummaryFilip" class="divisionColumn">
-                        <h3>F</h3>
-                        <hr>
+                        <h3 class="h3Filip">F</h3>
+                        
                         <p id="trophySummaryFilipP" class="teamPosition"></p>
                     </div>
                     <div id="trophySummaryViktor" class="divisionColumn">
-                        <h3>V</h3>
-                        <hr>
+                        <h3 class="h3Viktor">V</h3>
+                        
                         <p id="trophySummaryViktorP" class="teamPosition"></p>
                     </div>
                     <div id="trophySummaryElias" class="divisionColumn">
-                        <h3>E</h3>
-                        <hr>
+                        <h3 class="h3Elias">E</h3>
                         <p id="trophySummaryEliasP" class="teamPosition"></p>
                     </div>
                 </div>
             </div>
         </article>
     </section>
+
+    <article id="seasonFooter">
+	    <div class="flex-center">
+	        <h1>2017</h1>
+	    </div>
+	    <hr>
+	    <div class="flex-center">
+	        <h1>2018</h1>
+	    </div>
+    </article>
+    
     
     <article id="link">
         <div class="flex-center">
