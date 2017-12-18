@@ -1,0 +1,232 @@
+@font-face {
+    font-family: halfshell;
+    src: url(halfshellhero/halfshellhero.ttf);
+}
+
+@font-face {
+    font-family: raleway;
+    src: url(raleway/Raleway-Medium.ttf);
+}
+
+@font-face {
+    font-family: ralewayHeavy;
+    src: url(raleway/Raleway-Heavy.ttf);
+}
+
+body {
+    background-color: #5b4b50;
+    margin: 0;
+    width: 100%;
+}
+
+h1 {
+    color: #c7c6c5;
+    font-family: halfshell;
+    font-size: 2.7em;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 80px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+@media only screen and (max-width: 800px) {
+    h1 { font-size: 200%; margin-top: 10%}
+}
+
+h2 {
+    font-family: halfshell;
+    margin: 0;
+    color: black;
+    text-align: center;
+    font-size: 2.4em;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #ee5f60;
+}
+@media only screen and (max-width: 800px) {
+    h2 { font-size: 200%;}
+}
+@media only screen and (max-width: 799px) {
+    h2 { font-size: 150%;}
+}
+
+h3 {
+    font-family: halfshell;
+    font-size: 1.7em;
+    text-align: center;
+}
+@media only screen and (max-width: 799px) {
+    h3 { font-size: 100%;}
+}
+
+hr {
+    background-color: #000;
+    height: 1px;
+    border: 0;
+}
+
+a {
+    color: #f2edc0;
+    font-family: raleway;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+a:hover { 
+    color: white;
+}
+
+#link {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 1.0em;
+}
+
+.divisionScore {
+    font-family: ralewayHeavy;
+    font-size: 0.85em;
+    text-align: center;
+    margin: 5px;
+    padding: 0;
+}
+@media only screen and (max-width: 400px) {
+    .divisionScore { font-size: 60%;}
+}
+
+.scoreboard {
+    font-family: raleway;
+    text-align: left;
+}
+
+.divisionColumn {
+    display: inline-block;
+    padding: 15px 15px;
+}
+@media only screen and (max-width: 800px) {
+    .divisionColumn { padding: 5px 5px;}
+}
+
+#logo {
+    display: inline-block;
+    width: 25%;
+}
+@media only screen and (max-width: 800px) {
+    #logo { width: 25%; }
+}
+
+#content {
+    margin: 0 auto;
+    width: 75%;
+}
+@media only screen and (max-width: 800px) {
+    #content { width: 100%; }
+}
+
+#titlelogo {
+    width: 100%;
+    display: inline-block;
+}
+
+#totalLeader {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    text-align: left;
+    font-family: halfshell;
+}
+#totalMid {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    text-align: left;
+    font-family: halfshell;
+}
+#totalJumbo {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    text-align: left;
+    font-family: halfshell;
+}
+@media only screen and (max-width: 799px) {
+    #totalLeader, #totalMid, #totalJumbo { font-size: 120%;}
+}
+
+#presidentActualP,
+#antiPresidentActualP,
+#princeActualP,
+#clarenceActualP {
+    margin-top: 25px;
+    font-size: 1.1em;
+}
+
+#presidentstrophyimg {
+    margin: 0;
+}
+
+#antipresidentstrophyimg {
+    margin: 0;
+}
+
+#demo {
+    margin-top: 50px;
+    font-family: raleway;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+#trophySummary {
+    margin-top: 30px;
+    padding: 0;
+}
+
+#trophySummaryh3 {
+    margin: 0;
+    padding: 0;
+}
+
+.divscore {
+    background-color: #f2edc0;
+    border-radius: 30px;
+    padding: 30px 30px;
+    margin: 10px;
+    display: inline-block;
+}
+@media only screen and (min-width: 800px) {
+    .divscore { min-width: 800px; }
+}
+@media only screen and (max-width: 799px) {
+    .divscore { 
+        padding: 30px 0px;
+        margin: 10px 0px;
+        min-width: 100%;
+    }
+}
+
+.inline-block-center {
+  text-align: center;
+}
+.inline-block-center div {
+  display: inline-block;
+  text-align: left;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.teamPosition {
+    font-family: raleway;
+    font-size: 0.85em;
+    text-align: left;
+    margin: 5px;
+}
+@media only screen and (max-width: 799px) {
+    .teamPosition { font-size: 60%;}
+}
+
+.playoffTeams {
+    background-color: #c5be93;
+    border-radius: 10px;
+    padding: 3px;
+}

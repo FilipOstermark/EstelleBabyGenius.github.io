@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>KMHL 17/18</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+<script type="text/javascript">
+var parsedStandings;
+var metropolitanNumTeams;
+var atlanticNumTeams;
+var centralNumTeams;
+var pacificNumTeams;
+
+var filipTotalPoints;
+var viktorTotalPoints;
+var eliasTotalPoints;
+
+var filipDivisionScore = [0, 0, 0, 0];
+var viktorDivisionScore = [0, 0, 0, 0];
+var eliasDivisionScore = [0, 0, 0, 0];
+
+var metropolitanIndex = 0;
+var atlanticIndex = 1;
+var centralIndex = 2;
+var pacificIndex = 3;
+
+var divisionIndexIds = ["metropolitanScoreboard", "atlanticScoreboard", "centralScoreboard", "pacificScoreboard"];
+
+var playoffTeams = [];
+
+var shortName = {
+    "teams" : {
+        "New Jersey Devils" : "New Jersey", 
+        "New York Islanders" : "N.Y.I.", 
+        "New York Rangers" : "N.Y.R.", 
+        "Philadelphia Flyers" : "Philadelphia", 
+        "Pittsburgh Penguins" : "Pittsburgh",
+        "Boston Bruins" : "Boston",
+        "Buffalo Sabres" : "Buffalo",
+        "Montréal Canadiens" : "Montréal",
+        "Ottawa Senators" : "Ottawa",
+        "Toronto Maple Leafs" : "Toronto",
+        "Carolina Hurricanes" : "Carolina",
+        "Florida Panthers" : "Florida",
+        "Tampa Bay Lightning" : "Tampa Bay",
+        "Washington Capitals" : "Washington",
+        "Chicago Blackhawks" : "Chicago",
+        "Detroit Red Wings" : "Detroit",
+        "Nashville Predators" : "Nashville",
+        "St. Louis Blues" : "St. Louis",
+        "Calgary Flames" : "Calgary",
+        "Colorado Avalanche" : "Colorado",
+        "Edmonton Oilers" : "Edmonton",
+        "Vancouver Canucks" : "Vancouver",
+        "Anaheim Ducks" : "Anaheim",
+        "Dallas Stars" : "Dallas",
+        "Los Angeles Kings" : "L.A.",
+        "San Jose Sharks" : "San Jose",
+        "Columbus Blue Jackets" : "Columbus",
+        "Minnesota Wild" : "Minnesota",
+        "Winnipeg Jets" : "Winnipeg",
+        "Arizona Coyotes" : "Arizona",
+        "Vegas Golden Knights" : "Vegas"
+    }
+};
+
+var bets = `{
+    "filip" : {
+        "division" : [ {
+            "name" : "Metropolitan",
+            "rank" : [ 
+                "Pittsburgh Penguins",
+                "Columbus Blue Jackets",
+                "New York Rangers",
+                "Washington Capitals",
+                "New York Islanders",
+                "Philadelphia Flyers",
+                "New Jersey Devils",
+                "Carolina Hurricanes"
+                ] }, {
+            "name" : "Atlantic",
+            "rank" : [ 
+                "Ottawa Senators",
+                "Boston Bruins",
+                "Montréal Canadiens",
+                "Toronto Maple Leafs",
+                "Florida Panthers",
+                "Tampa Bay Lightning",
+                "Buffalo Sabres",
+                "Detroit Red Wings"
+                ] }, {
+            "name" : "Central",
+            "rank" : [ 
+                "Nashville Predators",
+                "Minnesota Wild",
+                "Chicago Blackhawks",
+                "Winnipeg Jets",
+                "St. Louis Blues",
+                "Dallas Stars",
+                "Colorado Avalanche"
+                ] }, {
+            "name" : "Pacific",
+            "rank" : [ 
+                "Edmonton Oilers",
+                "Anaheim Ducks",
+                "San Jose Sharks",
+                "Los Angeles Kings",
+                "Calgary Flames",
+                "Vegas Golden Knights",
+                "Vancouver Canucks",
+                "Arizona Coyotes"
+                ]
+            }
+        ],
+        "wildcards" : [
+            "Washington Capitals",
+            "Toronto Maple Leafs",
+            "Winnipeg Jets",
+            "St. Louis Blues"
+        ],
+        "president" : "Pittsburgh Penguins",
+        "antipresident" : "Colorado Avalanche",
+        "prince" : "Pittsburgh Penguins",
+        "clarence" : "Chicago Blackhawks"
+    },
+    "viktor" : {
+        "division" : [ {
+            "name" : "Metropolitan",
+            "rank" : [ 
+                "Carolina Hurricanes",
+                "Pittsburgh Penguins",
+                "Columbus Blue Jackets",
+                "New York Rangers",
+                "Philadelphia Flyers",
+                "Washington Capitals",
+                "New York Islanders",
+                "New Jersey Devils"
+                ] }, {
+            "name" : "Atlantic",
+            "rank" : [ 
+                "Tampa Bay Lightning",
+                "Toronto Maple Leafs",
+                "Montréal Canadiens",
+                "Buffalo Sabres",
+                "Boston Bruins",
+                "Ottawa Senators",
+                "Florida Panthers",
+                "Detroit Red Wings"
+                ] }, {
+            "name" : "Central",
+            "rank" : [ 
+                "Dallas Stars",
+                "Nashville Predators",
+                "Winnipeg Jets",
+                "Minnesota Wild",
+                "Chicago Blackhawks",
+                "St. Louis Blues",
+                "Colorado Avalanche"
+                ] }, {
+            "name" : "Pacific",
+            "rank" : [ 
+                "Edmonton Oilers",
+                "Calgary Flames",
+                "Anaheim Ducks",
+                "Los Angeles Kings",
+                "Arizona Coyotes",
+                "San Jose Sharks",
+                "Vegas Golden Knights",
+                "Vancouver Canucks"
+                ] 
+            }
+        ],
+        "wildcards" : [
+            "New York Rangers",
+            "Philadelphia Flyers",
+            "Minnesota Wild",
+            "Los Angeles Kings"
+        ],
+        "president" : "Dallas Stars",
+        "antipresident" : "Vancouver Canucks",
+        "prince" : "Tampa Bay Lightning",
+        "clarence" : "Minnesota Wild"
+    },
+    "elias" : {
+        "division" : [ {
+            "name" : "Metropolitan",
+            "rank" : [ 
+                "Pittsburgh Penguins",
+                "Washington Capitals",
+                "Carolina Hurricanes",
+                "New York Rangers",
+                "Philadelphia Flyers",
+                "Columbus Blue Jackets",
+                "New York Islanders",
+                "New Jersey Devils"
+                ] }, {
+            "name" : "Atlantic",
+            "rank" : [ 
+                "Tampa Bay Lightning",
+                "Toronto Maple Leafs",
+                "Montréal Canadiens",
+                "Buffalo Sabres",
+                "Ottawa Senators",
+                "Boston Bruins",
+                "Detroit Red Wings",
+                "Florida Panthers"
+                ] }, {
+            "name" : "Central",
+            "rank" : [ 
+                "Dallas Stars",
+                "Nashville Predators",
+                "Minnesota Wild",
+                "Winnipeg Jets",
+                "Chicago Blackhawks",
+                "St. Louis Blues",
+                "Colorado Avalanche"
+                ] }, {
+            "name" : "Pacific",
+            "rank" : [ 
+                "Anaheim Ducks",
+                "Edmonton Oilers",
+                "Calgary Flames",
+                "San Jose Sharks",
+                "Arizona Coyotes",
+                "Los Angeles Kings",
+                "Vancouver Canucks",
+                "Vegas Golden Knights"
+                ]
+            }
+        ],
+        "wildcards" : [
+            "New York Rangers",
+            "Philadelphia Flyers",
+            "Winnipeg Jets",
+            "Chicago Blackhawks"
+        ],
+        "president" : "Pittsburgh Penguins",
+        "antipresident" : "Vegas Golden Knights",
+        "prince" : "Tampa Bay Lightning",
+        "clarence" : "Edmonton Oilers"
+    }
+}`;
+
+var parsedBets = JSON.parse(bets);
+
+function main() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           // Typical action to be performed when the document is ready:
+           //document.getElementById("demo").innerHTML = "NHL JSON: <br>" + xhttp.responseText;
+           parsedStandings = JSON.parse(xhttp.responseText);
+
+            metropolitanNumTeams = parsedStandings.records[metropolitanIndex].teamRecords.length;
+            atlanticNumTeams = parsedStandings.records[atlanticIndex].teamRecords.length;
+            centralNumTeams = parsedStandings.records[centralIndex].teamRecords.length;
+            pacificNumTeams = parsedStandings.records[pacificIndex].teamRecords.length;
+
+            execute();
+        }
+    };
+    xhttp.open("GET", "https://statsapi.web.nhl.com/api/v1/standings", true);
+    xhttp.send();
+}
+
+function generateDivisionRankings(divisionIndex, divisionNumTeams) {
+    var elementIdString = ["metro", "atlantic", "central", "pacific"];
+
+    for (var i = 0; i < divisionNumTeams; i++) {
+        var teamName = parsedStandings.records[divisionIndex].teamRecords[i].team.name;
+        var filipBetName = parsedBets.filip.division[divisionIndex].rank[i];
+        var viktorBetName = parsedBets.viktor.division[divisionIndex].rank[i];
+        var eliasBetName = parsedBets.elias.division[divisionIndex].rank[i];
+
+        var elementIdActual = elementIdString[divisionIndex] + "Actual" + (i+1);
+        var elementIdFilip = elementIdString[divisionIndex] + "Filip" + (i+1);
+        var elementIdViktor = elementIdString[divisionIndex] + "Viktor" + (i+1);
+        var elementIdElias = elementIdString[divisionIndex] + "Elias" + (i+1);
+
+        if (screen.width < 800) {
+            document.getElementById(elementIdActual).innerHTML = (i+1) + ". " + shortName.teams[teamName];
+            document.getElementById(elementIdFilip).innerHTML = shortName.teams[filipBetName];
+            document.getElementById(elementIdViktor).innerHTML = shortName.teams[viktorBetName];
+            document.getElementById(elementIdElias).innerHTML = shortName.teams[eliasBetName];
+        } else {
+            document.getElementById(elementIdActual).innerHTML = (i+1) + ". " + teamName;
+            document.getElementById(elementIdFilip).innerHTML = filipBetName;
+            document.getElementById(elementIdViktor).innerHTML = viktorBetName;
+            document.getElementById(elementIdElias).innerHTML = eliasBetName;
+        };
+
+        if (i < 3) {
+            playoffTeams.push(teamName);
+            document.getElementById(elementIdActual).style.fontFamily="ralewayHeavy";
+            document.getElementById(elementIdFilip).style.fontFamily="ralewayHeavy";
+            document.getElementById(elementIdViktor).style.fontFamily="ralewayHeavy";
+            document.getElementById(elementIdElias).style.fontFamily="ralewayHeavy";
+        }
+        if (parsedStandings.records[divisionIndex].teamRecords[i].wildCardRank == 1 ||
+            parsedStandings.records[divisionIndex].teamRecords[i].wildCardRank == 2) {
+            playoffTeams.push(teamName);
+            document.getElementById(elementIdActual).style.fontFamily="ralewayHeavy";
+        }
+
+        if (parsedBets.filip.wildcards.includes(filipBetName)) 
+            document.getElementById(elementIdFilip).style.fontFamily="ralewayHeavy";
+        if (parsedBets.viktor.wildcards.includes(viktorBetName)) 
+            document.getElementById(elementIdViktor).style.fontFamily="ralewayHeavy";
+        if (parsedBets.elias.wildcards.includes(eliasBetName)) 
+            document.getElementById(elementIdElias).style.fontFamily="ralewayHeavy";
+
+        if (teamName == filipBetName) document.getElementById(elementIdFilip).style.fontStyle="italic";
+        if (teamName == viktorBetName) document.getElementById(elementIdViktor).style.fontStyle="italic";
+        if (teamName == eliasBetName) document.getElementById(elementIdElias).style.fontStyle="italic";
+    };
+}
+
+function compareDivisionRankings(divisionIndex, divisionNumTeams) {
+    for (var i = 0; i < divisionNumTeams; i++) {
+        var teamName = parsedStandings.records[divisionIndex].teamRecords[i].team.name;
+        var filipBetName = parsedBets.filip.division[divisionIndex].rank[i];
+        var viktorBetName = parsedBets.viktor.division[divisionIndex].rank[i];
+        var eliasBetName = parsedBets.elias.division[divisionIndex].rank[i];
+        var points = 1;
+
+        if (filipBetName == teamName) {
+            filipTotalPoints += points;
+            filipDivisionScore[divisionIndex] += points;
+        };
+        if (viktorBetName == teamName) {
+            viktorTotalPoints += points;
+            viktorDivisionScore[divisionIndex] += points;
+        };
+        if (eliasBetName == teamName) {
+            eliasTotalPoints += points;
+            eliasDivisionScore[divisionIndex] += points;
+        };
+    };
+}
+
+function buildPlayoffList() {
+    for (var i = 0; i < 3; i++) {
+        playoffTeams.push(parsedStandings.records[metropolitanIndex].teamRecords[i].team.name);
+        playoffTeams.push(parsedStandings.records[atlanticIndex].teamRecords[i].team.name);
+        playoffTeams.push(parsedStandings.records[centralIndex].teamRecords[i].team.name);
+        playoffTeams.push(parsedStandings.records[pacificIndex].teamRecords[i].team.name);
+    };
+}
+
+function comparePlayoffTeams() {
+    var points = 2;
+
+    for (var i = 0; i < 3; i++) {
+        var filipMetro = parsedBets.filip.division[metropolitanIndex].rank[i];
+        var filipAtlantic = parsedBets.filip.division[atlanticIndex].rank[i];
+        var filipCentral = parsedBets.filip.division[centralIndex].rank[i];
+        var filipPacific = parsedBets.filip.division[pacificIndex].rank[i];
+
+        var viktorMetro = parsedBets.filip.division[metropolitanIndex].rank[i];
+        var viktorAtlantic = parsedBets.filip.division[atlanticIndex].rank[i];
+        var viktorCentral = parsedBets.filip.division[centralIndex].rank[i];
+        var viktorPacific = parsedBets.filip.division[pacificIndex].rank[i];
+
+        var eliasMetro = parsedBets.filip.division[metropolitanIndex].rank[i];
+        var eliasAtlantic = parsedBets.filip.division[atlanticIndex].rank[i];
+        var eliasCentral = parsedBets.filip.division[centralIndex].rank[i];
+        var eliasPacific = parsedBets.filip.division[pacificIndex].rank[i];
+
+        // Filip
+        if (playoffTeams.includes(filipMetro)) {
+            filipDivisionScore[metropolitanIndex] += points;
+            filipTotalPoints += points;
+        };
+        if (playoffTeams.includes(filipAtlantic)) {
+            filipDivisionScore[atlanticIndex] += points;
+            filipTotalPoints += points;
+        };
+        if (playoffTeams.includes(filipCentral)) {
+            filipDivisionScore[centralIndex] += points;
+            filipTotalPoints += points;
+        };
+        if (playoffTeams.includes(filipPacific)) {
+            filipDivisionScore[pacificIndex] += points;
+            filipTotalPoints += points;
+        };
+
+        // Viktor
+        if (playoffTeams.includes(viktorMetro)) {
+            viktorDivisionScore[metropolitanIndex] += points;
+            viktorTotalPoints += points;
+        };
+        if (playoffTeams.includes(viktorAtlantic)) {
+            viktorDivisionScore[atlanticIndex] += points;
+            viktorTotalPoints += points;
+        };
+        if (playoffTeams.includes(viktorCentral)) {
+            viktorDivisionScore[centralIndex] += points;
+            viktorTotalPoints += points;
+        };
+        if (playoffTeams.includes(viktorPacific)) {
+            viktorDivisionScore[pacificIndex] += points;
+            viktorTotalPoints += points;
+        };
+
+        // Elias
+        if (playoffTeams.includes(eliasMetro)) {
+            eliasDivisionScore[metropolitanIndex] += points;
+            eliasTotalPoints += points;
+        };
+        if (playoffTeams.includes(eliasAtlantic)) {
+            eliasDivisionScore[atlanticIndex] += points;
+            eliasTotalPoints += points;
+        };
+        if (playoffTeams.includes(eliasCentral)) {
+            eliasDivisionScore[centralIndex] += points;
+            eliasTotalPoints += points;
+        };
+        if (playoffTeams.includes(eliasPacific)) {
+            eliasDivisionScore[pacificIndex] += points;
+            eliasTotalPoints += points;
+        };
+    };
+}
+
+function findPresident() {
+    for (var i = 0; i < metropolitanNumTeams; i++) {
+        if (parsedStandings.records[metropolitanIndex].teamRecords[i].leagueRank == 1) 
+            return parsedStandings.records[metropolitanIndex].teamRecords[i].team.name;
+    };
+    for (var i = 0; i < atlanticNumTeams; i++) {
+        if (parsedStandings.records[atlanticIndex].teamRecords[i].leagueRank == 1) 
+            return parsedStandings.records[atlanticIndex].teamRecords[i].team.name;
+    };
+    for (var i = 0; i < centralNumTeams; i++) {
+        if (parsedStandings.records[centralIndex].teamRecords[i].leagueRank == 1)
+            return parsedStandings.records[centralIndex].teamRecords[i].team.name;
+    };
+    for (var i = 0; i < pacificNumTeams; i++) {
+        if (parsedStandings.records[pacificIndex].teamRecords[i].leagueRank == 1) 
+            return parsedStandings.records[pacificIndex].teamRecords[i].team.name;
+    };
+}
+
+function findAntiPresident() {
+    for (var i = 0; i < metropolitanNumTeams; i++) {
+        if (parsedStandings.records[metropolitanIndex].teamRecords[i].leagueRank == 31) 
+            return parsedStandings.records[metropolitanIndex].teamRecords[i].team.name;
+    };
+    for (var i = 0; i < atlanticNumTeams; i++) {
+        if (parsedStandings.records[atlanticIndex].teamRecords[i].leagueRank == 31) 
+            return parsedStandings.records[atlanticIndex].teamRecords[i].team.name;
+    };
+    for (var i = 0; i < centralNumTeams; i++) {
+        if (parsedStandings.records[centralIndex].teamRecords[i].leagueRank == 31)
+            return parsedStandings.records[centralIndex].teamRecords[i].team.name;
+    };
+    for (var i = 0; i < pacificNumTeams; i++) {
+        if (parsedStandings.records[pacificIndex].teamRecords[i].leagueRank == 31) 
+            return parsedStandings.records[pacificIndex].teamRecords[i].team.name;
+    };
+}
+
+function findPrinceOfWales() {
+    // Eastern
+    for (var i = 0; i < metropolitanNumTeams; i++) {
+        if (parsedStandings.records[metropolitanIndex].teamRecords[i].conferenceRank == 1) 
+            return parsedStandings.records[metropolitanIndex].teamRecords[i].team.name;
+    };
+    for (var i = 0; i < atlanticNumTeams; i++) {
+        if (parsedStandings.records[atlanticIndex].teamRecords[i].conferenceRank == 1) 
+            return parsedStandings.records[atlanticIndex].teamRecords[i].team.name;
+    };
+}
+
+function findClarenceSCambell() {
+    // Western
+    for (var i = 0; i < centralNumTeams; i++) {
+        if (parsedStandings.records[centralIndex].teamRecords[i].conferenceRank == 1)
+            return parsedStandings.records[centralIndex].teamRecords[i].team.name;
+    };
+    for (var i = 0; i < pacificNumTeams; i++) {
+        if (parsedStandings.records[pacificIndex].teamRecords[i].conferenceRank == 1) 
+            return parsedStandings.records[pacificIndex].teamRecords[i].team.name;
+    };
+}
+
+function trophies() {
+    var nameStrings = [
+        [findPresident(), findAntiPresident(), findPrinceOfWales(), findClarenceSCambell()],
+        [parsedBets.filip.president, parsedBets.filip.antipresident, parsedBets.filip.prince, parsedBets.filip.clarence],
+        [parsedBets.viktor.president, parsedBets.viktor.antipresident, parsedBets.viktor.prince, parsedBets.viktor.clarence],
+        [parsedBets.elias.president, parsedBets.elias.antipresident, parsedBets.elias.prince, parsedBets.elias.clarence]
+        ];
+
+    var trophyScores = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
+
+    var userIdString = ["ActualP", "FilipP", "ViktorP", "EliasP"];
+    var trophyString = ["president", "antiPresident", "prince", "clarence"];
+
+    // Trophy loop
+    for (var i = 0; i < 4; i++) {
+        // User loop
+        for (var j = 0; j < 4; j++) {
+
+            var currentString = nameStrings[i][j];
+            var currentActual = nameStrings[0][j];
+
+            //alert(trophyString[j] + userIdString[i]);
+
+            if (screen.width < 800) {
+                currentString = shortName.teams[currentString];
+                currentActual = shortName.teams[currentActual];
+            };
+
+            if (currentString == currentActual) {
+                currentString = "<b>" + currentString + "</b>";
+                if (i > 0) trophyScores[i-1][j] += 3;
+            };
+
+            document.getElementById(trophyString[j] + userIdString[i]).innerHTML = currentString;
+        };
+    };
+
+    filipTotalPoints += trophyScores[0].reduce(add, 0);
+    viktorTotalPoints += trophyScores[1].reduce(add, 0);
+    eliasTotalPoints += trophyScores[2].reduce(add, 0);
+
+    return trophyScores;
+}
+
+function add(a, b) {
+    return a + b;
+}
+
+function execute() {
+	filipTotalPoints = 0;
+	viktorTotalPoints = 0;
+	eliasTotalPoints = 0;
+
+	filipDivisionScore = [0, 0, 0, 0];
+	viktorDivisionScore = [0, 0, 0, 0];
+	eliasDivisionScore = [0, 0, 0, 0];
+
+    var presidentTrophyIndex = 0;
+    var antiPresidentTrophyIndex = 1;
+    var princeTrophyIndex = 2;
+    var clarenceTrophyIndex = 3;
+
+	compareDivisionRankings(metropolitanIndex, metropolitanNumTeams);
+	compareDivisionRankings(atlanticIndex, atlanticNumTeams);
+	compareDivisionRankings(centralIndex, centralNumTeams);
+	compareDivisionRankings(pacificIndex, pacificNumTeams);
+
+    generateDivisionRankings(metropolitanIndex, metropolitanNumTeams);
+    generateDivisionRankings(atlanticIndex, atlanticNumTeams);
+    generateDivisionRankings(centralIndex, centralNumTeams);
+    generateDivisionRankings(pacificIndex, pacificNumTeams);
+
+    comparePlayoffTeams();
+
+    var trophyScoreSet = trophies();
+
+    var filipTrophyScoreSum = trophyScoreSet[0].reduce(add, 0);
+    var viktorTrophyScoreSum = trophyScoreSet[1].reduce(add, 0);
+    var eliasTrophyScoreSum = trophyScoreSet[2].reduce(add, 0);
+
+    document.getElementById("trophySummaryFilipP").innerHTML = "<b>" + filipTrophyScoreSum + " p</b>";
+    document.getElementById("trophySummaryViktorP").innerHTML = "<b>" + viktorTrophyScoreSum + " p</b>";
+    document.getElementById("trophySummaryEliasP").innerHTML = "<b>" + eliasTrophyScoreSum + " p</b>";
+
+    var totalPoints = [
+        {key : "Filip", val : filipTotalPoints},
+        {key : "Viktor", val : viktorTotalPoints},
+        {key : "Elias", val : eliasTotalPoints}
+    ];
+
+    totalPoints = totalPoints.sort(function (a, b) {
+        return b.val-a.val;
+    }); 
+
+    var highRank = 1;
+    var midRank = 2;
+    var lowRank = 3;
+
+    if (totalPoints[0].val == totalPoints[1].val) {
+        document.getElementById("totalMid").style.fontFamily="ralewayHeavy";
+        document.getElementById("totalMid").style.fontFamily="ralewayHeavy";
+        midRank = highRank;
+        lowRank = 2;
+    };
+    if (totalPoints[1].val == totalPoints[2].val)
+    {
+        lowRank = midRank;
+    };
+    if (totalPoints[0].val == totalPoints[1].val && totalPoints[1].val == totalPoints[2].val)
+    {
+        document.getElementById("totalJumbo").style.fontFamily="ralewayHeavy";
+        document.getElementById("totalJumbo").style.fontFamily="ralewayHeavy";
+    };
+
+    document.getElementById("totalLeader").innerHTML = highRank + ". " + totalPoints[0].key + " - " + totalPoints[0].val + " p";
+    document.getElementById("totalMid").innerHTML = midRank + ". " + totalPoints[1].key + " - " + totalPoints[1].val + " p";
+    document.getElementById("totalJumbo").innerHTML = lowRank + ". " + totalPoints[2].key + " - " + totalPoints[2].val + " p";
+
+    document.getElementById("metroFilipScore").innerHTML = filipDivisionScore[metropolitanIndex] + " p";
+    document.getElementById("metroViktorScore").innerHTML = viktorDivisionScore[metropolitanIndex] + " p";
+    document.getElementById("metroEliasScore").innerHTML = eliasDivisionScore[metropolitanIndex] + " p";
+    document.getElementById("atlanticFilipScore").innerHTML = filipDivisionScore[atlanticIndex] + " p";
+    document.getElementById("atlanticViktorScore").innerHTML = viktorDivisionScore[atlanticIndex] + " p";
+    document.getElementById("atlanticEliasScore").innerHTML = eliasDivisionScore[atlanticIndex] + " p";
+    document.getElementById("centralFilipScore").innerHTML = filipDivisionScore[centralIndex] + " p";
+    document.getElementById("centralViktorScore").innerHTML = viktorDivisionScore[centralIndex] + " p";
+    document.getElementById("centralEliasScore").innerHTML = eliasDivisionScore[centralIndex] + " p";
+    document.getElementById("pacificFilipScore").innerHTML = filipDivisionScore[pacificIndex] + " p";
+    document.getElementById("pacificViktorScore").innerHTML = viktorDivisionScore[pacificIndex] + " p";
+    document.getElementById("pacificEliasScore").innerHTML = eliasDivisionScore[pacificIndex] + " p";
+}
+</script>
+</head>
+<body>
+
+<section id="content">
+    <section id="titlelogo" class="inline-block-center">
+        <h1>KM</h1>
+        <img id="logo" src="nhllogo.svg" alt="nhllogo">
+        <h1>BETS</h1>
+    </section>
+
+    <section id="scores" class="flex-center">
+        <article id="scoreboard" class="divscore">
+            <h2>League Standings</h2>
+            <div id="totalScoreboard" class="scoreboard">
+                <div class="flex-center">
+                    <div class="inline-block-center">
+                        <p id="totalLeader" class="teamPosition"></p>
+                        <p id="totalMid" class="teamPosition"></p>
+                        <p id="totalJumbo" class="teamPosition"></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section id="scores2" class="flex-center">
+        <article id="metropolitanscore" class="divscore">
+            <h2>Metropolitan Division</h2>
+            <div id="metropolitanScoreboard" class="scoreboard">
+                <div class="flex-center">
+                    <div id="metroActual" class="divisionColumn">
+                        <h3>Standings</h3>
+                        <hr>
+                        <p id="metroActual1" class="teamPosition"></p>
+                        <p id="metroActual2" class="teamPosition"></p>
+                        <p id="metroActual3" class="teamPosition"></p>
+                        <p id="metroActual4" class="teamPosition"></p>
+                        <p id="metroActual5" class="teamPosition"></p>
+                        <p id="metroActual6" class="teamPosition"></p>
+                        <p id="metroActual7" class="teamPosition"></p>
+                        <p id="metroActual8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">Score:</p>
+                    </div>
+                    <div id="metroFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="metroFilip1" class="teamPosition"></p>
+                        <p id="metroFilip2" class="teamPosition"></p>
+                        <p id="metroFilip3" class="teamPosition"></p>
+                        <p id="metroFilip4" class="teamPosition"></p>
+                        <p id="metroFilip5" class="teamPosition"></p>
+                        <p id="metroFilip6" class="teamPosition"></p>
+                        <p id="metroFilip7" class="teamPosition"></p>
+                        <p id="metroFilip8" class="teamPosition"></p>
+                        <hr>
+                        <p id="metroFilipScore" class="divisionScore"></p>
+                    </div>
+
+                    <div id="metroViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="metroViktor1" class="teamPosition"></p>
+                        <p id="metroViktor2" class="teamPosition"></p>
+                        <p id="metroViktor3" class="teamPosition"></p>
+                        <p id="metroViktor4" class="teamPosition"></p>
+                        <p id="metroViktor5" class="teamPosition"></p>
+                        <p id="metroViktor6" class="teamPosition"></p>
+                        <p id="metroViktor7" class="teamPosition"></p>
+                        <p id="metroViktor8" class="teamPosition"></p>
+                        <hr>
+                        <p id="metroViktorScore" class="divisionScore"></p>
+                    </div>
+                    <div id="metroElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="metroElias1" class="teamPosition"></p>
+                        <p id="metroElias2" class="teamPosition"></p>
+                        <p id="metroElias3" class="teamPosition"></p>
+                        <p id="metroElias4" class="teamPosition"></p>
+                        <p id="metroElias5" class="teamPosition"></p>
+                        <p id="metroElias6" class="teamPosition"></p>
+                        <p id="metroElias7" class="teamPosition"></p>
+                        <p id="metroElias8" class="teamPosition"></p>
+                        <hr>
+                        <p id="metroEliasScore" class="divisionScore"></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section id="scores3" class="flex-center">
+        <article id="atlanticscore" class="divscore">
+            <h2>Atlantic Division</h2>
+            <div id="atlanticScoreboard" class="scoreboard">
+                <div class="flex-center">
+                    <div id="atlanticActual" class="divisionColumn">
+                        <h3>Standings</h3>
+                        <hr>
+                        <p id="atlanticActual1" class="teamPosition"></p>
+                        <p id="atlanticActual2" class="teamPosition"></p>
+                        <p id="atlanticActual3" class="teamPosition"></p>
+                        <p id="atlanticActual4" class="teamPosition"></p>
+                        <p id="atlanticActual5" class="teamPosition"></p>
+                        <p id="atlanticActual6" class="teamPosition"></p>
+                        <p id="atlanticActual7" class="teamPosition"></p>
+                        <p id="atlanticActual8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">Score: </p>
+                    </div>
+                    <div id="atlanticFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="atlanticFilip1" class="teamPosition"></p>
+                        <p id="atlanticFilip2" class="teamPosition"></p>
+                        <p id="atlanticFilip3" class="teamPosition"></p>
+                        <p id="atlanticFilip4" class="teamPosition"></p>
+                        <p id="atlanticFilip5" class="teamPosition"></p>
+                        <p id="atlanticFilip6" class="teamPosition"></p>
+                        <p id="atlanticFilip7" class="teamPosition"></p>
+                        <p id="atlanticFilip8" class="teamPosition"></p>
+                        <hr>
+                        <p id="atlanticFilipScore" class="divisionScore"></p>
+                    </div>
+                    <div id="atlanticViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="atlanticViktor1" class="teamPosition"></p>
+                        <p id="atlanticViktor2" class="teamPosition"></p>
+                        <p id="atlanticViktor3" class="teamPosition"></p>
+                        <p id="atlanticViktor4" class="teamPosition"></p>
+                        <p id="atlanticViktor5" class="teamPosition"></p>
+                        <p id="atlanticViktor6" class="teamPosition"></p>
+                        <p id="atlanticViktor7" class="teamPosition"></p>
+                        <p id="atlanticViktor8" class="teamPosition"></p>
+                        <hr>
+                        <p id="atlanticViktorScore" class="divisionScore"></p>
+                    </div>
+                    <div id="atlanticElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="atlanticElias1" class="teamPosition"></p>
+                        <p id="atlanticElias2" class="teamPosition"></p>
+                        <p id="atlanticElias3" class="teamPosition"></p>
+                        <p id="atlanticElias4" class="teamPosition"></p>
+                        <p id="atlanticElias5" class="teamPosition"></p>
+                        <p id="atlanticElias6" class="teamPosition"></p>
+                        <p id="atlanticElias7" class="teamPosition"></p>
+                        <p id="atlanticElias8" class="teamPosition"></p>
+                        <hr>
+                        <p id="atlanticEliasScore" class="divisionScore"></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section id="scores4" class="flex-center">
+        <article id="centralscore" class="divscore">
+            <h2>Central Division</h2>
+            <div id="centralScoreboard" class="scoreboard">
+                <div class="flex-center">
+                    <div id="centralActual" class="divisionColumn">
+                        <h3>Standings</h3>
+                        <hr>
+                        <p id="centralActual1" class="teamPosition"></p>
+                        <p id="centralActual2" class="teamPosition"></p>
+                        <p id="centralActual3" class="teamPosition"></p>
+                        <p id="centralActual4" class="teamPosition"></p>
+                        <p id="centralActual5" class="teamPosition"></p>
+                        <p id="centralActual6" class="teamPosition"></p>
+                        <p id="centralActual7" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">Score: </p>
+                    </div>
+                    <div id="centralFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="centralFilip1" class="teamPosition"></p>
+                        <p id="centralFilip2" class="teamPosition"></p>
+                        <p id="centralFilip3" class="teamPosition"></p>
+                        <p id="centralFilip4" class="teamPosition"></p>
+                        <p id="centralFilip5" class="teamPosition"></p>
+                        <p id="centralFilip6" class="teamPosition"></p>
+                        <p id="centralFilip7" class="teamPosition"></p>
+                        <hr>
+                        <p id="centralFilipScore" class="divisionScore"></p>
+                    </div>
+                    <div id="centralViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="centralViktor1" class="teamPosition"></p>
+                        <p id="centralViktor2" class="teamPosition"></p>
+                        <p id="centralViktor3" class="teamPosition"></p>
+                        <p id="centralViktor4" class="teamPosition"></p>
+                        <p id="centralViktor5" class="teamPosition"></p>
+                        <p id="centralViktor6" class="teamPosition"></p>
+                        <p id="centralViktor7" class="teamPosition"></p>
+                        <hr>
+                        <p id="centralViktorScore" class="divisionScore"></p>
+                    </div>
+                    <div id="centralElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="centralElias1" class="teamPosition"></p>
+                        <p id="centralElias2" class="teamPosition"></p>
+                        <p id="centralElias3" class="teamPosition"></p>
+                        <p id="centralElias4" class="teamPosition"></p>
+                        <p id="centralElias5" class="teamPosition"></p>
+                        <p id="centralElias6" class="teamPosition"></p>
+                        <p id="centralElias7" class="teamPosition"></p>
+                        <hr>
+                        <p id="centralEliasScore" class="divisionScore"></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section id="scores5" class="flex-center">
+        <article id="pacificscore" class="divscore">
+            <h2>Pacific Division</h2>
+            <div id="pacificScoreboard" class="scoreboard">
+                <div class="flex-center">
+                    <div id="pacificActual" class="divisionColumn">
+                        <h3>Standings</h3>
+                        <hr>
+                        <p id="pacificActual1" class="teamPosition"></p>
+                        <p id="pacificActual2" class="teamPosition"></p>
+                        <p id="pacificActual3" class="teamPosition"></p>
+                        <p id="pacificActual4" class="teamPosition"></p>
+                        <p id="pacificActual5" class="teamPosition"></p>
+                        <p id="pacificActual6" class="teamPosition"></p>
+                        <p id="pacificActual7" class="teamPosition"></p>
+                        <p id="pacificActual8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">Score: </p>
+                    </div>
+                    <div id="pacificFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="pacificFilip1" class="teamPosition"></p>
+                        <p id="pacificFilip2" class="teamPosition"></p>
+                        <p id="pacificFilip3" class="teamPosition"></p>
+                        <p id="pacificFilip4" class="teamPosition"></p>
+                        <p id="pacificFilip5" class="teamPosition"></p>
+                        <p id="pacificFilip6" class="teamPosition"></p>
+                        <p id="pacificFilip7" class="teamPosition"></p>
+                        <p id="pacificFilip8" class="teamPosition"></p>
+                        <hr>
+                        <p id="pacificFilipScore" class="divisionScore"></p>
+                    </div>
+                    <div id="pacificViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="pacificViktor1" class="teamPosition"></p>
+                        <p id="pacificViktor2" class="teamPosition"></p>
+                        <p id="pacificViktor3" class="teamPosition"></p>
+                        <p id="pacificViktor4" class="teamPosition"></p>
+                        <p id="pacificViktor5" class="teamPosition"></p>
+                        <p id="pacificViktor6" class="teamPosition"></p>
+                        <p id="pacificViktor7" class="teamPosition"></p>
+                        <p id="pacificViktor8" class="teamPosition"></p>
+                        <hr>
+                        <p id="pacificViktorScore" class="divisionScore"></p>
+                    </div>
+                    <div id="pacificElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="pacificElias1" class="teamPosition"></p>
+                        <p id="pacificElias2" class="teamPosition"></p>
+                        <p id="pacificElias3" class="teamPosition"></p>
+                        <p id="pacificElias4" class="teamPosition"></p>
+                        <p id="pacificElias5" class="teamPosition"></p>
+                        <p id="pacificElias6" class="teamPosition"></p>
+                        <p id="pacificElias7" class="teamPosition"></p>
+                        <p id="pacificElias8" class="teamPosition"></p>
+                        <hr>
+                        <p id="pacificEliasScore" class="divisionScore"></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section id="scores6" class="flex-center">
+        <article id="trophyscore" class="divscore">
+            <h2>Trophy Case</h2>
+            <div id="trophyScoreboard" class="scoreboard">
+                <div class="flex-center">
+                    <div id="presidentActual" class="divisionColumn">
+                        <h3>Presidents Trophy</h3>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <img id="presidentstrophyimg" src="presidentstrophy.svg" alt="presidentstrophyimg" width="50px" height="70px">
+                </div>
+                <div class="flex-center">
+                    <p id="presidentActualP" class="teamPosition"></p>
+                </div>
+                <div class="flex-center">
+                    <div id="presidentFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="presidentFilipP" class="teamPosition"></p>
+                    </div>
+                    <div id="presidentViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="presidentViktorP" class="teamPosition"></p>
+                    </div>
+                    <div id="presidentElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="presidentEliasP" class="teamPosition"></p>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <div id="antiPresidentActual" class="divisionColumn">
+                        <h3>Anti-Presidents Trophy</h3>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <img id="antipresidentstrophyimg" src="antipresidentstrophy.svg" alt="antipresidentstrophyimg" width="50px" height="50px">
+                </div>
+                <div class="flex-center">
+                    <p id="antiPresidentActualP" class="teamPosition"></p>
+                </div>
+                <div class="flex-center">
+                    <div id="antiPresidentFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="antiPresidentFilipP" class="teamPosition"></p>
+                    </div>
+                    <div id="antiPresidentViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="antiPresidentViktorP" class="teamPosition"></p>
+                    </div>
+                    <div id="antiPresidentElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="antiPresidentEliasP" class="teamPosition"></p>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <div id="princeActual" class="divisionColumn">
+                        <h3>Prince of Wales</h3>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <img id="princeofwalestrophyimg" src="princeofwalestrophy.svg" alt="princeofwalestrophyimg" width="50px" height="70px">
+                </div>
+                <div class="flex-center">
+                    <p id="princeActualP" class="teamPosition"></p>
+                </div>
+                <div class="flex-center">
+                    <div id="princeFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="princeFilipP" class="teamPosition"></p>
+                    </div>
+                    <div id="princeViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="princeViktorP" class="teamPosition"></p>
+                    </div>
+                    <div id="princeElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="princeEliasP" class="teamPosition"></p>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <div id="clarenceActual" class="divisionColumn">
+                        <h3>Clarence S. Cambell</h3>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <img id="clarencescambelltrophyimg" src="clarencescambelltrophy.svg" alt="clarencescambelltrophyimg" width="50px" height="60px">
+                </div>
+                <div class="flex-center">
+                    <p id="clarenceActualP" class="teamPosition"></p>
+                </div>
+                <div class="flex-center">
+                    <div id="clarenceFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="clarenceFilipP" class="teamPosition"></p>
+                    </div>
+                    <div id="clarenceViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="clarenceViktorP" class="teamPosition"></p>
+                    </div>
+                    <div id="clarenceElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="clarenceEliasP" class="teamPosition"></p>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <div id="trophySummary" class="divisionColumn">
+                        <h3 id="trophySummaryh3">Trophy Score</h3>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <div id="trophySummaryFilip" class="divisionColumn">
+                        <h3>F</h3>
+                        <hr>
+                        <p id="trophySummaryFilipP" class="teamPosition"></p>
+                    </div>
+                    <div id="trophySummaryViktor" class="divisionColumn">
+                        <h3>V</h3>
+                        <hr>
+                        <p id="trophySummaryViktorP" class="teamPosition"></p>
+                    </div>
+                    <div id="trophySummaryElias" class="divisionColumn">
+                        <h3>E</h3>
+                        <hr>
+                        <p id="trophySummaryEliasP" class="teamPosition"></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+    
+    <article id="link">
+        <div class="flex-center">
+            <a href="km-nhl-bets-20172018.pdf" id="pdffile">Download Bet PDF</a>
+        </div>
+    </article>
+
+    <!--<article id="demo">Debug info:<br></article>-->
+
+</section>
+
+
+<script type="text/javascript">
+window.onload = main();
+</script>
+</body>
+</html>
