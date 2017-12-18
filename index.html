@@ -78,7 +78,11 @@ var bets = `{
                 "Philadelphia Flyers",
                 "New Jersey Devils",
                 "Carolina Hurricanes"
-                ] }, {
+                ],
+            "wildcards" : [
+                "Washington Capitals"
+            ]
+        }, {
             "name" : "Atlantic",
             "rank" : [ 
                 "Ottawa Senators",
@@ -89,7 +93,11 @@ var bets = `{
                 "Tampa Bay Lightning",
                 "Buffalo Sabres",
                 "Detroit Red Wings"
-                ] }, {
+                ],
+            "wildcards" : [
+                "Toronto Maple Leafs"
+            ]
+        }, {
             "name" : "Central",
             "rank" : [ 
                 "Nashville Predators",
@@ -99,7 +107,12 @@ var bets = `{
                 "St. Louis Blues",
                 "Dallas Stars",
                 "Colorado Avalanche"
-                ] }, {
+                ],
+            "wildcards" : [
+                "Winnipeg Jets",
+                "St. Louis Blues"
+            ]
+        }, {
             "name" : "Pacific",
             "rank" : [ 
                 "Edmonton Oilers",
@@ -110,15 +123,9 @@ var bets = `{
                 "Vegas Golden Knights",
                 "Vancouver Canucks",
                 "Arizona Coyotes"
-                ]
-            }
-        ],
-        "wildcards" : [
-            "Washington Capitals",
-            "Toronto Maple Leafs",
-            "Winnipeg Jets",
-            "St. Louis Blues"
-        ],
+                ],
+            "wildcards" : []
+        }],
         "president" : "Pittsburgh Penguins",
         "antipresident" : "Colorado Avalanche",
         "prince" : "Pittsburgh Penguins",
@@ -136,7 +143,12 @@ var bets = `{
                 "Washington Capitals",
                 "New York Islanders",
                 "New Jersey Devils"
-                ] }, {
+                ],
+            "wildcards" : [
+                "New York Rangers",
+                "Philadelphia Flyers"
+            ]
+        }, {
             "name" : "Atlantic",
             "rank" : [ 
                 "Tampa Bay Lightning",
@@ -147,7 +159,9 @@ var bets = `{
                 "Ottawa Senators",
                 "Florida Panthers",
                 "Detroit Red Wings"
-                ] }, {
+                ],
+            "wildcards" : []
+        }, {
             "name" : "Central",
             "rank" : [ 
                 "Dallas Stars",
@@ -157,7 +171,11 @@ var bets = `{
                 "Chicago Blackhawks",
                 "St. Louis Blues",
                 "Colorado Avalanche"
-                ] }, {
+                ],
+            "wildcards" : [
+                "Minnesota Wild"
+            ]
+        }, {
             "name" : "Pacific",
             "rank" : [ 
                 "Edmonton Oilers",
@@ -168,15 +186,11 @@ var bets = `{
                 "San Jose Sharks",
                 "Vegas Golden Knights",
                 "Vancouver Canucks"
-                ] 
-            }
-        ],
-        "wildcards" : [
-            "New York Rangers",
-            "Philadelphia Flyers",
-            "Minnesota Wild",
-            "Los Angeles Kings"
-        ],
+                ],
+            "wildcards" : [
+                "Los Angeles Kings"
+            ]
+        }],
         "president" : "Dallas Stars",
         "antipresident" : "Vancouver Canucks",
         "prince" : "Tampa Bay Lightning",
@@ -194,7 +208,12 @@ var bets = `{
                 "Columbus Blue Jackets",
                 "New York Islanders",
                 "New Jersey Devils"
-                ] }, {
+                ],
+            "wildcards" : [
+                "New York Rangers",
+                "Philadelphia Flyers"
+            ]
+        }, {
             "name" : "Atlantic",
             "rank" : [ 
                 "Tampa Bay Lightning",
@@ -205,7 +224,9 @@ var bets = `{
                 "Boston Bruins",
                 "Detroit Red Wings",
                 "Florida Panthers"
-                ] }, {
+                ],
+            "wildcards" : []
+        }, {
             "name" : "Central",
             "rank" : [ 
                 "Dallas Stars",
@@ -215,7 +236,11 @@ var bets = `{
                 "Chicago Blackhawks",
                 "St. Louis Blues",
                 "Colorado Avalanche"
-                ] }, {
+                ],
+            "wildcards" : [
+                "Winnipeg Jets",
+                "Chicago Blackhawks"
+            ] }, {
             "name" : "Pacific",
             "rank" : [ 
                 "Anaheim Ducks",
@@ -226,15 +251,9 @@ var bets = `{
                 "Los Angeles Kings",
                 "Vancouver Canucks",
                 "Vegas Golden Knights"
-                ]
-            }
-        ],
-        "wildcards" : [
-            "New York Rangers",
-            "Philadelphia Flyers",
-            "Winnipeg Jets",
-            "Chicago Blackhawks"
-        ],
+                ],
+            "wildcards" : []
+        }],
         "president" : "Pittsburgh Penguins",
         "antipresident" : "Vegas Golden Knights",
         "prince" : "Tampa Bay Lightning",
@@ -303,11 +322,11 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
             document.getElementById(elementIdActual).style.fontFamily="ralewayHeavy";
         }
 
-        if (parsedBets.filip.wildcards.includes(filipBetName)) 
+        if (parsedBets.filip.division[divisionIndex].wildcards.includes(filipBetName)) 
             document.getElementById(elementIdFilip).style.fontFamily="ralewayHeavy";
-        if (parsedBets.viktor.wildcards.includes(viktorBetName)) 
+        if (parsedBets.viktor.division[divisionIndex].wildcards.includes(viktorBetName)) 
             document.getElementById(elementIdViktor).style.fontFamily="ralewayHeavy";
-        if (parsedBets.elias.wildcards.includes(eliasBetName)) 
+        if (parsedBets.elias.division[divisionIndex].wildcards.includes(eliasBetName)) 
             document.getElementById(elementIdElias).style.fontFamily="ralewayHeavy";
 
         if (teamName == filipBetName) document.getElementById(elementIdFilip).style.fontStyle="italic";
@@ -339,15 +358,6 @@ function compareDivisionRankings(divisionIndex, divisionNumTeams) {
     };
 }
 
-function buildPlayoffList() {
-    for (var i = 0; i < 3; i++) {
-        playoffTeams.push(parsedStandings.records[metropolitanIndex].teamRecords[i].team.name);
-        playoffTeams.push(parsedStandings.records[atlanticIndex].teamRecords[i].team.name);
-        playoffTeams.push(parsedStandings.records[centralIndex].teamRecords[i].team.name);
-        playoffTeams.push(parsedStandings.records[pacificIndex].teamRecords[i].team.name);
-    };
-}
-
 function comparePlayoffTeams() {
     var points = 2;
 
@@ -357,15 +367,15 @@ function comparePlayoffTeams() {
         var filipCentral = parsedBets.filip.division[centralIndex].rank[i];
         var filipPacific = parsedBets.filip.division[pacificIndex].rank[i];
 
-        var viktorMetro = parsedBets.filip.division[metropolitanIndex].rank[i];
-        var viktorAtlantic = parsedBets.filip.division[atlanticIndex].rank[i];
-        var viktorCentral = parsedBets.filip.division[centralIndex].rank[i];
-        var viktorPacific = parsedBets.filip.division[pacificIndex].rank[i];
+        var viktorMetro = parsedBets.viktor.division[metropolitanIndex].rank[i];
+        var viktorAtlantic = parsedBets.viktor.division[atlanticIndex].rank[i];
+        var viktorCentral = parsedBets.viktor.division[centralIndex].rank[i];
+        var viktorPacific = parsedBets.viktor.division[pacificIndex].rank[i];
 
-        var eliasMetro = parsedBets.filip.division[metropolitanIndex].rank[i];
-        var eliasAtlantic = parsedBets.filip.division[atlanticIndex].rank[i];
-        var eliasCentral = parsedBets.filip.division[centralIndex].rank[i];
-        var eliasPacific = parsedBets.filip.division[pacificIndex].rank[i];
+        var eliasMetro = parsedBets.elias.division[metropolitanIndex].rank[i];
+        var eliasAtlantic = parsedBets.elias.division[atlanticIndex].rank[i];
+        var eliasCentral = parsedBets.elias.division[centralIndex].rank[i];
+        var eliasPacific = parsedBets.elias.division[pacificIndex].rank[i];
 
         // Filip
         if (playoffTeams.includes(filipMetro)) {
@@ -419,6 +429,23 @@ function comparePlayoffTeams() {
         if (playoffTeams.includes(eliasPacific)) {
             eliasDivisionScore[pacificIndex] += points;
             eliasTotalPoints += points;
+        };
+    };
+
+    for (i = 0; i < 4; i++) { // Division index
+        for (j = 0; j < 4; j++) { // Wild card index
+            if (playoffTeams.includes(parsedBets.filip.division[i].wildcards[j])) {
+                filipTotalPoints += points;
+                filipDivisionScore[i] += points;
+            };
+            if (playoffTeams.includes(parsedBets.viktor.division[i].wildcards[j])) {
+                viktorTotalPoints += points;
+                viktorDivisionScore[i] += points;
+            };
+            if (playoffTeams.includes(parsedBets.elias.division[i].wildcards[j])) {
+                eliasTotalPoints += points;
+                eliasDivisionScore[i] += points;
+            };
         };
     };
 }
