@@ -56,7 +56,7 @@ h1 {
 h2 {
     font-family: halfshell;
     margin: 0;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
     color: black;
     text-align: center;
     font-size: 2.4em;
@@ -69,6 +69,36 @@ h2 {
 }
 @media only screen and (max-width: 799px) {
     h2 { font-size: 150%;}
+}
+
+.h2Container {
+    position: relative;
+    margin: 0 5px;
+    padding-bottom: 10px;
+}
+
+.collapseExpand {
+    font-family: halfshell;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #ee5f60;
+    text-align: center;
+    font-size: 2em;
+
+    border: none;
+    background: none;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    vertical-align: middle;
+    display: inline-block;
+
+    width: 30px;
+}
+@media only screen and (max-width: 799px) {
+    .collapseExpand { font-size: 150%; right: 0px;}
 }
 
 #scores6 h2 {
@@ -152,6 +182,9 @@ a:hover {
 .scoreboard {
     font-family: raleway;
     text-align: left;
+    margin-top: 15px;
+    overflow: hidden;
+    max-height: 100%;
 }
 
 .divisionColumn {
@@ -248,11 +281,11 @@ a:hover {
 }
 
 .divscore {
+    position: relative;
     background-color: #f2edc0;
     border-radius: 30px;
     padding: 30px 30px;
     margin: 10px;
-    display: inline-block;
 }
 @media only screen and (min-width: 800px) {
     .divscore { min-width: 800px; }

@@ -512,6 +512,17 @@ function findClarenceSCambell() {
     };
 }
 
+function collapseExpand(scoreboardId, buttonId) {
+    if (document.getElementById(buttonId).innerHTML == '-') {
+        document.getElementById(scoreboardId).style.maxHeight="0";
+        document.getElementById(buttonId).innerHTML = "+";
+    } else {
+        //document.getElementById(scoreboardId).style.display="block";
+        document.getElementById(buttonId).innerHTML = "-";
+        document.getElementById(scoreboardId).style.maxHeight="100%";
+    };
+}
+
 function trophies() {
     var nameStrings = [
         [findPresident(), findAntiPresident(), findPrinceOfWales(), findClarenceSCambell()],
@@ -678,7 +689,10 @@ function execute() {
 
     <section id="scores2" class="flex-center">
         <article id="metropolitanscore" class="divscore">
-            <h2>Metropolitan Division</h2>
+            <div class="h2Container">
+                <h2>Metropolitan Division</h2>
+                <button id="metroCE" class="collapseExpand" onclick='collapseExpand("metropolitanScoreboard", "metroCE")'>-</button>
+            </div>
             <div id="metropolitanScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="metroActual" class="divisionColumn">
@@ -745,7 +759,10 @@ function execute() {
 
     <section id="scores3" class="flex-center">
         <article id="atlanticscore" class="divscore">
-            <h2>Atlantic Division</h2>
+            <div class="h2Container">
+                <h2>Atlantic Division</h2>
+                <button id="atlanticCE" class="collapseExpand" onclick='collapseExpand("atlanticScoreboard", "atlanticCE")'>-</button>
+            </div>
             <div id="atlanticScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="atlanticActual" class="divisionColumn">
@@ -811,7 +828,10 @@ function execute() {
 
     <section id="scores4" class="flex-center">
         <article id="centralscore" class="divscore">
-            <h2>Central Division</h2>
+            <div class="h2Container">
+                <h2>Central Division</h2>
+                <button id="centralCE" class="collapseExpand" onclick='collapseExpand("centralScoreboard", "centralCE")'>-</button>
+            </div>
             <div id="centralScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="centralActual" class="divisionColumn">
@@ -873,7 +893,10 @@ function execute() {
 
     <section id="scores5" class="flex-center">
         <article id="pacificscore" class="divscore">
-            <h2>Pacific Division</h2>
+            <div class="h2Container">
+                <h2>Pacific Division</h2>
+                <button id="pacificCE" class="collapseExpand" onclick='collapseExpand("pacificScoreboard", "pacificCE")'>-</button>
+            </div>
             <div id="pacificScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="pacificActual" class="divisionColumn">
@@ -939,7 +962,10 @@ function execute() {
 
     <section id="scores6" class="flex-center">
         <article id="trophyscore" class="divscore">
-            <h2>Trophy Case</h2>
+            <div class="h2Container">
+                <h2>Trophy Case</h2>
+                <button id="trophyCE" class="collapseExpand" onclick='collapseExpand("trophyScoreboard", "trophyCE")'>-</button>
+            </div>
             <div id="trophyScoreboard" class="scoreboard">
                 <div class="flex-center">
                     <div id="presidentActual" class="divisionColumn">
