@@ -198,6 +198,7 @@ a:hover {
 #logo {
     display: inline-block;
     width: 25%;
+    max-width: 250px;
 }
 @media only screen and (max-width: 800px) {
     #logo { width: 25%; }
