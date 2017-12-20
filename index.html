@@ -291,46 +291,46 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
         var viktorBetName = parsedBets.viktor.division[divisionIndex].rank[i];
         var eliasBetName = parsedBets.elias.division[divisionIndex].rank[i];
 
-        var elementIdActual = elementIdString[divisionIndex] + "Actual" + (i+1);
-        var elementIdFilip = elementIdString[divisionIndex] + "Filip" + (i+1);
-        var elementIdViktor = elementIdString[divisionIndex] + "Viktor" + (i+1);
-        var elementIdElias = elementIdString[divisionIndex] + "Elias" + (i+1);
+        var elementActualId = elementIdString[divisionIndex] + "Actual" + (i+1);
+        var elementFilipId = elementIdString[divisionIndex] + "Filip" + (i+1);
+        var elementViktorId = elementIdString[divisionIndex] + "Viktor" + (i+1);
+        var elementEliasId = elementIdString[divisionIndex] + "Elias" + (i+1);
+
+        var elementActual = document.getElementById(elementActualId);
+        var elementFilip = document.getElementById(elementFilipId);
+        var elementViktor = document.getElementById(elementViktorId);
+        var elementElias = document.getElementById(elementEliasId);
 
         if (screen.width < 800) {
-            document.getElementById(elementIdActual).innerHTML = (i+1) + ". " + shortName.teams[teamName];
-            document.getElementById(elementIdFilip).innerHTML = shortName.teams[filipBetName];
-            document.getElementById(elementIdViktor).innerHTML = shortName.teams[viktorBetName];
-            document.getElementById(elementIdElias).innerHTML = shortName.teams[eliasBetName];
+            elementActual.innerHTML = (i+1) + ". " + shortName.teams[teamName];
+            elementFilip.innerHTML = shortName.teams[filipBetName];
+            elementViktor.innerHTML = shortName.teams[viktorBetName];
+            elementElias.innerHTML = shortName.teams[eliasBetName];
         } else {
-            document.getElementById(elementIdActual).innerHTML = (i+1) + ". " + teamName;
-            document.getElementById(elementIdFilip).innerHTML = filipBetName;
-            document.getElementById(elementIdViktor).innerHTML = viktorBetName;
-            document.getElementById(elementIdElias).innerHTML = eliasBetName;
+            elementActual.innerHTML = (i+1) + ". " + teamName;
+            elementFilip.innerHTML = filipBetName;
+            elementViktor.innerHTML = viktorBetName;
+            elementElias.innerHTML = eliasBetName;
         };
 
-        if (i < 3) {
-            playoffTeams.push(teamName);
-            document.getElementById(elementIdActual).style.fontFamily="ralewayHeavy";
-            document.getElementById(elementIdFilip).style.fontFamily="ralewayHeavy";
-            document.getElementById(elementIdViktor).style.fontFamily="ralewayHeavy";
-            document.getElementById(elementIdElias).style.fontFamily="ralewayHeavy";
-        }
+        if (i < 3) playoffTeams.push(teamName);
+        
         if (parsedStandings.records[divisionIndex].teamRecords[i].wildCardRank == 1 ||
             parsedStandings.records[divisionIndex].teamRecords[i].wildCardRank == 2) {
             playoffTeams.push(teamName);
-            document.getElementById(elementIdActual).style.fontFamily="ralewayHeavy";
+            elementActual.style.fontFamily="ralewayHeavy";
         }
 
         if (parsedBets.filip.division[divisionIndex].wildcards.includes(filipBetName)) 
-            document.getElementById(elementIdFilip).style.fontFamily="ralewayHeavy";
+            elementFilip.style.fontFamily="ralewayHeavy";
         if (parsedBets.viktor.division[divisionIndex].wildcards.includes(viktorBetName)) 
-            document.getElementById(elementIdViktor).style.fontFamily="ralewayHeavy";
+            elementViktor.style.fontFamily="ralewayHeavy";
         if (parsedBets.elias.division[divisionIndex].wildcards.includes(eliasBetName)) 
-            document.getElementById(elementIdElias).style.fontFamily="ralewayHeavy";
+            elementElias.style.fontFamily="ralewayHeavy";
 
-        if (teamName == filipBetName) document.getElementById(elementIdFilip).style.fontStyle="italic";
-        if (teamName == viktorBetName) document.getElementById(elementIdViktor).style.fontStyle="italic";
-        if (teamName == eliasBetName) document.getElementById(elementIdElias).style.fontStyle="italic";
+        if (teamName == filipBetName) elementFilip.style.fontStyle="italic";
+        if (teamName == viktorBetName) elementViktor.style.fontStyle="italic";
+        if (teamName == eliasBetName) elementElias.style.fontStyle="italic";
     };
 }
 
@@ -622,9 +622,9 @@ function execute() {
                 <div id="metroActual" class="divisionColumn">
                     <h3>NHL</h3>
                     <hr>
-                    <p id="metroActual1" class="teamPosition"></p>
-                    <p id="metroActual2" class="teamPosition"></p>
-                    <p id="metroActual3" class="teamPosition"></p>
+                    <p id="metroActual1" class="teamPlayoffPosition"></p>
+                    <p id="metroActual2" class="teamPlayoffPosition"></p>
+                    <p id="metroActual3" class="teamPlayoffPosition"></p>
                     <p id="metroActual4" class="teamPosition"></p>
                     <p id="metroActual5" class="teamPosition"></p>
                     <p id="metroActual6" class="teamPosition"></p>
@@ -636,9 +636,9 @@ function execute() {
                 <div id="metroFilip" class="divisionColumn">
                     <h3 class="h3Filip">F</h3>
                     <hr>
-                    <p id="metroFilip1" class="teamPosition"></p>
-                    <p id="metroFilip2" class="teamPosition"></p>
-                    <p id="metroFilip3" class="teamPosition"></p>
+                    <p id="metroFilip1" class="teamPlayoffPosition"></p>
+                    <p id="metroFilip2" class="teamPlayoffPosition"></p>
+                    <p id="metroFilip3" class="teamPlayoffPosition"></p>
                     <p id="metroFilip4" class="teamPosition"></p>
                     <p id="metroFilip5" class="teamPosition"></p>
                     <p id="metroFilip6" class="teamPosition"></p>
@@ -651,9 +651,9 @@ function execute() {
                 <div id="metroViktor" class="divisionColumn">
                     <h3 class="h3Viktor">V</h3>
                     <hr>
-                    <p id="metroViktor1" class="teamPosition"></p>
-                    <p id="metroViktor2" class="teamPosition"></p>
-                    <p id="metroViktor3" class="teamPosition"></p>
+                    <p id="metroViktor1" class="teamPlayoffPosition"></p>
+                    <p id="metroViktor2" class="teamPlayoffPosition"></p>
+                    <p id="metroViktor3" class="teamPlayoffPosition"></p>
                     <p id="metroViktor4" class="teamPosition"></p>
                     <p id="metroViktor5" class="teamPosition"></p>
                     <p id="metroViktor6" class="teamPosition"></p>
@@ -665,9 +665,9 @@ function execute() {
                 <div id="metroElias" class="divisionColumn">
                     <h3 class="h3Elias">E</h3>
                     <hr>
-                    <p id="metroElias1" class="teamPosition"></p>
-                    <p id="metroElias2" class="teamPosition"></p>
-                    <p id="metroElias3" class="teamPosition"></p>
+                    <p id="metroElias1" class="teamPlayoffPosition"></p>
+                    <p id="metroElias2" class="teamPlayoffPosition"></p>
+                    <p id="metroElias3" class="teamPlayoffPosition"></p>
                     <p id="metroElias4" class="teamPosition"></p>
                     <p id="metroElias5" class="teamPosition"></p>
                     <p id="metroElias6" class="teamPosition"></p>
@@ -688,9 +688,9 @@ function execute() {
                 <div id="atlanticActual" class="divisionColumn">
                     <h3>NHL</h3>
                     <hr>
-                    <p id="atlanticActual1" class="teamPosition"></p>
-                    <p id="atlanticActual2" class="teamPosition"></p>
-                    <p id="atlanticActual3" class="teamPosition"></p>
+                    <p id="atlanticActual1" class="teamPlayoffPosition"></p>
+                    <p id="atlanticActual2" class="teamPlayoffPosition"></p>
+                    <p id="atlanticActual3" class="teamPlayoffPosition"></p>
                     <p id="atlanticActual4" class="teamPosition"></p>
                     <p id="atlanticActual5" class="teamPosition"></p>
                     <p id="atlanticActual6" class="teamPosition"></p>
@@ -702,9 +702,9 @@ function execute() {
                 <div id="atlanticFilip" class="divisionColumn">
                     <h3 class="h3Filip">F</h3>
                     <hr>
-                    <p id="atlanticFilip1" class="teamPosition"></p>
-                    <p id="atlanticFilip2" class="teamPosition"></p>
-                    <p id="atlanticFilip3" class="teamPosition"></p>
+                    <p id="atlanticFilip1" class="teamPlayoffPosition"></p>
+                    <p id="atlanticFilip2" class="teamPlayoffPosition"></p>
+                    <p id="atlanticFilip3" class="teamPlayoffPosition"></p>
                     <p id="atlanticFilip4" class="teamPosition"></p>
                     <p id="atlanticFilip5" class="teamPosition"></p>
                     <p id="atlanticFilip6" class="teamPosition"></p>
@@ -716,9 +716,9 @@ function execute() {
                 <div id="atlanticViktor" class="divisionColumn">
                     <h3 class="h3Viktor">V</h3>
                     <hr>
-                    <p id="atlanticViktor1" class="teamPosition"></p>
-                    <p id="atlanticViktor2" class="teamPosition"></p>
-                    <p id="atlanticViktor3" class="teamPosition"></p>
+                    <p id="atlanticViktor1" class="teamPlayoffPosition"></p>
+                    <p id="atlanticViktor2" class="teamPlayoffPosition"></p>
+                    <p id="atlanticViktor3" class="teamPlayoffPosition"></p>
                     <p id="atlanticViktor4" class="teamPosition"></p>
                     <p id="atlanticViktor5" class="teamPosition"></p>
                     <p id="atlanticViktor6" class="teamPosition"></p>
@@ -730,9 +730,9 @@ function execute() {
                 <div id="atlanticElias" class="divisionColumn">
                     <h3 class="h3Elias">E</h3>
                     <hr>
-                    <p id="atlanticElias1" class="teamPosition"></p>
-                    <p id="atlanticElias2" class="teamPosition"></p>
-                    <p id="atlanticElias3" class="teamPosition"></p>
+                    <p id="atlanticElias1" class="teamPlayoffPosition"></p>
+                    <p id="atlanticElias2" class="teamPlayoffPosition"></p>
+                    <p id="atlanticElias3" class="teamPlayoffPosition"></p>
                     <p id="atlanticElias4" class="teamPosition"></p>
                     <p id="atlanticElias5" class="teamPosition"></p>
                     <p id="atlanticElias6" class="teamPosition"></p>
@@ -753,9 +753,9 @@ function execute() {
                 <div id="centralActual" class="divisionColumn">
                     <h3>NHL</h3>
                     <hr>
-                    <p id="centralActual1" class="teamPosition"></p>
-                    <p id="centralActual2" class="teamPosition"></p>
-                    <p id="centralActual3" class="teamPosition"></p>
+                    <p id="centralActual1" class="teamPlayoffPosition"></p>
+                    <p id="centralActual2" class="teamPlayoffPosition"></p>
+                    <p id="centralActual3" class="teamPlayoffPosition"></p>
                     <p id="centralActual4" class="teamPosition"></p>
                     <p id="centralActual5" class="teamPosition"></p>
                     <p id="centralActual6" class="teamPosition"></p>
@@ -766,9 +766,9 @@ function execute() {
                 <div id="centralFilip" class="divisionColumn">
                     <h3 class="h3Filip">F</h3>
                     <hr>
-                    <p id="centralFilip1" class="teamPosition"></p>
-                    <p id="centralFilip2" class="teamPosition"></p>
-                    <p id="centralFilip3" class="teamPosition"></p>
+                    <p id="centralFilip1" class="teamPlayoffPosition"></p>
+                    <p id="centralFilip2" class="teamPlayoffPosition"></p>
+                    <p id="centralFilip3" class="teamPlayoffPosition"></p>
                     <p id="centralFilip4" class="teamPosition"></p>
                     <p id="centralFilip5" class="teamPosition"></p>
                     <p id="centralFilip6" class="teamPosition"></p>
@@ -779,9 +779,9 @@ function execute() {
                 <div id="centralViktor" class="divisionColumn">
                     <h3 class="h3Viktor">V</h3>
                     <hr>
-                    <p id="centralViktor1" class="teamPosition"></p>
-                    <p id="centralViktor2" class="teamPosition"></p>
-                    <p id="centralViktor3" class="teamPosition"></p>
+                    <p id="centralViktor1" class="teamPlayoffPosition"></p>
+                    <p id="centralViktor2" class="teamPlayoffPosition"></p>
+                    <p id="centralViktor3" class="teamPlayoffPosition"></p>
                     <p id="centralViktor4" class="teamPosition"></p>
                     <p id="centralViktor5" class="teamPosition"></p>
                     <p id="centralViktor6" class="teamPosition"></p>
@@ -792,9 +792,9 @@ function execute() {
                 <div id="centralElias" class="divisionColumn">
                     <h3 class="h3Elias">E</h3>
                     <hr>
-                    <p id="centralElias1" class="teamPosition"></p>
-                    <p id="centralElias2" class="teamPosition"></p>
-                    <p id="centralElias3" class="teamPosition"></p>
+                    <p id="centralElias1" class="teamPlayoffPosition"></p>
+                    <p id="centralElias2" class="teamPlayoffPosition"></p>
+                    <p id="centralElias3" class="teamPlayoffPosition"></p>
                     <p id="centralElias4" class="teamPosition"></p>
                     <p id="centralElias5" class="teamPosition"></p>
                     <p id="centralElias6" class="teamPosition"></p>
@@ -814,9 +814,9 @@ function execute() {
                 <div id="pacificActual" class="divisionColumn">
                     <h3>NHL</h3>
                     <hr>
-                    <p id="pacificActual1" class="teamPosition"></p>
-                    <p id="pacificActual2" class="teamPosition"></p>
-                    <p id="pacificActual3" class="teamPosition"></p>
+                    <p id="pacificActual1" class="teamPlayoffPosition"></p>
+                    <p id="pacificActual2" class="teamPlayoffPosition"></p>
+                    <p id="pacificActual3" class="teamPlayoffPosition"></p>
                     <p id="pacificActual4" class="teamPosition"></p>
                     <p id="pacificActual5" class="teamPosition"></p>
                     <p id="pacificActual6" class="teamPosition"></p>
@@ -828,9 +828,9 @@ function execute() {
                 <div id="pacificFilip" class="divisionColumn">
                     <h3 class="h3Filip">F</h3>
                     <hr>
-                    <p id="pacificFilip1" class="teamPosition"></p>
-                    <p id="pacificFilip2" class="teamPosition"></p>
-                    <p id="pacificFilip3" class="teamPosition"></p>
+                    <p id="pacificFilip1" class="teamPlayoffPosition"></p>
+                    <p id="pacificFilip2" class="teamPlayoffPosition"></p>
+                    <p id="pacificFilip3" class="teamPlayoffPosition"></p>
                     <p id="pacificFilip4" class="teamPosition"></p>
                     <p id="pacificFilip5" class="teamPosition"></p>
                     <p id="pacificFilip6" class="teamPosition"></p>
@@ -842,9 +842,9 @@ function execute() {
                 <div id="pacificViktor" class="divisionColumn">
                     <h3 class="h3Viktor">V</h3>
                     <hr>
-                    <p id="pacificViktor1" class="teamPosition"></p>
-                    <p id="pacificViktor2" class="teamPosition"></p>
-                    <p id="pacificViktor3" class="teamPosition"></p>
+                    <p id="pacificViktor1" class="teamPlayoffPosition"></p>
+                    <p id="pacificViktor2" class="teamPlayoffPosition"></p>
+                    <p id="pacificViktor3" class="teamPlayoffPosition"></p>
                     <p id="pacificViktor4" class="teamPosition"></p>
                     <p id="pacificViktor5" class="teamPosition"></p>
                     <p id="pacificViktor6" class="teamPosition"></p>
@@ -856,9 +856,9 @@ function execute() {
                 <div id="pacificElias" class="divisionColumn">
                     <h3 class="h3Elias">E</h3>
                     <hr>
-                    <p id="pacificElias1" class="teamPosition"></p>
-                    <p id="pacificElias2" class="teamPosition"></p>
-                    <p id="pacificElias3" class="teamPosition"></p>
+                    <p id="pacificElias1" class="teamPlayoffPosition"></p>
+                    <p id="pacificElias2" class="teamPlayoffPosition"></p>
+                    <p id="pacificElias3" class="teamPlayoffPosition"></p>
                     <p id="pacificElias4" class="teamPosition"></p>
                     <p id="pacificElias5" class="teamPosition"></p>
                     <p id="pacificElias6" class="teamPosition"></p>

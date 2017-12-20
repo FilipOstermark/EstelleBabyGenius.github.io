@@ -255,6 +255,17 @@ a:hover {
     .teamPosition { font-size: 60%;}
 }
 
+.teamPlayoffPosition {
+    font-family: ralewayHeavy;
+    font-size: 0.85em;
+    text-align: left;
+    margin: 5px;
+    color: #5b4b50;
+}
+@media only screen and (max-width: 799px) {
+    .teamPlayoffPosition { font-size: 60%;}
+}
+
 .divisionScore {
     font-family: ralewayHeavy;
     font-size: 0.85em;
