@@ -1,3 +1,5 @@
+/* General style */
+
 @font-face {
     font-family: halfshell;
     src: url(halfshellhero/halfshellhero.ttf);
@@ -36,23 +38,6 @@ h1 {
     h1 { font-size: 200%; margin-top: 10%; width: 15%;}
 }
 
-#seasonFooter h1 {
-    font-size: 2.5em;
-    margin: 0;
-    text-align: center;
-    width: auto;
-}
-
-#seasonFooter hr {
-    background-color: black;
-}
-
-#seasonFooter {
-    width: 15%;
-    margin: auto;
-    margin-top: 30px;
-}
-
 h2 {
     font-family: halfshell;
     margin: 0;
@@ -70,11 +55,57 @@ h2 {
 @media only screen and (max-width: 799px) {
     h2 { font-size: 150%;}
 }
-
 .h2Container {
     position: relative;
     margin: 0 5px;
     padding-bottom: 10px;
+}
+
+h3 {
+    font-family: halfshell;
+    font-size: 1.7em;
+    color: #5b4b50;
+    text-align: center;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    margin-bottom: 15px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+@media only screen and (max-width: 799px) {
+    h3 { font-size: 100%; width: 30px; height: 30px;}
+}
+.h3Filip {
+    background-color: #f5b660;
+    color: white;
+}
+.h3Viktor {
+    background-color: #0a223f;
+    color: white;
+}
+.h3Elias {
+    background-color: #8cbeb2;
+    color: white;
+}
+
+hr {
+    background-color: #5b4b50;
+    height: 1px;
+    border: 0;
+}
+
+a {
+    color: #f2edc0;
+    font-family: raleway;
+    text-align: center;
+    font-size: 0.8em;
+    text-decoration: none;
+}
+a:hover { 
+    color: white;
 }
 
 .collapseExpand {
@@ -101,70 +132,113 @@ h2 {
     .collapseExpand { font-size: 150%; right: 0px;}
 }
 
-#scores6 h2 {
-    margin-bottom: 0;
+.inline-block-center {
+  text-align: center;
+}
+.inline-block-center div {
+  display: inline-block;
+  text-align: left;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
 }
 
-h3 {
-    font-family: halfshell;
-    font-size: 1.7em;
+
+/* Header style */
+
+#titlelogo {
+    width: 100%;
+    display: inline-block;
+}
+
+#logo {
+    display: inline-block;
+    width: 25%;
+    max-width: 200px;
+}
+@media only screen and (max-width: 800px) {
+    #logo { width: 25%; }
+}
+
+
+/* Total score style */
+
+.totalPoints {
     color: #5b4b50;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 2em;
     text-align: center;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin: auto;
-    margin-bottom: 15px;
-    display:flex;
-    align-items: center;
-    justify-content: center;
+    font-family: halfshell;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #c5be93;
 }
 @media only screen and (max-width: 799px) {
-    h3 { font-size: 100%; width: 30px; height: 30px;}
+    .totalPoints { font-size: 150%;}
 }
 
-.h3Filip {
-    background-color: #f5b660;
-    color: white;
-}
-.h3Viktor {
-    background-color: #0a223f;
-    color: white;
-}
-.h3Elias {
-    background-color: #8cbeb2;
-    color: white;
+.totalColumn {
+    margin-top: 20px;
+    margin: 0 8%;
 }
 
-.h3Trophy {
-    width: auto;
+#leagueSection h3 {
+    margin-top: 20px;
+    font-size: 3em;
+    width: 60px;
+    height: 60px;
 }
 
-#scores6 h3 {
-    margin-top: 30px;
+
+/* Division style */
+
+.division {
+    position: relative;
+    background-color: #f2edc0;
+    border-radius: 30px;
+    padding: 30px 30px;
+    margin: 20px auto;
+    width: 800px;
+}
+@media only screen and (min-width: 800px) {
+    .division { min-width: 800px; }
+}
+@media only screen and (max-width: 799px) {
+    .division { 
+        padding: 30px 0px;
+        margin: 5px auto;
+        width: 95%;
+    }
 }
 
-hr {
-    background-color: #5b4b50;
-    height: 1px;
-    border: 0;
-}
-
-a {
-    color: #f2edc0;
+.scoreboard {
     font-family: raleway;
-    text-align: center;
-    font-size: 0.8em;
+    text-align: left;
+    margin-top: 15px;
+    overflow: hidden;
+    max-height: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-a:hover { 
-    color: white;
+.divisionColumn {
+    display: inline-block;
+    padding: 15px 15px;
+}
+@media only screen and (max-width: 800px) {
+    .divisionColumn { padding: 5px 5px;}
 }
 
-#link {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    font-size: 1.0em;
+.teamPosition {
+    font-family: raleway;
+    font-size: 0.85em;
+    text-align: left;
+    margin: 5px;
+    color: #5b4b50;
+}
+@media only screen and (max-width: 799px) {
+    .teamPosition { font-size: 60%;}
 }
 
 .divisionScore {
@@ -179,156 +253,76 @@ a:hover {
     .divisionScore { font-size: 60%;}
 }
 
-.scoreboard {
-    font-family: raleway;
-    text-align: left;
+/* Trophy section style*/
+
+.h3Trophy {
+    width: auto;
+}
+
+#trophySection h2 {
+    margin-bottom: 0;
+}
+
+#trophySection h3 {
     margin-top: 15px;
-    overflow: hidden;
-    max-height: 100%;
 }
 
-.divisionColumn {
-    display: inline-block;
-    padding: 15px 15px;
-}
-@media only screen and (max-width: 800px) {
-    .divisionColumn { padding: 5px 5px;}
+#trophyScoreboard {
+    display: block;
 }
 
-#logo {
-    display: inline-block;
-    width: 25%;
-    max-width: 250px;
-}
-@media only screen and (max-width: 800px) {
-    #logo { width: 25%; }
-}
-
-#content {
-    margin: 0 auto;
-    width: 75%;
-}
-@media only screen and (max-width: 800px) {
-    #content { width: 100%; }
-}
-
-#titlelogo {
-    width: 100%;
-    display: inline-block;
-}
-
-#totalLeader {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 1.8em;
+#trophySection .teamPosition {
     text-align: center;
-    font-family: halfshell;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #c5be93;
-}
-#totalMid {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 1.8em;
-    text-align: center;
-    font-family: halfshell;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #c5be93;
-}
-#totalJumbo {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 1.8em;
-    text-align: center;
-    font-family: halfshell;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #c5be93;
-}
-@media only screen and (max-width: 799px) {
-    #totalLeader, #totalMid, #totalJumbo { font-size: 120%;}
 }
 
-#presidentActualP,
-#antiPresidentActualP,
-#princeActualP,
-#clarenceActualP {
+.trophyWinner {
+    font-family: ralewayHeavy;
+    color: #5b4b50;
+    display: flex;
+    justify-content: center;
     margin-top: 25px;
+    margin-bottom: 25px;
     font-size: 1.1em;
 }
 
-#presidentstrophyimg {
-    margin: 0;
-}
-
-#antipresidentstrophyimg {
-    margin: 0;
-}
-
-#demo {
-    margin-top: 50px;
-    font-family: raleway;
-    font-size: 0.8em;
-    text-align: center;
-}
-
 #trophySummary {
+    display: flex;
+    justify-content: center;
     margin-top: 30px;
     padding: 0;
 }
 
-#trophySummaryh3 {
+
+/* Footer style */
+
+#seasonFooter {
+    width: 100%;
+    margin: auto;
+    margin-top: 30px;
+}
+#seasonFooter h1 {
+    font-size: 2.5em;
     margin: 0;
-    padding: 0;
-}
-
-.divscore {
-    position: relative;
-    background-color: #f2edc0;
-    border-radius: 30px;
-    padding: 30px 30px;
-    margin: 10px;
-}
-@media only screen and (min-width: 800px) {
-    .divscore { min-width: 800px; }
-}
-@media only screen and (max-width: 799px) {
-    .divscore { 
-        padding: 30px 0px;
-        margin: 5px 0px;
-        min-width: 95%;
-    }
-}
-
-.inline-block-center {
-  text-align: center;
-}
-.inline-block-center div {
-  display: inline-block;
-  text-align: left;
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
-}
-
-.teamPosition {
-    font-family: raleway;
-    font-size: 0.85em;
-    text-align: left;
-    margin: 5px;
-    color: #5b4b50;
-}
-@media only screen and (max-width: 799px) {
-    .teamPosition { font-size: 60%;}
-}
-
-#scores6 .teamPosition {
     text-align: center;
+    width: auto;
+    display: block;
 }
-
-.playoffTeams {
-    background-color: #c5be93;
-    border-radius: 10px;
-    padding: 3px;
+#seasonFooter hr {
+    width: 10%;
+    background-color: black;
+    display: block;
+}
+#pdffile {
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 0.9em;
+}
+#copyright {
+    font-family: raleway;
+    font-size: 0.6em;
+    color: #f2edc0;
+    text-align: center;
+    display: block;
+    margin-top: 50px;
 }
