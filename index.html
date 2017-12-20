@@ -567,6 +567,14 @@ function execute() {
         document.getElementById(divisionShort[divisionIndex] + "ViktorScore").innerHTML = viktorDivisionScore[divisionIndex] + " p";
         document.getElementById(divisionShort[divisionIndex] + "EliasScore").innerHTML = eliasDivisionScore[divisionIndex] + " p";
     };
+
+    var leaderCrowns = [
+        document.getElementById("filipLeaderCrown"),
+        document.getElementById("viktorLeaderCrown"),
+        document.getElementById("eliasLeaderCrown")];
+    if (filipTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) filipLeaderCrown.style.opacity=1;
+    if (viktorTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) viktorLeaderCrown.style.opacity=1;
+    if (eliasTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) eliasLeaderCrown.style.opacity=1;
 }
 </script>
 </head>
@@ -582,14 +590,17 @@ function execute() {
             <h2>Total Score</h2>
             <div id="totalScoreboard" class="scoreboard">
                 <div class="totalColumn">
+                    <img id="filipLeaderCrown" src="filipcrown.svg" class="leaderCrown" width="60px">
                     <h3 class="h3Filip">F</h3>
                     <p id="filipTotal" class="totalPoints"></p>
                 </div>
                 <div class="totalColumn">
+                    <img id="viktorLeaderCrown" src="viktorcrown.svg" class="leaderCrown" width="60px">
                     <h3 class="h3Viktor">V</h3>
                     <p id="viktorTotal" class="totalPoints"></p>
                 </div>
                 <div class="totalColumn">
+                    <img id="eliasLeaderCrown" src="eliascrown.svg" class="leaderCrown" width="60px">
                     <h3 class="h3Elias">E</h3>
                     <p id="eliasTotal" class="totalPoints"></p>
                 </div>

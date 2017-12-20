@@ -183,8 +183,18 @@ a:hover {
     margin: 0 8%;
 }
 
+.leaderCrown {
+    display: block;
+    margin: 2px auto;
+    fill: white;
+    opacity: 0;
+
+    transition: opacity 1s ease-in;
+    -webkit-transition: opacity 1s ease-in;
+}
+
 #leagueSection h3 {
-    margin-top: 20px;
+    margin-top: 0px;
     font-size: 3em;
     width: 60px;
     height: 60px;
