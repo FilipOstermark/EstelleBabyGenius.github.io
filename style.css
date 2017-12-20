@@ -189,8 +189,8 @@ a:hover {
     fill: white;
     opacity: 0;
 
-    transition: opacity 1s ease-in;
-    -webkit-transition: opacity 1s ease-in;
+    transition: opacity 0.5s 0.75s ease-out;
+    -webkit-transition: opacity 0.5s 0.75s ease-out;
 }
 
 #leagueSection h3 {
@@ -210,6 +210,10 @@ a:hover {
     padding: 30px 30px;
     margin: 20px auto;
     width: 800px;
+
+    opacity: 0;
+
+    transition: opacity 1s ease-out;
 }
 @media only screen and (min-width: 800px) {
     .division { min-width: 800px; }

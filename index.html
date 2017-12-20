@@ -575,6 +575,12 @@ function execute() {
     if (filipTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) filipLeaderCrown.style.opacity=1;
     if (viktorTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) viktorLeaderCrown.style.opacity=1;
     if (eliasTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) eliasLeaderCrown.style.opacity=1;
+
+    var sectionIds = ["leagueSection", "metropolitanSection", "atlanticSection", "centralSection", "pacificSection", "trophySection"];
+
+    for (var sectionIndex = 0; sectionIndex < sectionIds.length; sectionIndex++) {
+        document.getElementById(sectionIds[sectionIndex]).style.opacity = 1;
+    };
 }
 </script>
 </head>
