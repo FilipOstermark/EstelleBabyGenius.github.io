@@ -141,6 +141,10 @@ a:hover {
     color: #ee5f60;
 }
 
+.collapseExpand:focus {
+    outline: 0;
+}
+
 .inline-block-center {
   text-align: center;
 }
