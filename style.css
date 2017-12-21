@@ -45,7 +45,8 @@ h2 {
     color: black;
     text-align: center;
     font-size: 2.4em;
-    -webkit-text-fill-color: white;
+    color: white;
+    
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #ee5f60;
 }
@@ -103,6 +104,8 @@ a {
     text-align: center;
     font-size: 0.8em;
     text-decoration: none;
+
+    transition: color 0.15s linear;
 }
 a:hover { 
     color: white;
@@ -110,7 +113,7 @@ a:hover {
 
 .collapseExpand {
     font-family: halfshell;
-    -webkit-text-fill-color: white;
+    color: white;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #ee5f60;
     text-align: center;
@@ -127,9 +130,15 @@ a:hover {
     display: inline-block;
 
     width: 30px;
+
+    transition: color 0.15s linear;
 }
 @media only screen and (max-width: 799px) {
     .collapseExpand { font-size: 150%; right: 0px;}
+}
+
+.collapseExpand:hover {
+    color: #ee5f60;
 }
 
 .inline-block-center {
@@ -185,12 +194,21 @@ a:hover {
 
 .leaderCrown {
     display: block;
-    margin: 2px auto;
+    margin: 5px auto;
     fill: white;
     opacity: 0;
 
+    position: relative;
+
     transition: opacity 0.5s 0.75s ease-out;
     -webkit-transition: opacity 0.5s 0.75s ease-out;
+
+    animation: pulsate 1.5s linear infinite;
+}
+@keyframes pulsate {
+    0%    {transform: scale(0.9);}
+    50%   {transform: scale(1.1);}
+    100%  {transform: scale(0.9);}
 }
 
 #leagueSection h2 {
@@ -203,7 +221,6 @@ a:hover {
     width: 60px;
     height: 60px;
 }
-
 
 /* Division style */
 
