@@ -129,6 +129,9 @@ a:hover {
     vertical-align: middle;
     display: inline-block;
 
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+    -webkit-tap-highlight-color: transparent;
+
     width: 30px;
 
     transition: color 0.15s linear;
