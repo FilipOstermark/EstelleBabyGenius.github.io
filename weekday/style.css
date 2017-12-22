@@ -38,6 +38,11 @@ hr {
 	width: 100px;
 
 	transition: opacity 1s;
+	animation: colorFade 3s ease-in-out infinite;
+}
+@keyframes colorFade{
+	50% {border-top-color: #829ed8; width: 115px;}
+	100% {border-top-color: #bcbcbc; width: 100px;}
 }
 
 input:focus + hr {
@@ -65,9 +70,16 @@ input:focus {
 	margin:auto;
 	width: 80%;
 	margin-top: 13%;
+
+	animation: fadein 2s;
 }
 @media only screen and (max-width: 775px) {
 	#mainContent { width: 95%; }
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 .centeredFlex {
