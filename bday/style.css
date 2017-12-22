@@ -1,0 +1,67 @@
+@font-face {
+    font-family: raleway;
+    src: url(raleway/Raleway-Medium.ttf);
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	font-family: raleway;
+	color: #595959;
+}
+
+p {
+	margin: auto;
+	text-align: center;
+}
+
+input {
+	font-family: raleway;
+	font-size: 1.3em;
+	color: #595959;
+	text-align: center;
+	margin: auto;
+	display: block;
+	border: none;
+	border-bottom: solid 1px;
+	border-bottom-color: #ccc;
+	width: 150px;
+	margin-top: 30px;
+}
+
+input:focus {
+	outline: none;
+}
+
+#hitEnter {
+	color: #829ed8;
+	margin-top: 10px;
+	font-size: 0.9em;
+	opacity: 0;
+
+	transition: opacity 0.75s;
+}
+
+#youWereBorn {
+	margin-top: 100px;
+}
+
+#mainContent {
+	margin:auto;
+	width: 80%;
+	margin-top: 13%;
+}
+
+.centeredFlex {
+	display: flex;
+	justify-content: center;
+}
+
+.weekday {
+	display: inline-block;
+	text-align: center;
+	margin: 0 15px;
+	margin-top: 20px;
+
+	transition: transform 1s ease-in-out;
+}
