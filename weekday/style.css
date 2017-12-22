@@ -25,18 +25,27 @@ input {
 	margin: auto;
 	display: block;
 	border: none;
-	border-bottom: solid 1px;
-	border-bottom-color: #ccc;
 	width: 150px;
 	margin-top: 30px;
 
-	transition: border-bottom-color 1s;
 	transition: color 0.5s;
+}
+
+hr {
+	border: none;
+	border-top: solid 1px;
+	border-top-color: #bcbcbc;
+	width: 100px;
+
+	transition: opacity 1s;
+}
+
+input:focus + hr {
+	opacity: 0;
 }
 
 input:focus {
 	outline: none;
-	border-bottom-color: #fff;
 }
 
 #format {
