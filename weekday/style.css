@@ -6,6 +6,8 @@
 body {
 	display: flex;
 	justify-content: center;
+	margin: 0;
+	height: 100%;
 	font-family: raleway;
 	color: #595959;
 }
@@ -48,10 +50,18 @@ input:focus {
 	width: 80%;
 	margin-top: 13%;
 }
+@media only screen and (max-width: 775px) {
+	#mainContent { width: 95%; }
+}
 
 .centeredFlex {
 	display: flex;
 	justify-content: center;
+	overflow: hidden;
+	padding-bottom: 30px;
+}
+@media only screen and (max-width: 775px) {
+	.centeredFlex { display: block; margin: auto;}
 }
 
 .weekday {
@@ -64,4 +74,7 @@ input:focus {
 	color: #bcbcbc;
 
 	transition: all 1s ease-in-out;
+}
+@media only screen and (max-width: 775px) {
+	.weekday { display: block; }
 }
