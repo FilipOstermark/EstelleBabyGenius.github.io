@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css" type="text/css">
-	<title>birthday calc</title>
+	<title>Weekday Calculator</title>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
-		var monthTable = [1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6]; // January, ... , December
+		var monthTable = [13, 14, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; // January, ... , December
 		var dayTable = ["saturday", "sunday", "monday", "tuesday", "wednesday", "thursday", "friday"]; // Monday, ... , Sunday
 		var selectedDay = null;
 
 		window.onkeyup = function(e) {
 			var key = e.keyCode ? e.keyCode : e.which;
 			var input = $("#birthdayInput");
-			if (input.val().length != 8) {
-				$("#" + selectedDay).css({"transform" : "scale(1)"});
-			}
-			else {
-				$("#" + selectedDay).css({"transform" : "scale(1)"});
+			$("#" + selectedDay).css({"transform" : "scale(1)", "color": "#bcbcbc", "font-weight" : "normal"});
+			if (input.val().length == 8) {
 				computeWeekday(input.val());
 			}
-			
 		}
 
 		function parseDate(birthDate) {
 			if (birthDate.length != 8) return -1;
-			var decade = parseInt(birthDate[0] + birthDate[1]);
-			var year = parseInt(birthDate[2] + birthDate[3]);
+			var year = parseInt(birthDate[0] + birthDate[1] + birthDate[2] + birthDate[3]);
 			var month = parseInt(birthDate[4] + birthDate[5]);
 			if (month < 1 || month > 12) return -1;
+			var daysOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+			if (year % 4 == 0) daysOfMonth[1] = 29;
 			var day = parseInt(birthDate[6] + birthDate[7]);
-			if (day < 1 || day > 31) return -1;
+			if (day < 1 || day > daysOfMonth[month-1]) return -1;
 
-			return [decade, year, month, day];
+			return [year, month, day];
 		}
 
 		function computeWeekday(birthDate) {
@@ -41,24 +39,20 @@
 				return -1;
 			}
 
-			var decade = parseInt(birthDate[0] + birthDate[1]);
-			var year = parseInt(birthDate[2] + birthDate[3]);
-			var month = parseInt(birthDate[4] + birthDate[5]);
-			month = monthTable[month];
-			var day = parseInt(birthDate[6] + birthDate[7]);
+			var year = parsedDate[0];
+			var month = parsedDate[1];
+			month = monthTable[month-1];
+			var day = parsedDate[2];
 
-			if (decade < 17) decade = 4;
-			else if (decade < 18) decade = 2;
-			else if (decade < 20) decade = 0;
-			else if (decade >= 20) decade = 6;
-			else if (decade >= 21) decade = 4;
+			month = Math.floor((13.0*(month+1))/5.0);
+			year = year + Math.floor(year/4) - Math.floor(year/100) + Math.floor(year/400);
 
-			var sum = year + month + day + decade;
+			var sum = year + month + day;
 
 			var weekday = dayTable[sum % 7];
 			selectedDay = weekday;
 
-			$("#" + weekday).css({"transform" : "scale(1.5)"});
+			$("#" + weekday).css({"transform" : "scale(1.5)", "color": "#829ed8", "font-weight" : "bolder"});
 		}
 
 	</script>
@@ -66,9 +60,9 @@
 <body>
 
 <div id="mainContent">
-	<p>enter birth date yyyymmdd</p>
+	<p>enter birth date</p>
 	<input id="birthdayInput" type="text" maxlength="8" autofocus>
-	<p id="hitEnter">hit enter</p>
+	<p id="format">yyyymmdd</p>
 
 	<p id="youWereBorn">you were born on a</p>
 	<div class="centeredFlex">

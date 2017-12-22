@@ -1,6 +1,6 @@
 @font-face {
     font-family: raleway;
-    src: url(raleway/Raleway-Medium.ttf);
+    src: url(../raleway/Raleway-Medium.ttf);
 }
 
 body {
@@ -33,13 +33,10 @@ input:focus {
 	outline: none;
 }
 
-#hitEnter {
-	color: #829ed8;
+#format {
+	color: #bcbcbc;
 	margin-top: 10px;
 	font-size: 0.9em;
-	opacity: 0;
-
-	transition: opacity 0.75s;
 }
 
 #youWereBorn {
@@ -58,10 +55,13 @@ input:focus {
 }
 
 .weekday {
+	font-family: raleway;
+	font-weight: normal;
 	display: inline-block;
 	text-align: center;
 	margin: 0 15px;
 	margin-top: 20px;
+	color: #bcbcbc;
 
-	transition: transform 1s ease-in-out;
+	transition: all 1s ease-in-out;
 }
