@@ -191,7 +191,7 @@ a:hover {
     -webkit-text-stroke-color: #c5be93;
 }
 @media only screen and (max-width: 799px) {
-    .totalPoints { font-size: 1.8em;}
+    .totalPoints { font-size: 1.6em;}
 }
 
 .totalColumn {
@@ -219,7 +219,7 @@ a:hover {
 }
 
 #leagueSection h2 {
-    font-size: 3em;
+    font-size: 2.9em;
 }
 
 #leagueSection h3 {
