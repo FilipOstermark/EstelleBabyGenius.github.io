@@ -55,7 +55,9 @@
 			month = monthTable[month-1];
 			var day = parsedDate[2];
 
-			month = Math.floor((13.0*(month+1))/5.0);
+			if (month > 12) year -= 1;
+
+			month = Math.floor((13*(month+1))/5);
 			year = year + Math.floor(year/4) - Math.floor(year/100) + Math.floor(year/400);
 
 			var sum = year + month + day;
