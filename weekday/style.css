@@ -29,10 +29,14 @@ input {
 	border-bottom-color: #ccc;
 	width: 150px;
 	margin-top: 30px;
+
+	transition: border-bottom-color 1s;
+	transition: color 0.5s;
 }
 
 input:focus {
 	outline: none;
+	border-bottom-color: #fff;
 }
 
 #format {
@@ -41,11 +45,11 @@ input:focus {
 	font-size: 0.9em;
 }
 
-#youWereBorn {
+#theDateIs {
 	margin-top: 100px;
 }
 @media only screen and (max-width: 775px) {
-	#youWereBorn { margin-top: 30px; }
+	#theDateIs { margin-top: 30px; }
 }
 
 #mainContent {

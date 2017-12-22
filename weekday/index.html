@@ -13,31 +13,42 @@
 
 		window.onkeyup = function(e) {
 			var key = e.keyCode ? e.keyCode : e.which;
-			var input = $("#birthdayInput");
+			var input = $("#dayInput");
 			$("#" + selectedDay).css({"transform" : "scale(1)", "color": "#bcbcbc", "font-weight" : "normal"});
+			$("#dayInput").css({"color" : "#595959"});
 			if (input.val().length == 8) {
 				computeWeekday(input.val());
 			}
 		}
 
-		function parseDate(birthDate) {
-			if (birthDate.length != 8) return -1;
-			var year = parseInt(birthDate[0] + birthDate[1] + birthDate[2] + birthDate[3]);
-			var month = parseInt(birthDate[4] + birthDate[5]);
-			if (month < 1 || month > 12) return -1;
+		function parseDate(date) {
+			if (date.length != 8) return -1;
+			for (var i = date.length - 1; i >= 0; i--) {
+				if (isNaN(parseInt(date[i]))) return -1;
+			};
+
+			var year = parseInt(date[0] + date[1] + date[2] + date[3]);
+			if (isNaN(year)) return -1;
+
+			var month = parseInt(date[4] + date[5]);
+			if (month < 1 || month > 12 || isNaN(month)) return -1;
+
 			var daysOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 			if (year % 4 == 0) daysOfMonth[1] = 29;
-			var day = parseInt(birthDate[6] + birthDate[7]);
-			if (day < 1 || day > daysOfMonth[month-1]) return -1;
+
+			var day = parseInt(date[6] + date[7]);
+
+			if (day < 1 || day > daysOfMonth[month-1] || isNaN(day)) return -1;
 
 			return [year, month, day];
 		}
 
-		function computeWeekday(birthDate) {
-			var parsedDate = parseDate(birthDate);
+		function computeWeekday(date) {
+			var parsedDate = parseDate(date);
 			if (parsedDate == -1) {
 				return -1;
 			}
+			$("#dayInput").css({"color" : "#829ed8"});
 
 			var year = parsedDate[0];
 			var month = parsedDate[1];
@@ -60,11 +71,11 @@
 <body>
 
 <div id="mainContent">
-	<p>enter birth date</p>
-	<input id="birthdayInput" type="text" maxlength="8" autofocus>
+	<p>enter date</p>
+	<input id="dayInput" type="tel" maxlength="8" autofocus>
 	<p id="format">yyyymmdd</p>
 
-	<p id="youWereBorn">you were born on a</p>
+	<p id="theDateIs">your entered date is a</p>
 	<div class="centeredFlex">
 		<p id="monday" class="weekday">monday</p>
 		<p id="tuesday" class="weekday">tuesday</p>
