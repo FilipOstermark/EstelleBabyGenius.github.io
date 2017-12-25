@@ -1,0 +1,67 @@
+@font-face {
+    font-family: airstream;
+    src: url(airstream/AirstreamNF.ttf);
+}
+
+.radioImg {
+	background-image: url('./radio.png');
+	background-size: 100%;
+	background-repeat: no-repeat;
+	width: 350px;
+	height: 350px;
+	position: relative;
+	margin-top: 10%;
+	display: flex;
+	justify-content: center;
+}
+
+.flexContainer {
+	display: flex;
+	justify-content: center;
+}
+
+.retroradiologo {
+	color: white;
+	position: absolute;
+	top: 140px;
+	margin: auto;
+	display: inline-block;
+	text-align: center;
+	font-family: airstream;
+	font-weight: light;
+}
+
+#btn {
+	position: absolute;
+	right: 15px;
+	top: 50%;
+	color: black;
+	background-color: white;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	font-weight: bolder;
+}
+
+#freqWindow {
+	position: absolute;
+	bottom: 60px;
+	background-color: white;
+	border-radius: 15px;
+	width: 80%;
+	height: 50px;
+	font-family: arial;
+	font-weight: bolder;
+	font-size: 1.5em;
+}
+
+#needle {
+	position: absolute;
+	display: block;
+	background-color: black;
+	width: 2px;
+	height: 50%;
+	left: 10px;
+	top: 10px;
+}

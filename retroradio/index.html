@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RetroRadio</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<script>
+function makeDistortionCurve(amount) { // function to make curve shape for distortion/wave shaper node to use
+  var k = typeof amount === 'number' ? amount : 50,
+    n_samples = 44100,
+    curve = new Float32Array(n_samples),
+    deg = Math.PI / 180,
+    i = 0,
+    x;
+  for ( ; i < n_samples; ++i ) {
+    x = i * 2 / n_samples - 1;
+    curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+  }
+  return curve;
+};
+
+
+function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        	var xmlParser = new DOMParser();
+			var channelInfo = xmlParser.parseFromString(this.responseText, "text/xml");
+            startRadio(channelInfo);
+       }
+    };
+    xhttp.open("GET", "http://api.sr.se/api/v2/channels/", true);
+    xhttp.send();
+}
+
+loadDoc();
+
+var channelIndex;
+var channels;
+
+
+function nextChannel() {
+	channelIndex = (channelIndex + 1) % 4;
+	setChannel(channelIndex);
+}
+
+function setChannel(channelIdx) {
+	document.getElementById("radiosrc").src="http://sverigesradio.se/topsy/direkt/" + channels[channelIdx].id + "-lo.mp3";
+	audio = document.getElementById("audioelm");
+	audio.load();
+}
+
+var rotation = 0;
+var needlePosition = 0;
+
+function startRadio(channelInfo) {
+	$("#btn").on('mousedown mouseup', function mouseState(e) {
+	    if (e.type == "mousedown") {
+	        //code triggers on hold
+	        rotation = (rotation + 10) % 360;
+	        needlePosition = (needlePosition + 5) % $('#needle').parent().width();
+
+	        $("#btn").css({"transform" : "rotate(" + rotation + "deg)"});
+	        $("#needle").css({"left" : needlePosition});
+	    }
+	});
+
+	channels = channelInfo.getElementsByTagName("channel");
+
+	channelIndex = 0;
+	setChannel(channelIndex);
+
+	var context = new AudioContext();
+	var source = context.createMediaElementSource(document.getElementsByTagName('audio')[0]);
+
+	//Now we want to create a filter
+	var filter = context.createBiquadFilter();
+	var gain = context.createGain();
+	var distortion = context.createWaveShaper();
+
+	filter.type = "highpass";
+	filter.frequency.value = 2000;
+
+	gain.gain.value = 5;
+
+	distortion.curve = makeDistortionCurve(400);
+
+	source.connect(gain); //and of course connect it
+	gain.connect(filter);
+	filter.connect(distortion);
+
+
+	//now we want to connect that to the output
+	filter.connect(context.destination);
+}
+
+
+
+</script>
+
+
+<div class="flexContainer">
+	<div class="radioImg">
+		<h2 class="retroradiologo">RetroRadio</h2>
+		<div id="btn" onclick="nextChannel()">|</div>
+		<div id="freqWindow">
+			<div id="needle"></div>
+		</div>
+	</div>
+
+	<audio id="audioelm" crossorigin="anonymous" autoplay>
+	<!--<url type="mp3" quality="low">http://sverigesradio.se/topsy/direkt/132-lo.mp3</url>-->
+		<source id="radiosrc" src="http://sverigesradio.se/topsy/direkt/132-lo.mp3" type="audio/mp3">
+	</audio>
+
+</div>
+
+</body>
+</html>
