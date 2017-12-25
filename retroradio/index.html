@@ -32,7 +32,7 @@ function loadDoc() {
             startRadio(channelInfo);
        }
     };
-    xhttp.open("GET", "http://api.sr.se/api/v2/channels/", true);
+    xhttp.open("GET", "https://api.sr.se/api/v2/channels/", true);
     xhttp.send();
 }
 
@@ -48,7 +48,7 @@ function nextChannel() {
 }
 
 function setChannel(channelIdx) {
-	document.getElementById("radiosrc").src="http://sverigesradio.se/topsy/direkt/" + channels[channelIdx].id + "-lo.mp3";
+	document.getElementById("radiosrc").src="https://sverigesradio.se/topsy/direkt/" + channels[channelIdx].id + "-lo.mp3";
 	audio = document.getElementById("audioelm");
 	audio.load();
 }
