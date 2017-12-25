@@ -3,65 +3,140 @@
     src: url(airstream/AirstreamNF.ttf);
 }
 
-.radioImg {
-	background-image: url('./radio.png');
-	background-size: 100%;
-	background-repeat: no-repeat;
-	width: 350px;
-	height: 350px;
-	position: relative;
-	margin-top: 10%;
-	display: flex;
-	justify-content: center;
+@font-face {
+    font-family: raleway;
+    src: url(../raleway/Raleway-Medium.ttf);
 }
 
-.flexContainer {
-	display: flex;
-	justify-content: center;
+.radioImg {
+	background-color: #372110;
+	border: solid 20px;
+	border-radius: 50px;
+	border-color: #bc5e3a;
+	width: 350px;
+	height: 275px;
+	position: relative;
+	margin: auto;
+	margin-top: 10%;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+	border-bottom-color: #5f2a16;
+	border-left-color: #7f3b21;
+	border-right-color: #a05437;
 }
 
 .retroradiologo {
-	color: white;
+	color: #eee3be;
 	position: absolute;
-	top: 140px;
+	top: 35%;
 	margin: auto;
-	display: inline-block;
+	display: block;
 	text-align: center;
 	font-family: airstream;
 	font-weight: light;
+	font-size: 2.5em;
+
+	text-shadow: -2px 0 #222, 0 2px #222, 0 0 black, 0 0 #222;
+
 }
 
-#btn {
-	position: absolute;
-	right: 15px;
-	top: 50%;
+#loudspeaker {
+	display: flex;
+	justify-content: center;
+	margin: auto;
+	position: relative;
+	width: 98.3%;
+	height: 45%;
+	top: 0px;
+	border-radius: 35px;
+	border: solid 3px;
+	border-color: #fedfb3;
+	background-color: #4f2809;
+    background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .10) 25%, rgba(255, 255, 255, .10) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .10) 75%, rgba(255, 255, 255, .10) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .10) 25%, rgba(255, 255, 255, .10) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .10) 75%, rgba(255, 255, 255, .10) 76%, transparent 77%, transparent);
+  	background-size: 10px 10px;
+  	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+#midSection {
+	display: flex;
+	justify-content: center;
+	background-color: #24160b;
+	height: 60px;
+	margin-top: 5px;
+	padding: 10px;
+	border-top: solid 3px;
+	border-top-color: #ddb974;
+
+	border-bottom: solid 2px;
+	border-bottom-color: #a87d48;
+}
+
+.btn {
+	display: block;
 	color: black;
-	background-color: white;
+	background-color: #c1a776;
+	border: solid 2px;
+	border-color: #ddb974;
 	border-radius: 50%;
 	width: 30px;
 	height: 30px;
 	text-align: center;
 	font-weight: bolder;
+	position: relative;
+	margin: auto;
+}
+
+.btnContainer {
+	margin: 0 50px;
+}
+
+
+.btnContainer p {
+	margin: 0;
+	color: #eee3be;
+	font-family: raleway;
+	font-weight: lighter;
+	font-size: 0.6em;
+	text-align: center;
+	margin-bottom: 5px;
 }
 
 #freqWindow {
-	position: absolute;
-	bottom: 60px;
-	background-color: white;
-	border-radius: 15px;
-	width: 80%;
-	height: 50px;
-	font-family: arial;
-	font-weight: bolder;
-	font-size: 1.5em;
+	position: relative;
+	display: flex;
+	margin: auto;
+	background-color: #a6927a;
+	border-radius: 5px;
+	border: solid 1px;
+	border-bottom-width: 3px;
+	border-top-width: 3px;
+	border-color: #fedfb3;
+	border-bottom-color: #e8bf84;
+	width: 89%;
+	height: 28px;
+	margin-top: 8px;
+
+	background-image: linear-gradient(transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .5) 25%, rgba(255, 255, 255, .5) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .5) 75%, rgba(255, 255, 255, .5) 76%, transparent 5%, transparent);
+  	background-size: 10px 10px;
 }
 
 #needle {
 	position: absolute;
 	display: block;
-	background-color: black;
+	background-color: #9e3b3e;
 	width: 2px;
-	height: 50%;
+	height: 70%;
 	left: 10px;
-	top: 10px;
+	top: 7px;
+}
+
+.needle2 {
+	margin: auto;
+	background-color: #555;
+	width: 1px;
+	border-left: solid 1px;
+	border-left-color: #444;
+	height: 30%;
+	margin-top: 3px;
 }
