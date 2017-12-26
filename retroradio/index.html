@@ -46,11 +46,9 @@ function setChannel(channelIdx) {
 function noiseChannelLevels(rotation) {
 	var channelVolume = Math.max(Math.sin(4*(Math.PI / 180)*rotation), 0);
 	var noiseVolume = 1 - channelVolume;
-	var channelId = rotationToChannel((rotation + 90) % 360);
-	console.log(channelId + " " + prevChannelId);
+	var channelId = rotationToChannel((rotation - 90) % 360);
 	if (!(prevChannelId == channelId)) {
 		setChannel(channelId);
-		console.log("TRUE");
 	}
 	prevChannelId = channelId;
 
@@ -96,8 +94,8 @@ function rotateTuner() {
 		$("#tunerBtn").css({"transform" : "rotate(" + tunerRotation + "deg)"});
 
 
-		document.getElementById("audioelm").volume = volumes[0];
-		document.getElementById("noise").volume = volumes[1];
+		document.getElementById("audioelm").volume = volumes[0]*volumeRotation/360;
+		document.getElementById("noise").volume = volumes[1]*volumeRotation/360;
 
 		needlePosition = $("#freqWindow").width()*(tunerRotation/360);
 		$("#needle").css({"left" : needlePosition});
@@ -177,12 +175,10 @@ function startRadio(channelInfo) {
 	<source id="radiosrc" src="" type="audio/mp3">
 </audio>
 
-<audio id="noise" crossorigin="anonymous" loop controls autoplay>
+<audio id="noise" crossorigin="anonymous" loop autoplay>
 <!--<url type="mp3" quality="low">http://sverigesradio.se/topsy/direkt/132-lo.mp3</url>-->
 	<source id="noisesrc" src="whitenoise.mp3" type="audio/mp3">
 </audio>
-<p id="debug">TEST</p>
-
 
 </body>
 </html>
