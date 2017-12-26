@@ -27,6 +27,8 @@ loadDoc();
 var channelIndex;
 var channels;
 var prevChannelId;
+var channelVolume;
+var noiseVolume;
 
 function rotationToChannel(rotation) {
 	return Math.floor(rotation / 90);
@@ -39,8 +41,8 @@ function setChannel(channelIdx) {
 }
 
 function noiseChannelLevels(rotation) {
-	var channelVolume = Math.max(Math.sin(Math.PI/2 + 4*(Math.PI / 180)*rotation), 0);
-	var noiseVolume = 1 - channelVolume;
+	channelVolume = Math.max(Math.sin(Math.PI/2 + 4*(Math.PI / 180)*rotation), 0);
+	noiseVolume = 1 - channelVolume;
 	var channelId = rotationToChannel((rotation + 45) % 360);
 	if (prevChannelId != channelId) {
 		setChannel(channelId);
@@ -63,9 +65,6 @@ function rotateVolume() {
 	var deltaY = mouseY - volumeBtnPos.top;
 
 	if (mouseX != 0 && mouseY != 0) { 
-		var channelVolume = Math.max(Math.sin(Math.PI/2 + 4*(Math.PI / 180)*volumeRotation), 0);
-		var noiseVolume = 1 - channelVolume;
-
 		volumeRotation = Math.atan(deltaY/deltaX)*(180/Math.PI) - 90;
 		if (deltaX > 0) volumeRotation += 180;
 		if (volumeRotation < 0) volumeRotation += 360;
