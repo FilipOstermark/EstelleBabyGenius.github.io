@@ -63,7 +63,7 @@ function rotateVolume() {
 	var deltaY = mouseY - volumeBtnPos.top;
 
 	if (mouseX != 0 && mouseY != 0) { 
-		var channelVolume = Math.max(Math.sin(Math.PI/2 + 4*(Math.PI / 180)*rotation), 0);
+		var channelVolume = Math.max(Math.sin(Math.PI/2 + 4*(Math.PI / 180)*volumeRotation), 0);
 		var noiseVolume = 1 - channelVolume;
 
 		volumeRotation = Math.atan(deltaY/deltaX)*(180/Math.PI) - 90;
