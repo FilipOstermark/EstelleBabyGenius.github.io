@@ -27,8 +27,8 @@ loadDoc();
 var channelIndex;
 var channels;
 var prevChannelId;
-var channelVolume;
-var noiseVolume;
+var channelVolume = 1;
+var noiseVolume = 0;
 
 function rotationToChannel(rotation) {
 	return Math.floor(rotation / 90);
