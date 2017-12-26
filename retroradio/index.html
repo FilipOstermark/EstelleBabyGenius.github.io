@@ -32,11 +32,6 @@ function rotationToChannel(rotation) {
 	return Math.floor(rotation / 90);
 }
 
-function nextChannel() {
-	channelIndex = (channelIndex + 1) % 4;
-	setChannel(channelIndex);
-}
-
 function setChannel(channelIdx) {
 	document.getElementById("radiosrc").src="https://sverigesradio.se/topsy/direkt/" + channels[channelIdx].id + "-lo.mp3";
 	audio = document.getElementById("audioelm");
@@ -44,19 +39,19 @@ function setChannel(channelIdx) {
 }
 
 function noiseChannelLevels(rotation) {
-	var channelVolume = Math.max(Math.sin(4*(Math.PI / 180)*rotation), 0);
+	var channelVolume = Math.max(Math.sin(Math.PI/2 + 4*(Math.PI / 180)*rotation), 0);
 	var noiseVolume = 1 - channelVolume;
-	var channelId = rotationToChannel((rotation - 90) % 360);
-	if (!(prevChannelId == channelId)) {
+	var channelId = rotationToChannel((rotation + 45) % 360);
+	if (prevChannelId != channelId) {
 		setChannel(channelId);
-	}
+	};
 	prevChannelId = channelId;
 
 	return [channelVolume, noiseVolume];
 }
 
 var tunerRotation = 0;
-var volumeRotation = 0;
+var volumeRotation = 359;
 var needlePosition = 0;
 var volumeBtnPos;
 var tunerBtnPos;
@@ -83,7 +78,6 @@ function rotateTuner() {
 	var deltaY = mouseY - tunerBtnPos.top;
 
 	if (mouseX != 0 && mouseY != 0) { 
-
 		var volumes = noiseChannelLevels(tunerRotation);
 
 		tunerRotation = Math.atan(deltaY/deltaX)*(180/Math.PI) - 90;
@@ -92,7 +86,6 @@ function rotateTuner() {
 			tunerRotation += 360;
 		}
 		$("#tunerBtn").css({"transform" : "rotate(" + tunerRotation + "deg)"});
-
 
 		document.getElementById("audioelm").volume = volumes[0]*volumeRotation/360;
 		document.getElementById("noise").volume = volumes[1]*volumeRotation/360;
@@ -105,6 +98,7 @@ function rotateTuner() {
 function startRadio(channelInfo) {
 	volumeBtnPos = $("#volumeBtn").offset();
 	tunerBtnPos = $("#tunerBtn").offset();
+	document.getElementById("noise").volume = 0;
 
 	/*$("#tunerBtn").on('mousedown mouseup', function mouseState(e) {
 	    if (e.type == "mousedown") {
@@ -175,7 +169,7 @@ function startRadio(channelInfo) {
 	<source id="radiosrc" src="" type="audio/mp3">
 </audio>
 
-<audio id="noise" crossorigin="anonymous" loop autoplay>
+<audio id="noise" crossorigin="anonymous" controls loop autoplay>
 <!--<url type="mp3" quality="low">http://sverigesradio.se/topsy/direkt/132-lo.mp3</url>-->
 	<source id="noisesrc" src="whitenoise.mp3" type="audio/mp3">
 </audio>
