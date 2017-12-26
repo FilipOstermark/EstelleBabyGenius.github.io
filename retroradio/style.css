@@ -148,3 +148,12 @@ html {
 	height: 30%;
 	margin-top: 3px;
 }
+
+#createdby {
+	font-family: raleway;
+	font-size: 0.6em;
+	color: white;
+	text-align: center;
+	margin-top: 5px;
+	opacity: 0.1;
+}
