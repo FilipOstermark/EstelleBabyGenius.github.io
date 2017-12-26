@@ -26,7 +26,11 @@ loadDoc();
 
 var channelIndex;
 var channels;
+var prevChannelId;
 
+function rotationToChannel(rotation) {
+	return Math.floor(rotation / 90);
+}
 
 function nextChannel() {
 	channelIndex = (channelIndex + 1) % 4;
@@ -37,6 +41,20 @@ function setChannel(channelIdx) {
 	document.getElementById("radiosrc").src="https://sverigesradio.se/topsy/direkt/" + channels[channelIdx].id + "-lo.mp3";
 	audio = document.getElementById("audioelm");
 	audio.load();
+}
+
+function noiseChannelLevels(rotation) {
+	var channelVolume = Math.max(Math.sin(4*(Math.PI / 180)*rotation), 0);
+	var noiseVolume = 1 - channelVolume;
+	var channelId = rotationToChannel((rotation + 90) % 360);
+	console.log(channelId + " " + prevChannelId);
+	if (!(prevChannelId == channelId)) {
+		setChannel(channelId);
+		console.log("TRUE");
+	}
+	prevChannelId = channelId;
+
+	return [channelVolume, noiseVolume];
 }
 
 var tunerRotation = 0;
@@ -67,6 +85,9 @@ function rotateTuner() {
 	var deltaY = mouseY - tunerBtnPos.top;
 
 	if (mouseX != 0 && mouseY != 0) { 
+
+		var volumes = noiseChannelLevels(tunerRotation);
+
 		tunerRotation = Math.atan(deltaY/deltaX)*(180/Math.PI) - 90;
 		if (deltaX > 0) tunerRotation += 180;
 		if (tunerRotation < 0) {
@@ -74,8 +95,9 @@ function rotateTuner() {
 		}
 		$("#tunerBtn").css({"transform" : "rotate(" + tunerRotation + "deg)"});
 
-		document.getElementById("audioelm").volume = tunerRotation/360;
-		document.getElementById("noise").volume = 1 - tunerRotation/360;
+
+		document.getElementById("audioelm").volume = volumes[0];
+		document.getElementById("noise").volume = volumes[1];
 
 		needlePosition = $("#freqWindow").width()*(tunerRotation/360);
 		$("#needle").css({"left" : needlePosition});
@@ -86,7 +108,7 @@ function startRadio(channelInfo) {
 	volumeBtnPos = $("#volumeBtn").offset();
 	tunerBtnPos = $("#tunerBtn").offset();
 
-	$("#tunerBtn").on('mousedown mouseup', function mouseState(e) {
+	/*$("#tunerBtn").on('mousedown mouseup', function mouseState(e) {
 	    if (e.type == "mousedown") {
 	        //code triggers on hold
 	        tunerRotation = (tunerRotation + 10) % 360;
@@ -95,7 +117,7 @@ function startRadio(channelInfo) {
 	        $("#tunerBtn").css({"transform" : "rotate(" + tunerRotation + "deg)"});
 	        $("#needle").css({"left" : needlePosition});
 	    }
-	});
+	});*/
 
 	channels = channelInfo.getElementsByTagName("channel");
 
@@ -155,10 +177,11 @@ function startRadio(channelInfo) {
 	<source id="radiosrc" src="" type="audio/mp3">
 </audio>
 
-<audio id="noise" crossorigin="anonymous" loop autoplay>
+<audio id="noise" crossorigin="anonymous" loop controls autoplay>
 <!--<url type="mp3" quality="low">http://sverigesradio.se/topsy/direkt/132-lo.mp3</url>-->
 	<source id="noisesrc" src="whitenoise.mp3" type="audio/mp3">
 </audio>
+<p id="debug">TEST</p>
 
 
 </body>
