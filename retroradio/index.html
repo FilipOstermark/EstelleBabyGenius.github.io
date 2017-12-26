@@ -42,8 +42,46 @@ function setChannel(channelIdx) {
 var tunerRotation = 0;
 var volumeRotation = 0;
 var needlePosition = 0;
+var volumeBtnPos;
+var tunerBtnPos;
+
+function rotateVolume() {
+	var mouseX = event.clientX;
+	var mouseY = event.clientY;
+	var deltaX = mouseX - volumeBtnPos.left;
+	var deltaY = mouseY - volumeBtnPos.top;
+
+	if (mouseX != 0 && mouseY != 0) { 
+		volumeRotation = Math.atan(deltaY/deltaX)*(180/Math.PI) - 90;
+		if (deltaX > 0) volumeRotation += 180;
+		$("#volumeBtn").css({"transform" : "rotate(" + volumeRotation + "deg)"});
+	};
+}
+
+function rotateTuner() {
+	var mouseX = event.clientX;
+	var mouseY = event.clientY;
+	var deltaX = mouseX - tunerBtnPos.left;
+	var deltaY = mouseY - tunerBtnPos.top;
+
+	if (mouseX != 0 && mouseY != 0) { 
+		tunerRotation = Math.atan(deltaY/deltaX)*(180/Math.PI) - 90;
+		if (deltaX > 0) tunerRotation += 180;
+		if (tunerRotation < 0) {
+			tunerRotation += 360;
+		}
+		$("#tunerBtn").css({"transform" : "rotate(" + tunerRotation + "deg)"});
+
+		needlePosition = $("#freqWindow").width()*(tunerRotation/360);
+		$("#needle").css({"left" : needlePosition});
+	};
+}
 
 function startRadio(channelInfo) {
+
+	volumeBtnPos = $("#volumeBtn").offset();
+	tunerBtnPos = $("#tunerBtn").offset();
+
 	$("#tunerBtn").on('mousedown mouseup', function mouseState(e) {
 	    if (e.type == "mousedown") {
 	        //code triggers on hold
@@ -52,14 +90,6 @@ function startRadio(channelInfo) {
 
 	        $("#tunerBtn").css({"transform" : "rotate(" + tunerRotation + "deg)"});
 	        $("#needle").css({"left" : needlePosition});
-	    }
-	});
-
-	$("#volumeBtn").on('mousedown mouseup', function mouseState(e) {
-	    if (e.type == "mousedown") {
-	        //code triggers on hold
-	        volumeRotation = (volumeRotation + 10) % 360;
-	        $("#volumeBtn").css({"transform" : "rotate(" + volumeRotation + "deg)"});
 	    }
 	});
 
@@ -99,13 +129,13 @@ function startRadio(channelInfo) {
 	<div id="midSection">
 		<div class="btnContainer">
 			<p>VOLUME</p>
-			<div class="btn" id="volumeBtn" onclick="">
+			<div class="btn" draggable="true" id="volumeBtn" ondrag="rotateVolume()">
 				<div class="needle2"></div>
 			</div>
 		</div>
 		<div class="btnContainer">
 			<p>TUNER</p>
-			<div class="btn" id="tunerBtn" onclick="nextChannel()">
+			<div class="btn" draggable="true" id="tunerBtn" ondrag="rotateTuner()">
 				<div class="needle2"></div>
 			</div>
 		</div>
@@ -117,7 +147,12 @@ function startRadio(channelInfo) {
 
 <audio id="audioelm" crossorigin="anonymous" autoplay>
 <!--<url type="mp3" quality="low">http://sverigesradio.se/topsy/direkt/132-lo.mp3</url>-->
-	<source id="radiosrc" src="http://sverigesradio.se/topsy/direkt/132-lo.mp3" type="audio/mp3">
+	<source id="radiosrc" src="" type="audio/mp3">
+</audio>
+
+<audio id="noise" crossorigin="anonymous" autoplay>
+<!--<url type="mp3" quality="low">http://sverigesradio.se/topsy/direkt/132-lo.mp3</url>-->
+	<source id="noisesrc" src="tuning.mp3" type="audio/mp3">
 </audio>
 
 
