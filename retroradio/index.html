@@ -54,7 +54,9 @@ function rotateVolume() {
 	if (mouseX != 0 && mouseY != 0) { 
 		volumeRotation = Math.atan(deltaY/deltaX)*(180/Math.PI) - 90;
 		if (deltaX > 0) volumeRotation += 180;
+		if (volumeRotation < 0) volumeRotation += 360;
 		$("#volumeBtn").css({"transform" : "rotate(" + volumeRotation + "deg)"});
+		document.getElementById("audioelm").volume = volumeRotation/360;
 	};
 }
 
@@ -72,13 +74,15 @@ function rotateTuner() {
 		}
 		$("#tunerBtn").css({"transform" : "rotate(" + tunerRotation + "deg)"});
 
+		document.getElementById("audioelm").volume = tunerRotation/360;
+		document.getElementById("noise").volume = 1 - tunerRotation/360;
+
 		needlePosition = $("#freqWindow").width()*(tunerRotation/360);
 		$("#needle").css({"left" : needlePosition});
 	};
 }
 
 function startRadio(channelInfo) {
-
 	volumeBtnPos = $("#volumeBtn").offset();
 	tunerBtnPos = $("#tunerBtn").offset();
 
@@ -110,13 +114,14 @@ function startRadio(channelInfo) {
 	filter.frequency.value = 500;
 	filter.gain.value = 25;
 
-	gain.gain.value = 1;
+	gain.gain.value = 0.2;
 
-	source.connect(gain); //and of course connect it
-	gain.connect(filter);
+	source.connect(filter); //and of course connect it
+	filter.connect(gain);
+	
 
 	//now we want to connect that to the output
-	filter.connect(context.destination);
+	gain.connect(context.destination);
 }
 
 </script>
@@ -150,9 +155,9 @@ function startRadio(channelInfo) {
 	<source id="radiosrc" src="" type="audio/mp3">
 </audio>
 
-<audio id="noise" crossorigin="anonymous" autoplay>
+<audio id="noise" crossorigin="anonymous" loop autoplay>
 <!--<url type="mp3" quality="low">http://sverigesradio.se/topsy/direkt/132-lo.mp3</url>-->
-	<source id="noisesrc" src="tuning.mp3" type="audio/mp3">
+	<source id="noisesrc" src="whitenoise.mp3" type="audio/mp3">
 </audio>
 
 

@@ -8,6 +8,14 @@
     src: url(../raleway/Raleway-Medium.ttf);
 }
 
+html {
+	background-color: #291611;
+	background: linear-gradient(to top, #140906 , #000);
+	background-repeat: no-repeat;
+	height: 100%;
+	background-size: cover;
+}
+
 .radioImg {
 	background-color: #372110;
 	border: solid 20px;
