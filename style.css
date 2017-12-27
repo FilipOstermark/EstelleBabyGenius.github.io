@@ -364,11 +364,6 @@ a:hover {
     background-color: black;
     display: block;
 }
-#pdffile {
-    display: block;
-    margin-top: 30px;
-    font-size: 0.7em;
-}
 #misc {
     font-family: raleway;
     font-size: 0.7em;
@@ -376,8 +371,9 @@ a:hover {
     text-align: center;
     display: block;
     margin-top: 50px;
+    margin-bottom: 30px;
 }
-#weekdayLink {
+.miscLink {
     font-size: 0.7em;
     display: block;
     text-align: center;
