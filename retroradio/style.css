@@ -31,6 +31,7 @@ html {
 	border-bottom-color: #5f2a16;
 	border-left-color: #7f3b21;
 	border-right-color: #a05437;
+	box-shadow: 0px 10px 60px 2px #000;
 }
 
 .retroradiologo {
@@ -61,7 +62,7 @@ html {
 	width: 98.3%;
 	height: 45%;
 	top: 0px;
-	border-radius: 35px;
+	border-radius: 30px;
 	border: solid 3px;
 	border-color: #fedfb3;
 	background-color: #4f2809;
@@ -89,8 +90,9 @@ html {
 	display: block;
 	color: black;
 	background-color: #c1a776;
+	background: radial-gradient(#e9daa8, #9e9061);
 	border: solid 3px;
-	border-color: #ddb974;
+	border-color: #c69d55;
 	border-radius: 50%;
 	width: 30px;
 	height: 30px;
@@ -149,7 +151,7 @@ html {
 	background-color: #555;
 	width: 1px;
 	border-left: solid 1px;
-	border-left-color: #444;
+	border-left-color: #876427;
 	height: 30%;
 	margin-top: 3px;
 }
