@@ -45,7 +45,12 @@ html {
 	font-size: 2.5em;
 
 	text-shadow: -2px 0 #222, 0 2px #222, 0 0 black, 0 0 #222;
-
+	animation: vibrate .1s ease-out infinite;
+}
+@keyframes vibrate {
+    0%    {transform: scale(0.99);}
+    10%   {transform: scale(1.01);}
+    90%	{transform: scale(1);}
 }
 
 #loudspeaker {
@@ -84,7 +89,7 @@ html {
 	display: block;
 	color: black;
 	background-color: #c1a776;
-	border: solid 2px;
+	border: solid 3px;
 	border-color: #ddb974;
 	border-radius: 50%;
 	width: 30px;
