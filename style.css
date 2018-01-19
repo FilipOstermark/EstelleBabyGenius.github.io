@@ -56,6 +56,9 @@ h2 {
 @media only screen and (max-width: 799px) {
     h2 { font-size: 150%;}
 }
+@media only screen and (max-width: 350px) {
+    h2 { font-size: 130%;}
+}
 .h2Container {
     position: relative;
     margin: 0 5px;
@@ -281,6 +284,9 @@ a:hover {
 @media only screen and (max-width: 799px) {
     .teamPosition { font-size: 60%;}
 }
+@media only screen and (max-width: 350px) {
+    .teamPosition { font-size: 50%;}
+}
 
 .teamPlayoffPosition {
     font-family: ralewayHeavy;
@@ -291,6 +297,9 @@ a:hover {
 }
 @media only screen and (max-width: 799px) {
     .teamPlayoffPosition { font-size: 60%;}
+}
+@media only screen and (max-width: 350px) {
+    .teamPlayoffPosition { font-size: 50%;}
 }
 
 .divisionScore {
