@@ -5,25 +5,7 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <title>KMHL 17/18</title>
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
-
-<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-firestore.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyDV49EuvG-kDxL0Kg_TcjVwkptDioKNiKA",
-    authDomain: "kmhl-920918.firebaseapp.com",
-    databaseURL: "https://kmhl-920918.firebaseio.com",
-    projectId: "kmhl-920918",
-    storageBucket: "",
-    messagingSenderId: "985632290219"
-  };
-  firebase.initializeApp(config);
-</script>
-
 <script type="text/javascript">
-var db = firebase.firestore();
-
 var parsedStandings;
 var metropolitanNumTeams;
 var atlanticNumTeams;
@@ -540,13 +522,6 @@ function add(a, b) {
 }
 
 function execute() {
-    db.collection("standings").add(parsedStandings).then(function(docRef) {
-    console.log("Document written with ID: ", docRef.id);
-})
-.catch(function(error) {
-    console.error("Error adding document: ", error);
-});
-
 	filipTotalPoints = 0;
 	viktorTotalPoints = 0;
 	eliasTotalPoints = 0;
