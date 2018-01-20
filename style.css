@@ -204,6 +204,7 @@ a:hover {
     padding: 30px 30px;
     margin: 20px auto;
     width: 850px;
+    overflow: hidden;
 
     opacity: 0;
     transition: opacity 1s ease-out;

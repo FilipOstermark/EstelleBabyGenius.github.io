@@ -599,10 +599,12 @@ function toggleBetStat(divisionIndex, betStatSelect) {
     primaryBoard.style.display = "flex";
     primaryBtn.style.color = "white";
     primaryBtn.style.webkitTextStrokeColor = "#ee5f60";
+    primaryBtn.style.transform = "scale(1.1)";
 
     secondaryBoard.style.display = "none";
     secondaryBtn.style.color = "#5b4b50";
     secondaryBtn.style.webkitTextStrokeColor = "transparent";
+    secondaryBtn.style.transform = "scale(0.9)";
 }
 
 function execute() {
@@ -785,6 +787,7 @@ function execute() {
                     <p id="metroStatTeam7" class="teamPosition"></p>
                     <p id="metroStatTeam8" class="teamPosition"></p>
                     <hr>
+                    <p class="divisionScore" style="opacity:0;">.</p>
                 </div>
                 <div id="metroGPColumn" class="divisionColumn">
                     <h3>GP</h3>
@@ -921,6 +924,7 @@ function execute() {
                     <p id="atlanticStatTeam7" class="teamPosition"></p>
                     <p id="atlanticStatTeam8" class="teamPosition"></p>
                     <hr>
+                    <p class="divisionScore" style="opacity:0;">.</p>
                 </div>
                 <div id="atlanticGPColumn" class="divisionColumn">
                     <h3>GP</h3>
@@ -1053,6 +1057,7 @@ function execute() {
                     <p id="centralStatTeam7" class="teamPosition"></p>
                     <p id="centralStatTeam8" class="teamPosition"></p>
                     <hr>
+                    <p class="divisionScore" style="opacity:0;">.</p>
                 </div>
                 <div id="centralGPColumn" class="divisionColumn">
                     <h3>GP</h3>
@@ -1188,6 +1193,7 @@ function execute() {
                     <p id="pacificStatTeam7" class="teamPosition"></p>
                     <p id="pacificStatTeam8" class="teamPosition"></p>
                     <hr>
+                    <p class="divisionScore" style="opacity:0;">.</p>
                 </div>
                 <div id="pacificGPColumn" class="divisionColumn">
                     <h3>GP</h3>
