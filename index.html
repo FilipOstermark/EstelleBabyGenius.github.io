@@ -25,7 +25,7 @@ var atlanticIndex = 1;
 var centralIndex = 2;
 var pacificIndex = 3;
 
-var divisionIndexIds = ["metropolitanScoreboard", "atlanticScoreboard", "centralScoreboard", "pacificScoreboard"];
+var divisionIndexIds = ["metroScoreboard", "atlanticScoreboard", "centralScoreboard", "pacificScoreboard"];
 
 var playoffTeams = [];
 
@@ -402,6 +402,28 @@ function comparePlayoffTeams() {
     };
 }
 
+function generateStatboard(divisionIndex, divisionNumTeams) {
+    var elementIdString = ["metro", "atlantic", "central", "pacific"];
+
+    for (var i = 0; i < divisionNumTeams; i++) {
+        var team = parsedStandings.records[divisionIndex].teamRecords[i];
+        var teamName = team.team.name;
+        var gp = team.gamesPlayed;
+        var pts = team.points;
+        var wlo = team.leagueRecord.wins + "-" + team.leagueRecord.losses + "-" + team.leagueRecord.ot;
+
+        var teamId = elementIdString[divisionIndex] + "StatTeam" + (i+1);
+        var gpId = elementIdString[divisionIndex] + "GP" + (i+1);
+        var ptsId = elementIdString[divisionIndex] + "PTS" + (i+1);
+        var wloId = elementIdString[divisionIndex] + "WLO" + (i+1);
+        
+        document.getElementById(teamId).innerHTML = (i+1) + ". " + teamName;
+        document.getElementById(gpId).innerHTML = gp;
+        document.getElementById(ptsId).innerHTML = pts;
+        document.getElementById(wloId).innerHTML = wlo;
+    };
+}
+
 function findPresident() {
     for (var i = 0; i < metropolitanNumTeams; i++) {
         if (parsedStandings.records[metropolitanIndex].teamRecords[i].leagueRank == 1) 
@@ -464,17 +486,6 @@ function findClarenceSCambell() {
     };
 }
 
-function collapseExpand(scoreboardId, buttonId) {
-    if (document.getElementById(buttonId).innerHTML == '-') {
-        document.getElementById(scoreboardId).style.maxHeight="0";
-        document.getElementById(buttonId).innerHTML = "+";
-    } else {
-        //document.getElementById(scoreboardId).style.display="block";
-        document.getElementById(buttonId).innerHTML = "-";
-        document.getElementById(scoreboardId).style.maxHeight="100%";
-    };
-}
-
 function trophies() {
     var nameStrings = [
         [findPresident(), findAntiPresident(), findPrinceOfWales(), findClarenceSCambell()],
@@ -521,6 +532,31 @@ function add(a, b) {
     return a + b;
 }
 
+function toggleBetStat(divisionIndex, betStatSelect) {
+    var divisionNames = ["metro", "atlantic", "central", "pacific"];
+    var primaryBoard, secondaryBoard;
+
+    if (betStatSelect == 0) {
+        primaryBoard = document.getElementById(divisionNames[divisionIndex] + "Scoreboard");
+        primaryBtn = document.getElementById(divisionNames[divisionIndex] + "BetBtn");
+        secondaryBoard = document.getElementById(divisionNames[divisionIndex] + "Statboard");
+        secondaryBtn = document.getElementById(divisionNames[divisionIndex] + "StatBtn");
+    } else {
+        primaryBoard = document.getElementById(divisionNames[divisionIndex] + "Statboard");
+        primaryBtn = document.getElementById(divisionNames[divisionIndex] + "StatBtn");
+        secondaryBoard = document.getElementById(divisionNames[divisionIndex] + "Scoreboard");
+        secondaryBtn = document.getElementById(divisionNames[divisionIndex] + "BetBtn");
+    };
+
+    primaryBoard.style.display = "flex";
+    primaryBtn.style.color = "white";
+    primaryBtn.style.webkitTextStrokeColor = "#ee5f60";
+
+    secondaryBoard.style.display = "none";
+    secondaryBtn.style.color = "#5b4b50";
+    secondaryBtn.style.webkitTextStrokeColor = "transparent";
+}
+
 function execute() {
 	filipTotalPoints = 0;
 	viktorTotalPoints = 0;
@@ -545,6 +581,11 @@ function execute() {
     generateDivisionRankings(centralIndex, centralNumTeams);
     generateDivisionRankings(pacificIndex, pacificNumTeams);
 
+    generateStatboard(metropolitanIndex, metropolitanNumTeams);
+    generateStatboard(atlanticIndex, atlanticNumTeams);
+    generateStatboard(centralIndex, centralNumTeams);
+    generateStatboard(pacificIndex, pacificNumTeams);
+
     comparePlayoffTeams();
 
     var trophyScoreSet = trophies();
@@ -566,6 +607,8 @@ function execute() {
         document.getElementById(divisionShort[divisionIndex] + "FilipScore").innerHTML = filipDivisionScore[divisionIndex] + " p";
         document.getElementById(divisionShort[divisionIndex] + "ViktorScore").innerHTML = viktorDivisionScore[divisionIndex] + " p";
         document.getElementById(divisionShort[divisionIndex] + "EliasScore").innerHTML = eliasDivisionScore[divisionIndex] + " p";
+
+        toggleBetStat(divisionIndex, 0);
     };
 
     var leaderCrowns = [
@@ -616,9 +659,12 @@ function execute() {
         <article id="metropolitanSection" class="division">
             <div class="h2Container">
                 <h2>Metropolitan Division</h2>
-                <button id="metroCE" class="collapseExpand" onclick='collapseExpand("metropolitanScoreboard", "metroCE")'>-</button>
+                <div class="flex-center">
+                    <button id="metroBetBtn" class="betStatSelector" onclick='toggleBetStat(0, 0)'>BETS</button>
+                    <button id="metroStatBtn" class="betStatSelector" onclick='toggleBetStat(0, 1)'>STATS</button>
+                </div>
             </div>
-            <div id="metropolitanScoreboard" class="scoreboard">
+            <div id="metroScoreboard" class="scoreboard">
                 <div id="metroActual" class="divisionColumn">
                     <h3>NHL</h3>
                     <hr>
@@ -677,12 +723,70 @@ function execute() {
                     <p id="metroEliasScore" class="divisionScore"></p>
                 </div>
             </div>
+
+            <div id="metroStatboard" class="scoreboard">
+                <div id="metroStandings" class="divisionColumn">
+                    <h3>Team</h3>
+                    <hr>
+                    <p id="metroStatTeam1" class="teamPlayoffPosition"></p>
+                    <p id="metroStatTeam2" class="teamPlayoffPosition"></p>
+                    <p id="metroStatTeam3" class="teamPlayoffPosition"></p>
+                    <p id="metroStatTeam4" class="teamPosition"></p>
+                    <p id="metroStatTeam5" class="teamPosition"></p>
+                    <p id="metroStatTeam6" class="teamPosition"></p>
+                    <p id="metroStatTeam7" class="teamPosition"></p>
+                    <p id="metroStatTeam8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="metroGPColumn" class="divisionColumn">
+                    <h3>GP</h3>
+                    <hr>
+                    <p id="metroGP1" class="teamPosition"></p>
+                    <p id="metroGP2" class="teamPosition"></p>
+                    <p id="metroGP3" class="teamPosition"></p>
+                    <p id="metroGP4" class="teamPosition"></p>
+                    <p id="metroGP5" class="teamPosition"></p>
+                    <p id="metroGP6" class="teamPosition"></p>
+                    <p id="metroGP7" class="teamPosition"></p>
+                    <p id="metroGP8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="metroPTSColumn" class="divisionColumn">
+                    <h3>PTS</h3>
+                    <hr>
+                    <p id="metroPTS1" class="teamPosition"></p>
+                    <p id="metroPTS2" class="teamPosition"></p>
+                    <p id="metroPTS3" class="teamPosition"></p>
+                    <p id="metroPTS4" class="teamPosition"></p>
+                    <p id="metroPTS5" class="teamPosition"></p>
+                    <p id="metroPTS6" class="teamPosition"></p>
+                    <p id="metroPTS7" class="teamPosition"></p>
+                    <p id="metroPTS8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="metroWLOColumn" class="divisionColumn">
+                    <h3>WLO</h3>
+                    <hr>
+                    <p id="metroWLO1" class="teamPosition">25-10-4</p>
+                    <p id="metroWLO2" class="teamPosition"></p>
+                    <p id="metroWLO3" class="teamPosition"></p>
+                    <p id="metroWLO4" class="teamPosition"></p>
+                    <p id="metroWLO5" class="teamPosition"></p>
+                    <p id="metroWLO6" class="teamPosition"></p>
+                    <p id="metroWLO7" class="teamPosition"></p>
+                    <p id="metroWLO8" class="teamPosition"></p>
+                    <hr>
+                </div>
+            </div>
         </article>
 
         <article id="atlanticSection" class="division">
             <div class="h2Container">
                 <h2>Atlantic Division</h2>
-                <button id="atlanticCE" class="collapseExpand" onclick='collapseExpand("atlanticScoreboard", "atlanticCE")'>-</button>
+                <div class="flex-center">
+                    <button id="atlanticBetBtn" class="betStatSelector" onclick='toggleBetStat(1, 0)'>BETS</button>
+                    <button id="atlanticStatBtn" class="betStatSelector" onclick='toggleBetStat(1, 1)'>STATS</button>
+                </div>
             </div>
             <div id="atlanticScoreboard" class="scoreboard">
                 <div id="atlanticActual" class="divisionColumn">
@@ -742,12 +846,70 @@ function execute() {
                     <p id="atlanticEliasScore" class="divisionScore"></p>
                 </div>
             </div>
+
+            <div id="atlanticStatboard" class="scoreboard">
+                <div id="atlanticStandings" class="divisionColumn">
+                    <h3>Team</h3>
+                    <hr>
+                    <p id="atlanticStatTeam1" class="teamPlayoffPosition"></p>
+                    <p id="atlanticStatTeam2" class="teamPlayoffPosition"></p>
+                    <p id="atlanticStatTeam3" class="teamPlayoffPosition"></p>
+                    <p id="atlanticStatTeam4" class="teamPosition"></p>
+                    <p id="atlanticStatTeam5" class="teamPosition"></p>
+                    <p id="atlanticStatTeam6" class="teamPosition"></p>
+                    <p id="atlanticStatTeam7" class="teamPosition"></p>
+                    <p id="atlanticStatTeam8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="atlanticGPColumn" class="divisionColumn">
+                    <h3>GP</h3>
+                    <hr>
+                    <p id="atlanticGP1" class="teamPosition"></p>
+                    <p id="atlanticGP2" class="teamPosition"></p>
+                    <p id="atlanticGP3" class="teamPosition"></p>
+                    <p id="atlanticGP4" class="teamPosition"></p>
+                    <p id="atlanticGP5" class="teamPosition"></p>
+                    <p id="atlanticGP6" class="teamPosition"></p>
+                    <p id="atlanticGP7" class="teamPosition"></p>
+                    <p id="atlanticGP8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="atlanticPTSColumn" class="divisionColumn">
+                    <h3>PTS</h3>
+                    <hr>
+                    <p id="atlanticPTS1" class="teamPosition"></p>
+                    <p id="atlanticPTS2" class="teamPosition"></p>
+                    <p id="atlanticPTS3" class="teamPosition"></p>
+                    <p id="atlanticPTS4" class="teamPosition"></p>
+                    <p id="atlanticPTS5" class="teamPosition"></p>
+                    <p id="atlanticPTS6" class="teamPosition"></p>
+                    <p id="atlanticPTS7" class="teamPosition"></p>
+                    <p id="atlanticPTS8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="atlanticWLOColumn" class="divisionColumn">
+                    <h3>WLO</h3>
+                    <hr>
+                    <p id="atlanticWLO1" class="teamPosition">25-10-4</p>
+                    <p id="atlanticWLO2" class="teamPosition"></p>
+                    <p id="atlanticWLO3" class="teamPosition"></p>
+                    <p id="atlanticWLO4" class="teamPosition"></p>
+                    <p id="atlanticWLO5" class="teamPosition"></p>
+                    <p id="atlanticWLO6" class="teamPosition"></p>
+                    <p id="atlanticWLO7" class="teamPosition"></p>
+                    <p id="atlanticWLO8" class="teamPosition"></p>
+                    <hr>
+                </div>
+            </div>
         </article>
 
         <article id="centralSection" class="division">
             <div class="h2Container">
                 <h2>Central Division</h2>
-                <button id="centralCE" class="collapseExpand" onclick='collapseExpand("centralScoreboard", "centralCE")'>-</button>
+                <div class="flex-center">
+                    <button id="centralBetBtn" class="betStatSelector" onclick='toggleBetStat(2, 0)'>BETS</button>
+                    <button id="centralStatBtn" class="betStatSelector" onclick='toggleBetStat(2, 1)'>STATS</button>
+                </div>
             </div>
             <div id="centralScoreboard" class="scoreboard">
                 <div id="centralActual" class="divisionColumn">
@@ -803,12 +965,70 @@ function execute() {
                     <p id="centralEliasScore" class="divisionScore"></p>
                 </div>
             </div>
+
+            <div id="centralStatboard" class="scoreboard">
+                <div id="centralStandings" class="divisionColumn">
+                    <h3>Team</h3>
+                    <hr>
+                    <p id="centralStatTeam1" class="teamPlayoffPosition"></p>
+                    <p id="centralStatTeam2" class="teamPlayoffPosition"></p>
+                    <p id="centralStatTeam3" class="teamPlayoffPosition"></p>
+                    <p id="centralStatTeam4" class="teamPosition"></p>
+                    <p id="centralStatTeam5" class="teamPosition"></p>
+                    <p id="centralStatTeam6" class="teamPosition"></p>
+                    <p id="centralStatTeam7" class="teamPosition"></p>
+                    <p id="centralStatTeam8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="centralGPColumn" class="divisionColumn">
+                    <h3>GP</h3>
+                    <hr>
+                    <p id="centralGP1" class="teamPosition"></p>
+                    <p id="centralGP2" class="teamPosition"></p>
+                    <p id="centralGP3" class="teamPosition"></p>
+                    <p id="centralGP4" class="teamPosition"></p>
+                    <p id="centralGP5" class="teamPosition"></p>
+                    <p id="centralGP6" class="teamPosition"></p>
+                    <p id="centralGP7" class="teamPosition"></p>
+                    <p id="centralGP8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="centralPTSColumn" class="divisionColumn">
+                    <h3>PTS</h3>
+                    <hr>
+                    <p id="centralPTS1" class="teamPosition"></p>
+                    <p id="centralPTS2" class="teamPosition"></p>
+                    <p id="centralPTS3" class="teamPosition"></p>
+                    <p id="centralPTS4" class="teamPosition"></p>
+                    <p id="centralPTS5" class="teamPosition"></p>
+                    <p id="centralPTS6" class="teamPosition"></p>
+                    <p id="centralPTS7" class="teamPosition"></p>
+                    <p id="centralPTS8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="centralWLOColumn" class="divisionColumn">
+                    <h3>WLO</h3>
+                    <hr>
+                    <p id="centralWLO1" class="teamPosition">25-10-4</p>
+                    <p id="centralWLO2" class="teamPosition"></p>
+                    <p id="centralWLO3" class="teamPosition"></p>
+                    <p id="centralWLO4" class="teamPosition"></p>
+                    <p id="centralWLO5" class="teamPosition"></p>
+                    <p id="centralWLO6" class="teamPosition"></p>
+                    <p id="centralWLO7" class="teamPosition"></p>
+                    <p id="centralWLO8" class="teamPosition"></p>
+                    <hr>
+                </div>
+            </div>
         </article>
 
         <article id="pacificSection" class="division">
             <div class="h2Container">
                 <h2>Pacific Division</h2>
-                <button id="pacificCE" class="collapseExpand" onclick='collapseExpand("pacificScoreboard", "pacificCE")'>-</button>
+                <div class="flex-center">
+                    <button id="pacificBetBtn" class="betStatSelector" onclick='toggleBetStat(3, 0)'>BETS</button>
+                    <button id="pacificStatBtn" class="betStatSelector" onclick='toggleBetStat(3, 1)'>STATS</button>
+                </div>
             </div>
             <div id="pacificScoreboard" class="scoreboard">
                 <div id="pacificActual" class="divisionColumn">
@@ -868,12 +1088,66 @@ function execute() {
                     <p id="pacificEliasScore" class="divisionScore"></p>
                 </div>
             </div>
+
+            <div id="pacificStatboard" class="scoreboard">
+                <div id="pacificStandings" class="divisionColumn">
+                    <h3>Team</h3>
+                    <hr>
+                    <p id="pacificStatTeam1" class="teamPlayoffPosition"></p>
+                    <p id="pacificStatTeam2" class="teamPlayoffPosition"></p>
+                    <p id="pacificStatTeam3" class="teamPlayoffPosition"></p>
+                    <p id="pacificStatTeam4" class="teamPosition"></p>
+                    <p id="pacificStatTeam5" class="teamPosition"></p>
+                    <p id="pacificStatTeam6" class="teamPosition"></p>
+                    <p id="pacificStatTeam7" class="teamPosition"></p>
+                    <p id="pacificStatTeam8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="pacificGPColumn" class="divisionColumn">
+                    <h3>GP</h3>
+                    <hr>
+                    <p id="pacificGP1" class="teamPosition"></p>
+                    <p id="pacificGP2" class="teamPosition"></p>
+                    <p id="pacificGP3" class="teamPosition"></p>
+                    <p id="pacificGP4" class="teamPosition"></p>
+                    <p id="pacificGP5" class="teamPosition"></p>
+                    <p id="pacificGP6" class="teamPosition"></p>
+                    <p id="pacificGP7" class="teamPosition"></p>
+                    <p id="pacificGP8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="pacificPTSColumn" class="divisionColumn">
+                    <h3>PTS</h3>
+                    <hr>
+                    <p id="pacificPTS1" class="teamPosition"></p>
+                    <p id="pacificPTS2" class="teamPosition"></p>
+                    <p id="pacificPTS3" class="teamPosition"></p>
+                    <p id="pacificPTS4" class="teamPosition"></p>
+                    <p id="pacificPTS5" class="teamPosition"></p>
+                    <p id="pacificPTS6" class="teamPosition"></p>
+                    <p id="pacificPTS7" class="teamPosition"></p>
+                    <p id="pacificPTS8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="pacificWLOColumn" class="divisionColumn">
+                    <h3>WLO</h3>
+                    <hr>
+                    <p id="pacificWLO1" class="teamPosition">25-10-4</p>
+                    <p id="pacificWLO2" class="teamPosition"></p>
+                    <p id="pacificWLO3" class="teamPosition"></p>
+                    <p id="pacificWLO4" class="teamPosition"></p>
+                    <p id="pacificWLO5" class="teamPosition"></p>
+                    <p id="pacificWLO6" class="teamPosition"></p>
+                    <p id="pacificWLO7" class="teamPosition"></p>
+                    <p id="pacificWLO8" class="teamPosition"></p>
+                    <hr>
+                </div>
+            </div>
         </article>
 
         <article id="trophySection" class="division">
             <div class="h2Container">
                 <h2>Trophy Case</h2>
-                <button id="trophyCE" class="collapseExpand" onclick='collapseExpand("trophyScoreboard", "trophyCE")'>-</button>
             </div>
             <div id="trophyScoreboard" class="scoreboard">
                 <div class="flex-center">

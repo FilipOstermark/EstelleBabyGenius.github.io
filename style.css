@@ -114,43 +114,6 @@ a:hover {
     color: white;
 }
 
-.collapseExpand {
-    font-family: halfshell;
-    color: white;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #ee5f60;
-    text-align: center;
-    font-size: 2em;
-
-    border: none;
-    background: none;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0;
-    vertical-align: middle;
-    display: inline-block;
-
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
-    -webkit-tap-highlight-color: transparent;
-
-    width: 30px;
-
-    transition: color 0.15s ease-in-out;
-}
-@media only screen and (max-width: 799px) {
-    .collapseExpand { font-size: 150%; right: 0px;}
-}
-
-.collapseExpand:hover {
-    color: #ee5f60;
-}
-
-.collapseExpand:focus {
-    outline: 0;
-}
-
 .inline-block-center {
   text-align: center;
 }
@@ -264,6 +227,9 @@ a:hover {
     max-height: 100%;
     display: flex;
     justify-content: center;
+    opacity: 1;
+
+    transition: opacity 1s linear;
 }
 
 .divisionColumn {
@@ -272,6 +238,30 @@ a:hover {
 }
 @media only screen and (max-width: 800px) {
     .divisionColumn { padding: 5px 5px;}
+}
+
+.betStatSelector {
+    font-family: halfshell;
+    font-size: 1.2em;
+    color: #5b4b50;
+    margin: 10px 10px 0px 10px;
+    background: none;
+    border: none;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: transparent;
+
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
+    -webkit-tap-highlight-color: transparent;
+
+    transition: all 0.12s linear;
+}
+.betStatSelector:hover {
+    color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #ee5f60;
+}
+.betStatSelector:focus {
+    outline: 0;
 }
 
 .teamPosition {
