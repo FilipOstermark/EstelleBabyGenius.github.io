@@ -65,6 +65,42 @@ var shortName = {
     }
 };
 
+var acrName = {
+    "teams" : {
+        "New Jersey Devils" : "NJD", 
+        "New York Islanders" : "NYI", 
+        "New York Rangers" : "NYR", 
+        "Philadelphia Flyers" : "PHI", 
+        "Pittsburgh Penguins" : "PIT",
+        "Boston Bruins" : "BOS",
+        "Buffalo Sabres" : "BUF",
+        "Montréal Canadiens" : "MTL",
+        "Ottawa Senators" : "OTT",
+        "Toronto Maple Leafs" : "TOR",
+        "Carolina Hurricanes" : "CAR",
+        "Florida Panthers" : "FLA",
+        "Tampa Bay Lightning" : "TBL",
+        "Washington Capitals" : "WSH",
+        "Chicago Blackhawks" : "CHI",
+        "Detroit Red Wings" : "DET",
+        "Nashville Predators" : "NSH",
+        "St. Louis Blues" : "STL",
+        "Calgary Flames" : "CGY",
+        "Colorado Avalanche" : "COL",
+        "Edmonton Oilers" : "EDM",
+        "Vancouver Canucks" : "VAN",
+        "Anaheim Ducks" : "ANA",
+        "Dallas Stars" : "DAL",
+        "Los Angeles Kings" : "LAK",
+        "San Jose Sharks" : "SJS",
+        "Columbus Blue Jackets" : "CBJ",
+        "Minnesota Wild" : "MIN",
+        "Winnipeg Jets" : "WPG",
+        "Arizona Coyotes" : "ARI",
+        "Vegas Golden Knights" : "VGK"
+    }
+};
+
 var bets = `{
     "filip" : {
         "division" : [ {
@@ -302,12 +338,17 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
         var elementViktor = document.getElementById(elementViktorId);
         var elementElias = document.getElementById(elementEliasId);
 
-        if (screen.width < 750) {
+        if (screen.width < 350) {
+            elementActual.innerHTML = teamPts + "p - " + acrName.teams[teamName];
+            elementFilip.innerHTML = acrName.teams[filipBetName];
+            elementViktor.innerHTML = acrName.teams[viktorBetName];
+            elementElias.innerHTML = acrName.teams[eliasBetName];
+        } else if (screen.width < 750) {
             elementActual.innerHTML = teamPts + "p - " + shortName.teams[teamName];
             elementFilip.innerHTML = shortName.teams[filipBetName];
             elementViktor.innerHTML = shortName.teams[viktorBetName];
             elementElias.innerHTML = shortName.teams[eliasBetName];
-        } else {
+        }else {
             elementActual.innerHTML = teamPts + " p - " + teamName;
             elementFilip.innerHTML = filipBetName;
             elementViktor.innerHTML = viktorBetName;

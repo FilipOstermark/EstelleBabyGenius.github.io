@@ -274,8 +274,11 @@ a:hover {
 @media only screen and (max-width: 849px) {
     .teamPosition { font-size: 60%;}
 }
+@media only screen and (max-width: 400px) {
+    .teamPosition { font-size: 45%;}
+}
 @media only screen and (max-width: 350px) {
-    .teamPosition { font-size: 50%;}
+    .teamPosition { font-size: 70%;}
 }
 
 .teamPlayoffPosition {
@@ -288,8 +291,11 @@ a:hover {
 @media only screen and (max-width: 849px) {
     .teamPlayoffPosition { font-size: 60%;}
 }
+@media only screen and (max-width: 400px) {
+    .teamPlayoffPosition { font-size: 45%;}
+}
 @media only screen and (max-width: 350px) {
-    .teamPlayoffPosition { font-size: 50%;}
+    .teamPlayoffPosition { font-size: 70%;}
 }
 
 .divisionScore {
@@ -301,7 +307,10 @@ a:hover {
     color: #5b4b50;
 }
 @media only screen and (max-width: 400px) {
-    .divisionScore { font-size: 60%;}
+    .divisionScore { font-size: 50%;}
+}
+@media only screen and (max-width: 350px) {
+    .divisionScore { font-size: 70%;}
 }
 
 /* Trophy section style*/
