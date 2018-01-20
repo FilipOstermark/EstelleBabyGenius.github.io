@@ -450,19 +450,25 @@ function generateStatboard(divisionIndex, divisionNumTeams) {
     for (var i = 0; i < divisionNumTeams; i++) {
         var team = parsedStandings.records[divisionIndex].teamRecords[i];
         var teamName = team.team.name;
+        if (screen.width < 350) { 
+            teamName = acrName.teams[teamName];
+        }
         var gp = team.gamesPlayed;
         var pts = team.points;
         var wlo = team.leagueRecord.wins + "-" + team.leagueRecord.losses + "-" + team.leagueRecord.ot;
+        var strk = team.streak.streakCode;
 
         var teamId = elementIdString[divisionIndex] + "StatTeam" + (i+1);
         var gpId = elementIdString[divisionIndex] + "GP" + (i+1);
         var ptsId = elementIdString[divisionIndex] + "PTS" + (i+1);
         var wloId = elementIdString[divisionIndex] + "WLO" + (i+1);
+        var strkId = elementIdString[divisionIndex] + "STRK" + (i+1);
         
         document.getElementById(teamId).innerHTML = (i+1) + ". " + teamName;
         document.getElementById(gpId).innerHTML = gp;
         document.getElementById(ptsId).innerHTML = pts;
         document.getElementById(wloId).innerHTML = wlo;
+        document.getElementById(strkId).innerHTML = strk;
     };
 }
 
@@ -549,7 +555,7 @@ function trophies() {
             var trophyWinner = nameStrings[0][userIndex];
             var trophyElement = document.getElementById(trophyString[userIndex] + userIdString[trophyIndex]);
 
-            if (screen.width < 800) { 
+            if (screen.width < 850) { 
                 // Use short team names for narrow screens
                 teamName = shortName.teams[teamName];
                 trophyWinner = shortName.teams[trophyWinner];
@@ -809,7 +815,7 @@ function execute() {
                 <div id="metroWLOColumn" class="divisionColumn">
                     <h3>WLO</h3>
                     <hr>
-                    <p id="metroWLO1" class="teamPosition">25-10-4</p>
+                    <p id="metroWLO1" class="teamPosition"></p>
                     <p id="metroWLO2" class="teamPosition"></p>
                     <p id="metroWLO3" class="teamPosition"></p>
                     <p id="metroWLO4" class="teamPosition"></p>
@@ -817,6 +823,19 @@ function execute() {
                     <p id="metroWLO6" class="teamPosition"></p>
                     <p id="metroWLO7" class="teamPosition"></p>
                     <p id="metroWLO8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="metroSTRKColumn" class="divisionColumn">
+                    <h3>STRK</h3>
+                    <hr>
+                    <p id="metroSTRK1" class="teamPosition"></p>
+                    <p id="metroSTRK2" class="teamPosition"></p>
+                    <p id="metroSTRK3" class="teamPosition"></p>
+                    <p id="metroSTRK4" class="teamPosition"></p>
+                    <p id="metroSTRK5" class="teamPosition"></p>
+                    <p id="metroSTRK6" class="teamPosition"></p>
+                    <p id="metroSTRK7" class="teamPosition"></p>
+                    <p id="metroSTRK8" class="teamPosition"></p>
                     <hr>
                 </div>
             </div>
@@ -932,7 +951,7 @@ function execute() {
                 <div id="atlanticWLOColumn" class="divisionColumn">
                     <h3>WLO</h3>
                     <hr>
-                    <p id="atlanticWLO1" class="teamPosition">25-10-4</p>
+                    <p id="atlanticWLO1" class="teamPosition"></p>
                     <p id="atlanticWLO2" class="teamPosition"></p>
                     <p id="atlanticWLO3" class="teamPosition"></p>
                     <p id="atlanticWLO4" class="teamPosition"></p>
@@ -940,6 +959,19 @@ function execute() {
                     <p id="atlanticWLO6" class="teamPosition"></p>
                     <p id="atlanticWLO7" class="teamPosition"></p>
                     <p id="atlanticWLO8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="atlanticSTRKColumn" class="divisionColumn">
+                    <h3>STRK</h3>
+                    <hr>
+                    <p id="atlanticSTRK1" class="teamPosition"></p>
+                    <p id="atlanticSTRK2" class="teamPosition"></p>
+                    <p id="atlanticSTRK3" class="teamPosition"></p>
+                    <p id="atlanticSTRK4" class="teamPosition"></p>
+                    <p id="atlanticSTRK5" class="teamPosition"></p>
+                    <p id="atlanticSTRK6" class="teamPosition"></p>
+                    <p id="atlanticSTRK7" class="teamPosition"></p>
+                    <p id="atlanticSTRK8" class="teamPosition"></p>
                     <hr>
                 </div>
             </div>
@@ -1059,6 +1091,18 @@ function execute() {
                     <p id="centralWLO6" class="teamPosition"></p>
                     <p id="centralWLO7" class="teamPosition"></p>
                     <p id="centralWLO8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="centralSTRKColumn" class="divisionColumn">
+                    <h3>STRK</h3>
+                    <hr>
+                    <p id="centralSTRK1" class="teamPosition"></p>
+                    <p id="centralSTRK2" class="teamPosition"></p>
+                    <p id="centralSTRK3" class="teamPosition"></p>
+                    <p id="centralSTRK4" class="teamPosition"></p>
+                    <p id="centralSTRK5" class="teamPosition"></p>
+                    <p id="centralSTRK6" class="teamPosition"></p>
+                    <p id="centralSTRK7" class="teamPosition"></p>
                     <hr>
                 </div>
             </div>
@@ -1182,6 +1226,19 @@ function execute() {
                     <p id="pacificWLO6" class="teamPosition"></p>
                     <p id="pacificWLO7" class="teamPosition"></p>
                     <p id="pacificWLO8" class="teamPosition"></p>
+                    <hr>
+                </div>
+                <div id="pacificSTRKColumn" class="divisionColumn">
+                    <h3>STRK</h3>
+                    <hr>
+                    <p id="pacificSTRK1" class="teamPosition"></p>
+                    <p id="pacificSTRK2" class="teamPosition"></p>
+                    <p id="pacificSTRK3" class="teamPosition"></p>
+                    <p id="pacificSTRK4" class="teamPosition"></p>
+                    <p id="pacificSTRK5" class="teamPosition"></p>
+                    <p id="pacificSTRK6" class="teamPosition"></p>
+                    <p id="pacificSTRK7" class="teamPosition"></p>
+                    <p id="pacificSTRK8" class="teamPosition"></p>
                     <hr>
                 </div>
             </div>
