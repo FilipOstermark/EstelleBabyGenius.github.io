@@ -287,6 +287,7 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
 
     for (var i = 0; i < divisionNumTeams; i++) {
         var teamName = parsedStandings.records[divisionIndex].teamRecords[i].team.name;
+        var teamPts = parsedStandings.records[divisionIndex].teamRecords[i].points;
         var filipBetName = parsedBets.filip.division[divisionIndex].rank[i];
         var viktorBetName = parsedBets.viktor.division[divisionIndex].rank[i];
         var eliasBetName = parsedBets.elias.division[divisionIndex].rank[i];
@@ -301,13 +302,13 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
         var elementViktor = document.getElementById(elementViktorId);
         var elementElias = document.getElementById(elementEliasId);
 
-        if (screen.width < 800) {
-            elementActual.innerHTML = (i+1) + ". " + shortName.teams[teamName];
+        if (screen.width < 750) {
+            elementActual.innerHTML = teamPts + "p - " + shortName.teams[teamName];
             elementFilip.innerHTML = shortName.teams[filipBetName];
             elementViktor.innerHTML = shortName.teams[viktorBetName];
             elementElias.innerHTML = shortName.teams[eliasBetName];
         } else {
-            elementActual.innerHTML = (i+1) + ". " + teamName;
+            elementActual.innerHTML = teamPts + " p - " + teamName;
             elementFilip.innerHTML = filipBetName;
             elementViktor.innerHTML = viktorBetName;
             elementElias.innerHTML = eliasBetName;

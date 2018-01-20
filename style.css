@@ -34,7 +34,7 @@ h1 {
 @media only screen and (max-width: 1100px) {
     h1 { font-size: 300%; margin-top: 10%; width: 15%;}
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 850px) {
     h1 { font-size: 200%; margin-top: 10%; width: 15%;}
 }
 
@@ -50,10 +50,10 @@ h2 {
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #ee5f60;
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 850px) {
     h2 { font-size: 200%;}
 }
-@media only screen and (max-width: 799px) {
+@media only screen and (max-width: 849px) {
     h2 { font-size: 150%;}
 }
 @media only screen and (max-width: 350px) {
@@ -79,7 +79,7 @@ h3 {
     align-items: center;
     justify-content: center;
 }
-@media only screen and (max-width: 799px) {
+@media only screen and (max-width: 849px) {
     h3 { font-size: 100%; width: 30px; height: 30px;}
 }
 .h3Filip {
@@ -139,7 +139,7 @@ a:hover {
     width: 25%;
     max-width: 200px;
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 850px) {
     #logo { width: 25%; }
 }
 
@@ -156,7 +156,7 @@ a:hover {
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #c5be93;
 }
-@media only screen and (max-width: 799px) {
+@media only screen and (max-width: 849px) {
     .totalPoints { font-size: 1.6em;}
 }
 
@@ -203,15 +203,15 @@ a:hover {
     border-radius: 30px;
     padding: 30px 30px;
     margin: 20px auto;
-    width: 800px;
+    width: 850px;
 
     opacity: 0;
     transition: opacity 1s ease-out;
 }
-@media only screen and (min-width: 800px) {
-    .division { min-width: 800px; }
+@media only screen and (min-width: 850px) {
+    .division { min-width: 850px; }
 }
-@media only screen and (max-width: 799px) {
+@media only screen and (max-width: 849px) {
     .division { 
         padding: 30px 0px;
         margin: 10px auto;
@@ -236,7 +236,7 @@ a:hover {
     display: inline-block;
     padding: 15px 15px;
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 850px) {
     .divisionColumn { padding: 5px 5px;}
 }
 
@@ -271,7 +271,7 @@ a:hover {
     margin: 5px;
     color: #5b4b50;
 }
-@media only screen and (max-width: 799px) {
+@media only screen and (max-width: 849px) {
     .teamPosition { font-size: 60%;}
 }
 @media only screen and (max-width: 350px) {
@@ -285,7 +285,7 @@ a:hover {
     margin: 5px;
     color: #5b4b50;
 }
-@media only screen and (max-width: 799px) {
+@media only screen and (max-width: 849px) {
     .teamPlayoffPosition { font-size: 60%;}
 }
 @media only screen and (max-width: 350px) {
