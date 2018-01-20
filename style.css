@@ -275,7 +275,7 @@ a:hover {
     .teamPosition { font-size: 60%;}
 }
 @media only screen and (max-width: 400px) {
-    .teamPosition { font-size: 45%;}
+    .teamPosition { font-size: 48%;}
 }
 @media only screen and (max-width: 350px) {
     .teamPosition { font-size: 65%;}
@@ -292,7 +292,7 @@ a:hover {
     .teamPlayoffPosition { font-size: 60%;}
 }
 @media only screen and (max-width: 400px) {
-    .teamPlayoffPosition { font-size: 45%;}
+    .teamPlayoffPosition { font-size: 48%;}
 }
 @media only screen and (max-width: 350px) {
     .teamPlayoffPosition { font-size: 65%;}
