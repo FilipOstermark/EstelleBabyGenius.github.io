@@ -463,12 +463,64 @@ function generateStatboard(divisionIndex, divisionNumTeams) {
         var ptsId = elementIdString[divisionIndex] + "PTS" + (i+1);
         var wloId = elementIdString[divisionIndex] + "WLO" + (i+1);
         var strkId = elementIdString[divisionIndex] + "STRK" + (i+1);
+
+        if (team.wildCardRank == 1 || team.wildCardRank == 2) {
+            teamName += " *";
+            document.getElementById(teamId).style.fontFamily = "ralewayHeavy";
+        }
         
         document.getElementById(teamId).innerHTML = (i+1) + ". " + teamName;
         document.getElementById(gpId).innerHTML = gp;
         document.getElementById(ptsId).innerHTML = pts;
         document.getElementById(wloId).innerHTML = wlo;
         document.getElementById(strkId).innerHTML = strk;
+    };
+}
+
+function generateConferenceStatboard(conferenceIndex, firstDivNumTeams, secDivNumTeams) {
+    // Eastern Conference index = 0, Western Conference index = 1
+
+    var conferenceElementIdString = ["eastern", "western"];
+    var elementIdString = ["metro", "atlantic", "central", "pacific"];
+    var divisionIndex = conferenceIndex*2;
+
+    var i = 0;
+    for (var j = 0; j < firstDivNumTeams + secDivNumTeams; j++) {
+        if (j == firstDivNumTeams) {
+            divisionIndex++;
+            i = 0;
+        }
+
+        var team = parsedStandings.records[divisionIndex].teamRecords[i];
+        var teamName = team.team.name;
+        if (screen.width < 350) { 
+            teamName = acrName.teams[teamName];
+        }
+        if (team.wildCardRank == 1 || team.wildCardRank == 2) {
+            teamName += " *";
+        }
+
+        var gp = team.gamesPlayed;
+        var pts = team.points;
+        var wlo = team.leagueRecord.wins + "-" + team.leagueRecord.losses + "-" + team.leagueRecord.ot;
+        var strk = team.streak.streakCode;
+        var conferenceRank = team.conferenceRank;
+
+        var teamId = conferenceElementIdString[conferenceIndex] + "StatTeam" + conferenceRank;
+        var gpId = conferenceElementIdString[conferenceIndex] + "GP" + conferenceRank;
+        var ptsId = conferenceElementIdString[conferenceIndex] + "PTS" + conferenceRank;
+        var wloId = conferenceElementIdString[conferenceIndex] + "WLO" + conferenceRank;
+        var strkId = conferenceElementIdString[conferenceIndex] + "STRK" + conferenceRank;
+
+        document.getElementById(teamId).innerHTML = conferenceRank + ". " + teamName;
+        document.getElementById(gpId).innerHTML = gp;
+        document.getElementById(ptsId).innerHTML = pts;
+        document.getElementById(wloId).innerHTML = wlo;
+        document.getElementById(strkId).innerHTML = strk;
+
+        if (playoffTeams.includes(team.team.name)) document.getElementById(teamId).style.fontFamily = "ralewayHeavy";
+
+        i++;
     };
 }
 
@@ -583,6 +635,7 @@ function add(a, b) {
 function toggleBetStat(divisionIndex, betStatSelect) {
     var divisionNames = ["metro", "atlantic", "central", "pacific"];
     var primaryBoard, secondaryBoard;
+    var primaryBtn, secondaryBtn;
 
     if (betStatSelect == 0) {
         primaryBoard = document.getElementById(divisionNames[divisionIndex] + "Scoreboard");
@@ -603,6 +656,34 @@ function toggleBetStat(divisionIndex, betStatSelect) {
 
     secondaryBoard.style.display = "none";
     secondaryBtn.style.color = "#5b4b50";
+    secondaryBtn.style.webkitTextStrokeColor = "transparent";
+    secondaryBtn.style.transform = "scale(0.9)";
+}
+
+function toggleView(viewSelection) {
+    var sectionNames = ["divisions", "conferences"];
+    var primarySection, secondarySection;
+    var primaryBtn, secondaryBtn;
+
+    if (viewSelection == 0) {
+        primarySection = document.getElementById(sectionNames[0] + "Section");
+        primaryBtn = document.getElementById(sectionNames[0] + "Btn");
+        secondarySection = document.getElementById(sectionNames[1] + "Section");
+        secondaryBtn = document.getElementById(sectionNames[1] + "Btn");
+    } else {
+        primarySection = document.getElementById(sectionNames[1] + "Section");
+        primaryBtn = document.getElementById(sectionNames[1] + "Btn");
+        secondarySection = document.getElementById(sectionNames[0] + "Section");
+        secondaryBtn = document.getElementById(sectionNames[0] + "Btn");
+    };
+
+    primarySection.style.display = "block";
+    primaryBtn.style.color = "white";
+    primaryBtn.style.webkitTextStrokeColor = "#ee5f60";
+    primaryBtn.style.transform = "scale(1.1)";
+
+    secondarySection.style.display = "none";
+    secondaryBtn.style.color = "#c7c6c5";
     secondaryBtn.style.webkitTextStrokeColor = "transparent";
     secondaryBtn.style.transform = "scale(0.9)";
 }
@@ -636,6 +717,9 @@ function execute() {
     generateStatboard(centralIndex, centralNumTeams);
     generateStatboard(pacificIndex, pacificNumTeams);
 
+    generateConferenceStatboard(0, metropolitanNumTeams, atlanticNumTeams);
+    generateConferenceStatboard(1, centralNumTeams, pacificNumTeams);
+
     comparePlayoffTeams();
 
     var trophyScoreSet = trophies();
@@ -659,6 +743,7 @@ function execute() {
         document.getElementById(divisionShort[divisionIndex] + "EliasScore").innerHTML = eliasDivisionScore[divisionIndex] + " p";
 
         toggleBetStat(divisionIndex, 0);
+        toggleView(0);
     };
 
     var leaderCrowns = [
@@ -669,7 +754,7 @@ function execute() {
     if (viktorTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) viktorLeaderCrown.style.opacity=1;
     if (eliasTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) eliasLeaderCrown.style.opacity=1;
 
-    var sectionIds = ["leagueSection", "metropolitanSection", "atlanticSection", "centralSection", "pacificSection", "trophySection"];
+    var sectionIds = ["leagueSection", "viewSection", "metropolitanSection", "atlanticSection", "centralSection", "pacificSection", "easternSection", "westernSection", "trophySection"];
 
     for (var sectionIndex = 0; sectionIndex < sectionIds.length; sectionIndex++) {
         document.getElementById(sectionIds[sectionIndex]).style.opacity = 1;
@@ -706,549 +791,786 @@ function execute() {
             </div>
         </article>
 
-        <article id="metropolitanSection" class="division">
-            <div class="h2Container">
-                <h2>Metropolitan Division</h2>
-                <div class="flex-center">
-                    <button id="metroBetBtn" class="betStatSelector" onclick='toggleBetStat(0, 0)'>BETS</button>
-                    <button id="metroStatBtn" class="betStatSelector" onclick='toggleBetStat(0, 1)'>STATS</button>
-                </div>
-            </div>
-            <div id="metroScoreboard" class="scoreboard">
-                <div id="metroActual" class="divisionColumn">
-                    <h3>NHL</h3>
-                    <hr>
-                    <p id="metroActual1" class="teamPlayoffPosition"></p>
-                    <p id="metroActual2" class="teamPlayoffPosition"></p>
-                    <p id="metroActual3" class="teamPlayoffPosition"></p>
-                    <p id="metroActual4" class="teamPosition"></p>
-                    <p id="metroActual5" class="teamPosition"></p>
-                    <p id="metroActual6" class="teamPosition"></p>
-                    <p id="metroActual7" class="teamPosition"></p>
-                    <p id="metroActual8" class="teamPosition"></p>
-                    <hr>
-                    <p class="divisionScore">Score:</p>
-                </div>
-                <div id="metroFilip" class="divisionColumn">
-                    <h3 class="h3Filip">F</h3>
-                    <hr>
-                    <p id="metroFilip1" class="teamPlayoffPosition"></p>
-                    <p id="metroFilip2" class="teamPlayoffPosition"></p>
-                    <p id="metroFilip3" class="teamPlayoffPosition"></p>
-                    <p id="metroFilip4" class="teamPosition"></p>
-                    <p id="metroFilip5" class="teamPosition"></p>
-                    <p id="metroFilip6" class="teamPosition"></p>
-                    <p id="metroFilip7" class="teamPosition"></p>
-                    <p id="metroFilip8" class="teamPosition"></p>
-                    <hr>
-                    <p id="metroFilipScore" class="divisionScore"></p>
-                </div>
-
-                <div id="metroViktor" class="divisionColumn">
-                    <h3 class="h3Viktor">V</h3>
-                    <hr>
-                    <p id="metroViktor1" class="teamPlayoffPosition"></p>
-                    <p id="metroViktor2" class="teamPlayoffPosition"></p>
-                    <p id="metroViktor3" class="teamPlayoffPosition"></p>
-                    <p id="metroViktor4" class="teamPosition"></p>
-                    <p id="metroViktor5" class="teamPosition"></p>
-                    <p id="metroViktor6" class="teamPosition"></p>
-                    <p id="metroViktor7" class="teamPosition"></p>
-                    <p id="metroViktor8" class="teamPosition"></p>
-                    <hr>
-                    <p id="metroViktorScore" class="divisionScore"></p>
-                </div>
-                <div id="metroElias" class="divisionColumn">
-                    <h3 class="h3Elias">E</h3>
-                    <hr>
-                    <p id="metroElias1" class="teamPlayoffPosition"></p>
-                    <p id="metroElias2" class="teamPlayoffPosition"></p>
-                    <p id="metroElias3" class="teamPlayoffPosition"></p>
-                    <p id="metroElias4" class="teamPosition"></p>
-                    <p id="metroElias5" class="teamPosition"></p>
-                    <p id="metroElias6" class="teamPosition"></p>
-                    <p id="metroElias7" class="teamPosition"></p>
-                    <p id="metroElias8" class="teamPosition"></p>
-                    <hr>
-                    <p id="metroEliasScore" class="divisionScore"></p>
-                </div>
-            </div>
-
-            <div id="metroStatboard" class="scoreboard">
-                <div id="metroStandings" class="divisionColumn">
-                    <h3>Team</h3>
-                    <hr>
-                    <p id="metroStatTeam1" class="teamPlayoffPosition"></p>
-                    <p id="metroStatTeam2" class="teamPlayoffPosition"></p>
-                    <p id="metroStatTeam3" class="teamPlayoffPosition"></p>
-                    <p id="metroStatTeam4" class="teamPosition"></p>
-                    <p id="metroStatTeam5" class="teamPosition"></p>
-                    <p id="metroStatTeam6" class="teamPosition"></p>
-                    <p id="metroStatTeam7" class="teamPosition"></p>
-                    <p id="metroStatTeam8" class="teamPosition"></p>
-                    <hr>
-                    <p class="divisionScore" style="opacity:0;">.</p>
-                </div>
-                <div id="metroGPColumn" class="divisionColumn">
-                    <h3>GP</h3>
-                    <hr>
-                    <p id="metroGP1" class="teamPosition"></p>
-                    <p id="metroGP2" class="teamPosition"></p>
-                    <p id="metroGP3" class="teamPosition"></p>
-                    <p id="metroGP4" class="teamPosition"></p>
-                    <p id="metroGP5" class="teamPosition"></p>
-                    <p id="metroGP6" class="teamPosition"></p>
-                    <p id="metroGP7" class="teamPosition"></p>
-                    <p id="metroGP8" class="teamPosition"></p>
-                    <hr>
-                </div>
-                <div id="metroPTSColumn" class="divisionColumn">
-                    <h3>PTS</h3>
-                    <hr>
-                    <p id="metroPTS1" class="teamPosition"></p>
-                    <p id="metroPTS2" class="teamPosition"></p>
-                    <p id="metroPTS3" class="teamPosition"></p>
-                    <p id="metroPTS4" class="teamPosition"></p>
-                    <p id="metroPTS5" class="teamPosition"></p>
-                    <p id="metroPTS6" class="teamPosition"></p>
-                    <p id="metroPTS7" class="teamPosition"></p>
-                    <p id="metroPTS8" class="teamPosition"></p>
-                    <hr>
-                </div>
-                <div id="metroWLOColumn" class="divisionColumn">
-                    <h3>WLO</h3>
-                    <hr>
-                    <p id="metroWLO1" class="teamPosition"></p>
-                    <p id="metroWLO2" class="teamPosition"></p>
-                    <p id="metroWLO3" class="teamPosition"></p>
-                    <p id="metroWLO4" class="teamPosition"></p>
-                    <p id="metroWLO5" class="teamPosition"></p>
-                    <p id="metroWLO6" class="teamPosition"></p>
-                    <p id="metroWLO7" class="teamPosition"></p>
-                    <p id="metroWLO8" class="teamPosition"></p>
-                    <hr>
-                </div>
-                <div id="metroSTRKColumn" class="divisionColumn">
-                    <h3>STRK</h3>
-                    <hr>
-                    <p id="metroSTRK1" class="teamPosition"></p>
-                    <p id="metroSTRK2" class="teamPosition"></p>
-                    <p id="metroSTRK3" class="teamPosition"></p>
-                    <p id="metroSTRK4" class="teamPosition"></p>
-                    <p id="metroSTRK5" class="teamPosition"></p>
-                    <p id="metroSTRK6" class="teamPosition"></p>
-                    <p id="metroSTRK7" class="teamPosition"></p>
-                    <p id="metroSTRK8" class="teamPosition"></p>
-                    <hr>
-                </div>
-            </div>
+        <article id="viewSection" class="division">
+                    <div class="flex-center">
+                        <button id="divisionsBtn" class="betStatSelector" onclick='toggleView(0)'>Division+Bets</button>
+                        <button id="conferencesBtn" class="betStatSelector" onclick='toggleView(1)'>Conference</button>
+                    </div>
         </article>
 
-        <article id="atlanticSection" class="division">
-            <div class="h2Container">
-                <h2>Atlantic Division</h2>
-                <div class="flex-center">
-                    <button id="atlanticBetBtn" class="betStatSelector" onclick='toggleBetStat(1, 0)'>BETS</button>
-                    <button id="atlanticStatBtn" class="betStatSelector" onclick='toggleBetStat(1, 1)'>STATS</button>
+        <section id="divisionsSection">
+            <article id="metropolitanSection" class="division">
+                <div class="h2Container">
+                    <h2>Metropolitan Division</h2>
+                    <div class="flex-center">
+                        <button id="metroBetBtn" class="betStatSelector" onclick='toggleBetStat(0, 0)'>BETS</button>
+                        <button id="metroStatBtn" class="betStatSelector" onclick='toggleBetStat(0, 1)'>STATS</button>
+                    </div>
                 </div>
-            </div>
-            <div id="atlanticScoreboard" class="scoreboard">
-                <div id="atlanticActual" class="divisionColumn">
-                    <h3>NHL</h3>
-                    <hr>
-                    <p id="atlanticActual1" class="teamPlayoffPosition"></p>
-                    <p id="atlanticActual2" class="teamPlayoffPosition"></p>
-                    <p id="atlanticActual3" class="teamPlayoffPosition"></p>
-                    <p id="atlanticActual4" class="teamPosition"></p>
-                    <p id="atlanticActual5" class="teamPosition"></p>
-                    <p id="atlanticActual6" class="teamPosition"></p>
-                    <p id="atlanticActual7" class="teamPosition"></p>
-                    <p id="atlanticActual8" class="teamPosition"></p>
-                    <hr>
-                    <p class="divisionScore">Score: </p>
-                </div>
-                <div id="atlanticFilip" class="divisionColumn">
-                    <h3 class="h3Filip">F</h3>
-                    <hr>
-                    <p id="atlanticFilip1" class="teamPlayoffPosition"></p>
-                    <p id="atlanticFilip2" class="teamPlayoffPosition"></p>
-                    <p id="atlanticFilip3" class="teamPlayoffPosition"></p>
-                    <p id="atlanticFilip4" class="teamPosition"></p>
-                    <p id="atlanticFilip5" class="teamPosition"></p>
-                    <p id="atlanticFilip6" class="teamPosition"></p>
-                    <p id="atlanticFilip7" class="teamPosition"></p>
-                    <p id="atlanticFilip8" class="teamPosition"></p>
-                    <hr>
-                    <p id="atlanticFilipScore" class="divisionScore"></p>
-                </div>
-                <div id="atlanticViktor" class="divisionColumn">
-                    <h3 class="h3Viktor">V</h3>
-                    <hr>
-                    <p id="atlanticViktor1" class="teamPlayoffPosition"></p>
-                    <p id="atlanticViktor2" class="teamPlayoffPosition"></p>
-                    <p id="atlanticViktor3" class="teamPlayoffPosition"></p>
-                    <p id="atlanticViktor4" class="teamPosition"></p>
-                    <p id="atlanticViktor5" class="teamPosition"></p>
-                    <p id="atlanticViktor6" class="teamPosition"></p>
-                    <p id="atlanticViktor7" class="teamPosition"></p>
-                    <p id="atlanticViktor8" class="teamPosition"></p>
-                    <hr>
-                    <p id="atlanticViktorScore" class="divisionScore"></p>
-                </div>
-                <div id="atlanticElias" class="divisionColumn">
-                    <h3 class="h3Elias">E</h3>
-                    <hr>
-                    <p id="atlanticElias1" class="teamPlayoffPosition"></p>
-                    <p id="atlanticElias2" class="teamPlayoffPosition"></p>
-                    <p id="atlanticElias3" class="teamPlayoffPosition"></p>
-                    <p id="atlanticElias4" class="teamPosition"></p>
-                    <p id="atlanticElias5" class="teamPosition"></p>
-                    <p id="atlanticElias6" class="teamPosition"></p>
-                    <p id="atlanticElias7" class="teamPosition"></p>
-                    <p id="atlanticElias8" class="teamPosition"></p>
-                    <hr>
-                    <p id="atlanticEliasScore" class="divisionScore"></p>
-                </div>
-            </div>
+                <div id="metroScoreboard" class="scoreboard">
+                    <div id="metroActual" class="divisionColumn">
+                        <h3>NHL</h3>
+                        <hr>
+                        <p id="metroActual1" class="teamPlayoffPosition"></p>
+                        <p id="metroActual2" class="teamPlayoffPosition"></p>
+                        <p id="metroActual3" class="teamPlayoffPosition"></p>
+                        <p id="metroActual4" class="teamPosition"></p>
+                        <p id="metroActual5" class="teamPosition"></p>
+                        <p id="metroActual6" class="teamPosition"></p>
+                        <p id="metroActual7" class="teamPosition"></p>
+                        <p id="metroActual8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">Score:</p>
+                    </div>
+                    <div id="metroFilip" class="divisionColumn">
+                        <h3 class="h3Filip">F</h3>
+                        <hr>
+                        <p id="metroFilip1" class="teamPlayoffPosition"></p>
+                        <p id="metroFilip2" class="teamPlayoffPosition"></p>
+                        <p id="metroFilip3" class="teamPlayoffPosition"></p>
+                        <p id="metroFilip4" class="teamPosition"></p>
+                        <p id="metroFilip5" class="teamPosition"></p>
+                        <p id="metroFilip6" class="teamPosition"></p>
+                        <p id="metroFilip7" class="teamPosition"></p>
+                        <p id="metroFilip8" class="teamPosition"></p>
+                        <hr>
+                        <p id="metroFilipScore" class="divisionScore"></p>
+                    </div>
 
-            <div id="atlanticStatboard" class="scoreboard">
-                <div id="atlanticStandings" class="divisionColumn">
-                    <h3>Team</h3>
-                    <hr>
-                    <p id="atlanticStatTeam1" class="teamPlayoffPosition"></p>
-                    <p id="atlanticStatTeam2" class="teamPlayoffPosition"></p>
-                    <p id="atlanticStatTeam3" class="teamPlayoffPosition"></p>
-                    <p id="atlanticStatTeam4" class="teamPosition"></p>
-                    <p id="atlanticStatTeam5" class="teamPosition"></p>
-                    <p id="atlanticStatTeam6" class="teamPosition"></p>
-                    <p id="atlanticStatTeam7" class="teamPosition"></p>
-                    <p id="atlanticStatTeam8" class="teamPosition"></p>
-                    <hr>
-                    <p class="divisionScore" style="opacity:0;">.</p>
+                    <div id="metroViktor" class="divisionColumn">
+                        <h3 class="h3Viktor">V</h3>
+                        <hr>
+                        <p id="metroViktor1" class="teamPlayoffPosition"></p>
+                        <p id="metroViktor2" class="teamPlayoffPosition"></p>
+                        <p id="metroViktor3" class="teamPlayoffPosition"></p>
+                        <p id="metroViktor4" class="teamPosition"></p>
+                        <p id="metroViktor5" class="teamPosition"></p>
+                        <p id="metroViktor6" class="teamPosition"></p>
+                        <p id="metroViktor7" class="teamPosition"></p>
+                        <p id="metroViktor8" class="teamPosition"></p>
+                        <hr>
+                        <p id="metroViktorScore" class="divisionScore"></p>
+                    </div>
+                    <div id="metroElias" class="divisionColumn">
+                        <h3 class="h3Elias">E</h3>
+                        <hr>
+                        <p id="metroElias1" class="teamPlayoffPosition"></p>
+                        <p id="metroElias2" class="teamPlayoffPosition"></p>
+                        <p id="metroElias3" class="teamPlayoffPosition"></p>
+                        <p id="metroElias4" class="teamPosition"></p>
+                        <p id="metroElias5" class="teamPosition"></p>
+                        <p id="metroElias6" class="teamPosition"></p>
+                        <p id="metroElias7" class="teamPosition"></p>
+                        <p id="metroElias8" class="teamPosition"></p>
+                        <hr>
+                        <p id="metroEliasScore" class="divisionScore"></p>
+                    </div>
                 </div>
-                <div id="atlanticGPColumn" class="divisionColumn">
-                    <h3>GP</h3>
-                    <hr>
-                    <p id="atlanticGP1" class="teamPosition"></p>
-                    <p id="atlanticGP2" class="teamPosition"></p>
-                    <p id="atlanticGP3" class="teamPosition"></p>
-                    <p id="atlanticGP4" class="teamPosition"></p>
-                    <p id="atlanticGP5" class="teamPosition"></p>
-                    <p id="atlanticGP6" class="teamPosition"></p>
-                    <p id="atlanticGP7" class="teamPosition"></p>
-                    <p id="atlanticGP8" class="teamPosition"></p>
-                    <hr>
-                </div>
-                <div id="atlanticPTSColumn" class="divisionColumn">
-                    <h3>PTS</h3>
-                    <hr>
-                    <p id="atlanticPTS1" class="teamPosition"></p>
-                    <p id="atlanticPTS2" class="teamPosition"></p>
-                    <p id="atlanticPTS3" class="teamPosition"></p>
-                    <p id="atlanticPTS4" class="teamPosition"></p>
-                    <p id="atlanticPTS5" class="teamPosition"></p>
-                    <p id="atlanticPTS6" class="teamPosition"></p>
-                    <p id="atlanticPTS7" class="teamPosition"></p>
-                    <p id="atlanticPTS8" class="teamPosition"></p>
-                    <hr>
-                </div>
-                <div id="atlanticWLOColumn" class="divisionColumn">
-                    <h3>WLO</h3>
-                    <hr>
-                    <p id="atlanticWLO1" class="teamPosition"></p>
-                    <p id="atlanticWLO2" class="teamPosition"></p>
-                    <p id="atlanticWLO3" class="teamPosition"></p>
-                    <p id="atlanticWLO4" class="teamPosition"></p>
-                    <p id="atlanticWLO5" class="teamPosition"></p>
-                    <p id="atlanticWLO6" class="teamPosition"></p>
-                    <p id="atlanticWLO7" class="teamPosition"></p>
-                    <p id="atlanticWLO8" class="teamPosition"></p>
-                    <hr>
-                </div>
-                <div id="atlanticSTRKColumn" class="divisionColumn">
-                    <h3>STRK</h3>
-                    <hr>
-                    <p id="atlanticSTRK1" class="teamPosition"></p>
-                    <p id="atlanticSTRK2" class="teamPosition"></p>
-                    <p id="atlanticSTRK3" class="teamPosition"></p>
-                    <p id="atlanticSTRK4" class="teamPosition"></p>
-                    <p id="atlanticSTRK5" class="teamPosition"></p>
-                    <p id="atlanticSTRK6" class="teamPosition"></p>
-                    <p id="atlanticSTRK7" class="teamPosition"></p>
-                    <p id="atlanticSTRK8" class="teamPosition"></p>
-                    <hr>
-                </div>
-            </div>
-        </article>
 
-        <article id="centralSection" class="division">
-            <div class="h2Container">
-                <h2>Central Division</h2>
-                <div class="flex-center">
-                    <button id="centralBetBtn" class="betStatSelector" onclick='toggleBetStat(2, 0)'>BETS</button>
-                    <button id="centralStatBtn" class="betStatSelector" onclick='toggleBetStat(2, 1)'>STATS</button>
+                <div id="metroStatboard" class="scoreboard">
+                    <div id="metroStandings" class="divisionColumn">
+                        <h3>Team</h3>
+                        <hr>
+                        <p id="metroStatTeam1" class="teamPlayoffPosition"></p>
+                        <p id="metroStatTeam2" class="teamPlayoffPosition"></p>
+                        <p id="metroStatTeam3" class="teamPlayoffPosition"></p>
+                        <p id="metroStatTeam4" class="teamPosition"></p>
+                        <p id="metroStatTeam5" class="teamPosition"></p>
+                        <p id="metroStatTeam6" class="teamPosition"></p>
+                        <p id="metroStatTeam7" class="teamPosition"></p>
+                        <p id="metroStatTeam8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">* Wildcard</p>
+                    </div>
+                    <div id="metroGPColumn" class="divisionColumn">
+                        <h3>GP</h3>
+                        <hr>
+                        <p id="metroGP1" class="teamPosition"></p>
+                        <p id="metroGP2" class="teamPosition"></p>
+                        <p id="metroGP3" class="teamPosition"></p>
+                        <p id="metroGP4" class="teamPosition"></p>
+                        <p id="metroGP5" class="teamPosition"></p>
+                        <p id="metroGP6" class="teamPosition"></p>
+                        <p id="metroGP7" class="teamPosition"></p>
+                        <p id="metroGP8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="metroPTSColumn" class="divisionColumn">
+                        <h3>PTS</h3>
+                        <hr>
+                        <p id="metroPTS1" class="teamPosition"></p>
+                        <p id="metroPTS2" class="teamPosition"></p>
+                        <p id="metroPTS3" class="teamPosition"></p>
+                        <p id="metroPTS4" class="teamPosition"></p>
+                        <p id="metroPTS5" class="teamPosition"></p>
+                        <p id="metroPTS6" class="teamPosition"></p>
+                        <p id="metroPTS7" class="teamPosition"></p>
+                        <p id="metroPTS8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="metroWLOColumn" class="divisionColumn">
+                        <h3>WLO</h3>
+                        <hr>
+                        <p id="metroWLO1" class="teamPosition"></p>
+                        <p id="metroWLO2" class="teamPosition"></p>
+                        <p id="metroWLO3" class="teamPosition"></p>
+                        <p id="metroWLO4" class="teamPosition"></p>
+                        <p id="metroWLO5" class="teamPosition"></p>
+                        <p id="metroWLO6" class="teamPosition"></p>
+                        <p id="metroWLO7" class="teamPosition"></p>
+                        <p id="metroWLO8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="metroSTRKColumn" class="divisionColumn">
+                        <h3>STRK</h3>
+                        <hr>
+                        <p id="metroSTRK1" class="teamPosition"></p>
+                        <p id="metroSTRK2" class="teamPosition"></p>
+                        <p id="metroSTRK3" class="teamPosition"></p>
+                        <p id="metroSTRK4" class="teamPosition"></p>
+                        <p id="metroSTRK5" class="teamPosition"></p>
+                        <p id="metroSTRK6" class="teamPosition"></p>
+                        <p id="metroSTRK7" class="teamPosition"></p>
+                        <p id="metroSTRK8" class="teamPosition"></p>
+                        <hr>
+                    </div>
                 </div>
-            </div>
-            <div id="centralScoreboard" class="scoreboard">
-                <div id="centralActual" class="divisionColumn">
-                    <h3>NHL</h3>
-                    <hr>
-                    <p id="centralActual1" class="teamPlayoffPosition"></p>
-                    <p id="centralActual2" class="teamPlayoffPosition"></p>
-                    <p id="centralActual3" class="teamPlayoffPosition"></p>
-                    <p id="centralActual4" class="teamPosition"></p>
-                    <p id="centralActual5" class="teamPosition"></p>
-                    <p id="centralActual6" class="teamPosition"></p>
-                    <p id="centralActual7" class="teamPosition"></p>
-                    <hr>
-                    <p class="divisionScore">Score: </p>
-                </div>
-                <div id="centralFilip" class="divisionColumn">
-                    <h3 class="h3Filip">F</h3>
-                    <hr>
-                    <p id="centralFilip1" class="teamPlayoffPosition"></p>
-                    <p id="centralFilip2" class="teamPlayoffPosition"></p>
-                    <p id="centralFilip3" class="teamPlayoffPosition"></p>
-                    <p id="centralFilip4" class="teamPosition"></p>
-                    <p id="centralFilip5" class="teamPosition"></p>
-                    <p id="centralFilip6" class="teamPosition"></p>
-                    <p id="centralFilip7" class="teamPosition"></p>
-                    <hr>
-                    <p id="centralFilipScore" class="divisionScore"></p>
-                </div>
-                <div id="centralViktor" class="divisionColumn">
-                    <h3 class="h3Viktor">V</h3>
-                    <hr>
-                    <p id="centralViktor1" class="teamPlayoffPosition"></p>
-                    <p id="centralViktor2" class="teamPlayoffPosition"></p>
-                    <p id="centralViktor3" class="teamPlayoffPosition"></p>
-                    <p id="centralViktor4" class="teamPosition"></p>
-                    <p id="centralViktor5" class="teamPosition"></p>
-                    <p id="centralViktor6" class="teamPosition"></p>
-                    <p id="centralViktor7" class="teamPosition"></p>
-                    <hr>
-                    <p id="centralViktorScore" class="divisionScore"></p>
-                </div>
-                <div id="centralElias" class="divisionColumn">
-                    <h3 class="h3Elias">E</h3>
-                    <hr>
-                    <p id="centralElias1" class="teamPlayoffPosition"></p>
-                    <p id="centralElias2" class="teamPlayoffPosition"></p>
-                    <p id="centralElias3" class="teamPlayoffPosition"></p>
-                    <p id="centralElias4" class="teamPosition"></p>
-                    <p id="centralElias5" class="teamPosition"></p>
-                    <p id="centralElias6" class="teamPosition"></p>
-                    <p id="centralElias7" class="teamPosition"></p>
-                    <hr>
-                    <p id="centralEliasScore" class="divisionScore"></p>
-                </div>
-            </div>
+            </article>
 
-            <div id="centralStatboard" class="scoreboard">
-                <div id="centralStandings" class="divisionColumn">
-                    <h3>Team</h3>
-                    <hr>
-                    <p id="centralStatTeam1" class="teamPlayoffPosition"></p>
-                    <p id="centralStatTeam2" class="teamPlayoffPosition"></p>
-                    <p id="centralStatTeam3" class="teamPlayoffPosition"></p>
-                    <p id="centralStatTeam4" class="teamPosition"></p>
-                    <p id="centralStatTeam5" class="teamPosition"></p>
-                    <p id="centralStatTeam6" class="teamPosition"></p>
-                    <p id="centralStatTeam7" class="teamPosition"></p>
-                    <p id="centralStatTeam8" class="teamPosition"></p>
-                    <hr>
-                    <p class="divisionScore" style="opacity:0;">.</p>
+            <article id="atlanticSection" class="division">
+                <div class="h2Container">
+                    <h2>Atlantic Division</h2>
+                    <div class="flex-center">
+                        <button id="atlanticBetBtn" class="betStatSelector" onclick='toggleBetStat(1, 0)'>BETS</button>
+                        <button id="atlanticStatBtn" class="betStatSelector" onclick='toggleBetStat(1, 1)'>STATS</button>
+                    </div>
                 </div>
-                <div id="centralGPColumn" class="divisionColumn">
-                    <h3>GP</h3>
-                    <hr>
-                    <p id="centralGP1" class="teamPosition"></p>
-                    <p id="centralGP2" class="teamPosition"></p>
-                    <p id="centralGP3" class="teamPosition"></p>
-                    <p id="centralGP4" class="teamPosition"></p>
-                    <p id="centralGP5" class="teamPosition"></p>
-                    <p id="centralGP6" class="teamPosition"></p>
-                    <p id="centralGP7" class="teamPosition"></p>
-                    <p id="centralGP8" class="teamPosition"></p>
-                    <hr>
+                <div id="atlanticScoreboard" class="scoreboard">
+                    <div id="atlanticActual" class="divisionColumn">
+                        <h3>NHL</h3>
+                        <hr>
+                        <p id="atlanticActual1" class="teamPlayoffPosition"></p>
+                        <p id="atlanticActual2" class="teamPlayoffPosition"></p>
+                        <p id="atlanticActual3" class="teamPlayoffPosition"></p>
+                        <p id="atlanticActual4" class="teamPosition"></p>
+                        <p id="atlanticActual5" class="teamPosition"></p>
+                        <p id="atlanticActual6" class="teamPosition"></p>
+                        <p id="atlanticActual7" class="teamPosition"></p>
+                        <p id="atlanticActual8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">Score: </p>
+                    </div>
+                    <div id="atlanticFilip" class="divisionColumn">
+                        <h3 class="h3Filip">F</h3>
+                        <hr>
+                        <p id="atlanticFilip1" class="teamPlayoffPosition"></p>
+                        <p id="atlanticFilip2" class="teamPlayoffPosition"></p>
+                        <p id="atlanticFilip3" class="teamPlayoffPosition"></p>
+                        <p id="atlanticFilip4" class="teamPosition"></p>
+                        <p id="atlanticFilip5" class="teamPosition"></p>
+                        <p id="atlanticFilip6" class="teamPosition"></p>
+                        <p id="atlanticFilip7" class="teamPosition"></p>
+                        <p id="atlanticFilip8" class="teamPosition"></p>
+                        <hr>
+                        <p id="atlanticFilipScore" class="divisionScore"></p>
+                    </div>
+                    <div id="atlanticViktor" class="divisionColumn">
+                        <h3 class="h3Viktor">V</h3>
+                        <hr>
+                        <p id="atlanticViktor1" class="teamPlayoffPosition"></p>
+                        <p id="atlanticViktor2" class="teamPlayoffPosition"></p>
+                        <p id="atlanticViktor3" class="teamPlayoffPosition"></p>
+                        <p id="atlanticViktor4" class="teamPosition"></p>
+                        <p id="atlanticViktor5" class="teamPosition"></p>
+                        <p id="atlanticViktor6" class="teamPosition"></p>
+                        <p id="atlanticViktor7" class="teamPosition"></p>
+                        <p id="atlanticViktor8" class="teamPosition"></p>
+                        <hr>
+                        <p id="atlanticViktorScore" class="divisionScore"></p>
+                    </div>
+                    <div id="atlanticElias" class="divisionColumn">
+                        <h3 class="h3Elias">E</h3>
+                        <hr>
+                        <p id="atlanticElias1" class="teamPlayoffPosition"></p>
+                        <p id="atlanticElias2" class="teamPlayoffPosition"></p>
+                        <p id="atlanticElias3" class="teamPlayoffPosition"></p>
+                        <p id="atlanticElias4" class="teamPosition"></p>
+                        <p id="atlanticElias5" class="teamPosition"></p>
+                        <p id="atlanticElias6" class="teamPosition"></p>
+                        <p id="atlanticElias7" class="teamPosition"></p>
+                        <p id="atlanticElias8" class="teamPosition"></p>
+                        <hr>
+                        <p id="atlanticEliasScore" class="divisionScore"></p>
+                    </div>
                 </div>
-                <div id="centralPTSColumn" class="divisionColumn">
-                    <h3>PTS</h3>
-                    <hr>
-                    <p id="centralPTS1" class="teamPosition"></p>
-                    <p id="centralPTS2" class="teamPosition"></p>
-                    <p id="centralPTS3" class="teamPosition"></p>
-                    <p id="centralPTS4" class="teamPosition"></p>
-                    <p id="centralPTS5" class="teamPosition"></p>
-                    <p id="centralPTS6" class="teamPosition"></p>
-                    <p id="centralPTS7" class="teamPosition"></p>
-                    <p id="centralPTS8" class="teamPosition"></p>
-                    <hr>
-                </div>
-                <div id="centralWLOColumn" class="divisionColumn">
-                    <h3>WLO</h3>
-                    <hr>
-                    <p id="centralWLO1" class="teamPosition">25-10-4</p>
-                    <p id="centralWLO2" class="teamPosition"></p>
-                    <p id="centralWLO3" class="teamPosition"></p>
-                    <p id="centralWLO4" class="teamPosition"></p>
-                    <p id="centralWLO5" class="teamPosition"></p>
-                    <p id="centralWLO6" class="teamPosition"></p>
-                    <p id="centralWLO7" class="teamPosition"></p>
-                    <p id="centralWLO8" class="teamPosition"></p>
-                    <hr>
-                </div>
-                <div id="centralSTRKColumn" class="divisionColumn">
-                    <h3>STRK</h3>
-                    <hr>
-                    <p id="centralSTRK1" class="teamPosition"></p>
-                    <p id="centralSTRK2" class="teamPosition"></p>
-                    <p id="centralSTRK3" class="teamPosition"></p>
-                    <p id="centralSTRK4" class="teamPosition"></p>
-                    <p id="centralSTRK5" class="teamPosition"></p>
-                    <p id="centralSTRK6" class="teamPosition"></p>
-                    <p id="centralSTRK7" class="teamPosition"></p>
-                    <hr>
-                </div>
-            </div>
-        </article>
 
-        <article id="pacificSection" class="division">
-            <div class="h2Container">
-                <h2>Pacific Division</h2>
-                <div class="flex-center">
-                    <button id="pacificBetBtn" class="betStatSelector" onclick='toggleBetStat(3, 0)'>BETS</button>
-                    <button id="pacificStatBtn" class="betStatSelector" onclick='toggleBetStat(3, 1)'>STATS</button>
+                <div id="atlanticStatboard" class="scoreboard">
+                    <div id="atlanticStandings" class="divisionColumn">
+                        <h3>Team</h3>
+                        <hr>
+                        <p id="atlanticStatTeam1" class="teamPlayoffPosition"></p>
+                        <p id="atlanticStatTeam2" class="teamPlayoffPosition"></p>
+                        <p id="atlanticStatTeam3" class="teamPlayoffPosition"></p>
+                        <p id="atlanticStatTeam4" class="teamPosition"></p>
+                        <p id="atlanticStatTeam5" class="teamPosition"></p>
+                        <p id="atlanticStatTeam6" class="teamPosition"></p>
+                        <p id="atlanticStatTeam7" class="teamPosition"></p>
+                        <p id="atlanticStatTeam8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">* Wildcard</p>
+                    </div>
+                    <div id="atlanticGPColumn" class="divisionColumn">
+                        <h3>GP</h3>
+                        <hr>
+                        <p id="atlanticGP1" class="teamPosition"></p>
+                        <p id="atlanticGP2" class="teamPosition"></p>
+                        <p id="atlanticGP3" class="teamPosition"></p>
+                        <p id="atlanticGP4" class="teamPosition"></p>
+                        <p id="atlanticGP5" class="teamPosition"></p>
+                        <p id="atlanticGP6" class="teamPosition"></p>
+                        <p id="atlanticGP7" class="teamPosition"></p>
+                        <p id="atlanticGP8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="atlanticPTSColumn" class="divisionColumn">
+                        <h3>PTS</h3>
+                        <hr>
+                        <p id="atlanticPTS1" class="teamPosition"></p>
+                        <p id="atlanticPTS2" class="teamPosition"></p>
+                        <p id="atlanticPTS3" class="teamPosition"></p>
+                        <p id="atlanticPTS4" class="teamPosition"></p>
+                        <p id="atlanticPTS5" class="teamPosition"></p>
+                        <p id="atlanticPTS6" class="teamPosition"></p>
+                        <p id="atlanticPTS7" class="teamPosition"></p>
+                        <p id="atlanticPTS8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="atlanticWLOColumn" class="divisionColumn">
+                        <h3>WLO</h3>
+                        <hr>
+                        <p id="atlanticWLO1" class="teamPosition"></p>
+                        <p id="atlanticWLO2" class="teamPosition"></p>
+                        <p id="atlanticWLO3" class="teamPosition"></p>
+                        <p id="atlanticWLO4" class="teamPosition"></p>
+                        <p id="atlanticWLO5" class="teamPosition"></p>
+                        <p id="atlanticWLO6" class="teamPosition"></p>
+                        <p id="atlanticWLO7" class="teamPosition"></p>
+                        <p id="atlanticWLO8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="atlanticSTRKColumn" class="divisionColumn">
+                        <h3>STRK</h3>
+                        <hr>
+                        <p id="atlanticSTRK1" class="teamPosition"></p>
+                        <p id="atlanticSTRK2" class="teamPosition"></p>
+                        <p id="atlanticSTRK3" class="teamPosition"></p>
+                        <p id="atlanticSTRK4" class="teamPosition"></p>
+                        <p id="atlanticSTRK5" class="teamPosition"></p>
+                        <p id="atlanticSTRK6" class="teamPosition"></p>
+                        <p id="atlanticSTRK7" class="teamPosition"></p>
+                        <p id="atlanticSTRK8" class="teamPosition"></p>
+                        <hr>
+                    </div>
                 </div>
-            </div>
-            <div id="pacificScoreboard" class="scoreboard">
-                <div id="pacificActual" class="divisionColumn">
-                    <h3>NHL</h3>
-                    <hr>
-                    <p id="pacificActual1" class="teamPlayoffPosition"></p>
-                    <p id="pacificActual2" class="teamPlayoffPosition"></p>
-                    <p id="pacificActual3" class="teamPlayoffPosition"></p>
-                    <p id="pacificActual4" class="teamPosition"></p>
-                    <p id="pacificActual5" class="teamPosition"></p>
-                    <p id="pacificActual6" class="teamPosition"></p>
-                    <p id="pacificActual7" class="teamPosition"></p>
-                    <p id="pacificActual8" class="teamPosition"></p>
-                    <hr>
-                    <p class="divisionScore">Score: </p>
-                </div>
-                <div id="pacificFilip" class="divisionColumn">
-                    <h3 class="h3Filip">F</h3>
-                    <hr>
-                    <p id="pacificFilip1" class="teamPlayoffPosition"></p>
-                    <p id="pacificFilip2" class="teamPlayoffPosition"></p>
-                    <p id="pacificFilip3" class="teamPlayoffPosition"></p>
-                    <p id="pacificFilip4" class="teamPosition"></p>
-                    <p id="pacificFilip5" class="teamPosition"></p>
-                    <p id="pacificFilip6" class="teamPosition"></p>
-                    <p id="pacificFilip7" class="teamPosition"></p>
-                    <p id="pacificFilip8" class="teamPosition"></p>
-                    <hr>
-                    <p id="pacificFilipScore" class="divisionScore"></p>
-                </div>
-                <div id="pacificViktor" class="divisionColumn">
-                    <h3 class="h3Viktor">V</h3>
-                    <hr>
-                    <p id="pacificViktor1" class="teamPlayoffPosition"></p>
-                    <p id="pacificViktor2" class="teamPlayoffPosition"></p>
-                    <p id="pacificViktor3" class="teamPlayoffPosition"></p>
-                    <p id="pacificViktor4" class="teamPosition"></p>
-                    <p id="pacificViktor5" class="teamPosition"></p>
-                    <p id="pacificViktor6" class="teamPosition"></p>
-                    <p id="pacificViktor7" class="teamPosition"></p>
-                    <p id="pacificViktor8" class="teamPosition"></p>
-                    <hr>
-                    <p id="pacificViktorScore" class="divisionScore"></p>
-                </div>
-                <div id="pacificElias" class="divisionColumn">
-                    <h3 class="h3Elias">E</h3>
-                    <hr>
-                    <p id="pacificElias1" class="teamPlayoffPosition"></p>
-                    <p id="pacificElias2" class="teamPlayoffPosition"></p>
-                    <p id="pacificElias3" class="teamPlayoffPosition"></p>
-                    <p id="pacificElias4" class="teamPosition"></p>
-                    <p id="pacificElias5" class="teamPosition"></p>
-                    <p id="pacificElias6" class="teamPosition"></p>
-                    <p id="pacificElias7" class="teamPosition"></p>
-                    <p id="pacificElias8" class="teamPosition"></p>
-                    <hr>
-                    <p id="pacificEliasScore" class="divisionScore"></p>
-                </div>
-            </div>
+            </article>
 
-            <div id="pacificStatboard" class="scoreboard">
-                <div id="pacificStandings" class="divisionColumn">
-                    <h3>Team</h3>
-                    <hr>
-                    <p id="pacificStatTeam1" class="teamPlayoffPosition"></p>
-                    <p id="pacificStatTeam2" class="teamPlayoffPosition"></p>
-                    <p id="pacificStatTeam3" class="teamPlayoffPosition"></p>
-                    <p id="pacificStatTeam4" class="teamPosition"></p>
-                    <p id="pacificStatTeam5" class="teamPosition"></p>
-                    <p id="pacificStatTeam6" class="teamPosition"></p>
-                    <p id="pacificStatTeam7" class="teamPosition"></p>
-                    <p id="pacificStatTeam8" class="teamPosition"></p>
-                    <hr>
-                    <p class="divisionScore" style="opacity:0;">.</p>
+            <article id="centralSection" class="division">
+                <div class="h2Container">
+                    <h2>Central Division</h2>
+                    <div class="flex-center">
+                        <button id="centralBetBtn" class="betStatSelector" onclick='toggleBetStat(2, 0)'>BETS</button>
+                        <button id="centralStatBtn" class="betStatSelector" onclick='toggleBetStat(2, 1)'>STATS</button>
+                    </div>
                 </div>
-                <div id="pacificGPColumn" class="divisionColumn">
-                    <h3>GP</h3>
-                    <hr>
-                    <p id="pacificGP1" class="teamPosition"></p>
-                    <p id="pacificGP2" class="teamPosition"></p>
-                    <p id="pacificGP3" class="teamPosition"></p>
-                    <p id="pacificGP4" class="teamPosition"></p>
-                    <p id="pacificGP5" class="teamPosition"></p>
-                    <p id="pacificGP6" class="teamPosition"></p>
-                    <p id="pacificGP7" class="teamPosition"></p>
-                    <p id="pacificGP8" class="teamPosition"></p>
-                    <hr>
+                <div id="centralScoreboard" class="scoreboard">
+                    <div id="centralActual" class="divisionColumn">
+                        <h3>NHL</h3>
+                        <hr>
+                        <p id="centralActual1" class="teamPlayoffPosition"></p>
+                        <p id="centralActual2" class="teamPlayoffPosition"></p>
+                        <p id="centralActual3" class="teamPlayoffPosition"></p>
+                        <p id="centralActual4" class="teamPosition"></p>
+                        <p id="centralActual5" class="teamPosition"></p>
+                        <p id="centralActual6" class="teamPosition"></p>
+                        <p id="centralActual7" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">Score: </p>
+                    </div>
+                    <div id="centralFilip" class="divisionColumn">
+                        <h3 class="h3Filip">F</h3>
+                        <hr>
+                        <p id="centralFilip1" class="teamPlayoffPosition"></p>
+                        <p id="centralFilip2" class="teamPlayoffPosition"></p>
+                        <p id="centralFilip3" class="teamPlayoffPosition"></p>
+                        <p id="centralFilip4" class="teamPosition"></p>
+                        <p id="centralFilip5" class="teamPosition"></p>
+                        <p id="centralFilip6" class="teamPosition"></p>
+                        <p id="centralFilip7" class="teamPosition"></p>
+                        <hr>
+                        <p id="centralFilipScore" class="divisionScore"></p>
+                    </div>
+                    <div id="centralViktor" class="divisionColumn">
+                        <h3 class="h3Viktor">V</h3>
+                        <hr>
+                        <p id="centralViktor1" class="teamPlayoffPosition"></p>
+                        <p id="centralViktor2" class="teamPlayoffPosition"></p>
+                        <p id="centralViktor3" class="teamPlayoffPosition"></p>
+                        <p id="centralViktor4" class="teamPosition"></p>
+                        <p id="centralViktor5" class="teamPosition"></p>
+                        <p id="centralViktor6" class="teamPosition"></p>
+                        <p id="centralViktor7" class="teamPosition"></p>
+                        <hr>
+                        <p id="centralViktorScore" class="divisionScore"></p>
+                    </div>
+                    <div id="centralElias" class="divisionColumn">
+                        <h3 class="h3Elias">E</h3>
+                        <hr>
+                        <p id="centralElias1" class="teamPlayoffPosition"></p>
+                        <p id="centralElias2" class="teamPlayoffPosition"></p>
+                        <p id="centralElias3" class="teamPlayoffPosition"></p>
+                        <p id="centralElias4" class="teamPosition"></p>
+                        <p id="centralElias5" class="teamPosition"></p>
+                        <p id="centralElias6" class="teamPosition"></p>
+                        <p id="centralElias7" class="teamPosition"></p>
+                        <hr>
+                        <p id="centralEliasScore" class="divisionScore"></p>
+                    </div>
                 </div>
-                <div id="pacificPTSColumn" class="divisionColumn">
-                    <h3>PTS</h3>
-                    <hr>
-                    <p id="pacificPTS1" class="teamPosition"></p>
-                    <p id="pacificPTS2" class="teamPosition"></p>
-                    <p id="pacificPTS3" class="teamPosition"></p>
-                    <p id="pacificPTS4" class="teamPosition"></p>
-                    <p id="pacificPTS5" class="teamPosition"></p>
-                    <p id="pacificPTS6" class="teamPosition"></p>
-                    <p id="pacificPTS7" class="teamPosition"></p>
-                    <p id="pacificPTS8" class="teamPosition"></p>
-                    <hr>
+
+                <div id="centralStatboard" class="scoreboard">
+                    <div id="centralStandings" class="divisionColumn">
+                        <h3>Team</h3>
+                        <hr>
+                        <p id="centralStatTeam1" class="teamPlayoffPosition"></p>
+                        <p id="centralStatTeam2" class="teamPlayoffPosition"></p>
+                        <p id="centralStatTeam3" class="teamPlayoffPosition"></p>
+                        <p id="centralStatTeam4" class="teamPosition"></p>
+                        <p id="centralStatTeam5" class="teamPosition"></p>
+                        <p id="centralStatTeam6" class="teamPosition"></p>
+                        <p id="centralStatTeam7" class="teamPosition"></p>
+                        <p id="centralStatTeam8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">* Wildcard</p>
+                    </div>
+                    <div id="centralGPColumn" class="divisionColumn">
+                        <h3>GP</h3>
+                        <hr>
+                        <p id="centralGP1" class="teamPosition"></p>
+                        <p id="centralGP2" class="teamPosition"></p>
+                        <p id="centralGP3" class="teamPosition"></p>
+                        <p id="centralGP4" class="teamPosition"></p>
+                        <p id="centralGP5" class="teamPosition"></p>
+                        <p id="centralGP6" class="teamPosition"></p>
+                        <p id="centralGP7" class="teamPosition"></p>
+                        <p id="centralGP8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="centralPTSColumn" class="divisionColumn">
+                        <h3>PTS</h3>
+                        <hr>
+                        <p id="centralPTS1" class="teamPosition"></p>
+                        <p id="centralPTS2" class="teamPosition"></p>
+                        <p id="centralPTS3" class="teamPosition"></p>
+                        <p id="centralPTS4" class="teamPosition"></p>
+                        <p id="centralPTS5" class="teamPosition"></p>
+                        <p id="centralPTS6" class="teamPosition"></p>
+                        <p id="centralPTS7" class="teamPosition"></p>
+                        <p id="centralPTS8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="centralWLOColumn" class="divisionColumn">
+                        <h3>WLO</h3>
+                        <hr>
+                        <p id="centralWLO1" class="teamPosition">25-10-4</p>
+                        <p id="centralWLO2" class="teamPosition"></p>
+                        <p id="centralWLO3" class="teamPosition"></p>
+                        <p id="centralWLO4" class="teamPosition"></p>
+                        <p id="centralWLO5" class="teamPosition"></p>
+                        <p id="centralWLO6" class="teamPosition"></p>
+                        <p id="centralWLO7" class="teamPosition"></p>
+                        <p id="centralWLO8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="centralSTRKColumn" class="divisionColumn">
+                        <h3>STRK</h3>
+                        <hr>
+                        <p id="centralSTRK1" class="teamPosition"></p>
+                        <p id="centralSTRK2" class="teamPosition"></p>
+                        <p id="centralSTRK3" class="teamPosition"></p>
+                        <p id="centralSTRK4" class="teamPosition"></p>
+                        <p id="centralSTRK5" class="teamPosition"></p>
+                        <p id="centralSTRK6" class="teamPosition"></p>
+                        <p id="centralSTRK7" class="teamPosition"></p>
+                        <hr>
+                    </div>
                 </div>
-                <div id="pacificWLOColumn" class="divisionColumn">
-                    <h3>WLO</h3>
-                    <hr>
-                    <p id="pacificWLO1" class="teamPosition">25-10-4</p>
-                    <p id="pacificWLO2" class="teamPosition"></p>
-                    <p id="pacificWLO3" class="teamPosition"></p>
-                    <p id="pacificWLO4" class="teamPosition"></p>
-                    <p id="pacificWLO5" class="teamPosition"></p>
-                    <p id="pacificWLO6" class="teamPosition"></p>
-                    <p id="pacificWLO7" class="teamPosition"></p>
-                    <p id="pacificWLO8" class="teamPosition"></p>
-                    <hr>
+            </article>
+
+            <article id="pacificSection" class="division">
+                <div class="h2Container">
+                    <h2>Pacific Division</h2>
+                    <div class="flex-center">
+                        <button id="pacificBetBtn" class="betStatSelector" onclick='toggleBetStat(3, 0)'>BETS</button>
+                        <button id="pacificStatBtn" class="betStatSelector" onclick='toggleBetStat(3, 1)'>STATS</button>
+                    </div>
                 </div>
-                <div id="pacificSTRKColumn" class="divisionColumn">
-                    <h3>STRK</h3>
-                    <hr>
-                    <p id="pacificSTRK1" class="teamPosition"></p>
-                    <p id="pacificSTRK2" class="teamPosition"></p>
-                    <p id="pacificSTRK3" class="teamPosition"></p>
-                    <p id="pacificSTRK4" class="teamPosition"></p>
-                    <p id="pacificSTRK5" class="teamPosition"></p>
-                    <p id="pacificSTRK6" class="teamPosition"></p>
-                    <p id="pacificSTRK7" class="teamPosition"></p>
-                    <p id="pacificSTRK8" class="teamPosition"></p>
-                    <hr>
+                <div id="pacificScoreboard" class="scoreboard">
+                    <div id="pacificActual" class="divisionColumn">
+                        <h3>NHL</h3>
+                        <hr>
+                        <p id="pacificActual1" class="teamPlayoffPosition"></p>
+                        <p id="pacificActual2" class="teamPlayoffPosition"></p>
+                        <p id="pacificActual3" class="teamPlayoffPosition"></p>
+                        <p id="pacificActual4" class="teamPosition"></p>
+                        <p id="pacificActual5" class="teamPosition"></p>
+                        <p id="pacificActual6" class="teamPosition"></p>
+                        <p id="pacificActual7" class="teamPosition"></p>
+                        <p id="pacificActual8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">Score: </p>
+                    </div>
+                    <div id="pacificFilip" class="divisionColumn">
+                        <h3 class="h3Filip">F</h3>
+                        <hr>
+                        <p id="pacificFilip1" class="teamPlayoffPosition"></p>
+                        <p id="pacificFilip2" class="teamPlayoffPosition"></p>
+                        <p id="pacificFilip3" class="teamPlayoffPosition"></p>
+                        <p id="pacificFilip4" class="teamPosition"></p>
+                        <p id="pacificFilip5" class="teamPosition"></p>
+                        <p id="pacificFilip6" class="teamPosition"></p>
+                        <p id="pacificFilip7" class="teamPosition"></p>
+                        <p id="pacificFilip8" class="teamPosition"></p>
+                        <hr>
+                        <p id="pacificFilipScore" class="divisionScore"></p>
+                    </div>
+                    <div id="pacificViktor" class="divisionColumn">
+                        <h3 class="h3Viktor">V</h3>
+                        <hr>
+                        <p id="pacificViktor1" class="teamPlayoffPosition"></p>
+                        <p id="pacificViktor2" class="teamPlayoffPosition"></p>
+                        <p id="pacificViktor3" class="teamPlayoffPosition"></p>
+                        <p id="pacificViktor4" class="teamPosition"></p>
+                        <p id="pacificViktor5" class="teamPosition"></p>
+                        <p id="pacificViktor6" class="teamPosition"></p>
+                        <p id="pacificViktor7" class="teamPosition"></p>
+                        <p id="pacificViktor8" class="teamPosition"></p>
+                        <hr>
+                        <p id="pacificViktorScore" class="divisionScore"></p>
+                    </div>
+                    <div id="pacificElias" class="divisionColumn">
+                        <h3 class="h3Elias">E</h3>
+                        <hr>
+                        <p id="pacificElias1" class="teamPlayoffPosition"></p>
+                        <p id="pacificElias2" class="teamPlayoffPosition"></p>
+                        <p id="pacificElias3" class="teamPlayoffPosition"></p>
+                        <p id="pacificElias4" class="teamPosition"></p>
+                        <p id="pacificElias5" class="teamPosition"></p>
+                        <p id="pacificElias6" class="teamPosition"></p>
+                        <p id="pacificElias7" class="teamPosition"></p>
+                        <p id="pacificElias8" class="teamPosition"></p>
+                        <hr>
+                        <p id="pacificEliasScore" class="divisionScore"></p>
+                    </div>
                 </div>
-            </div>
-        </article>
+
+                <div id="pacificStatboard" class="scoreboard">
+                    <div id="pacificStandings" class="divisionColumn">
+                        <h3>Team</h3>
+                        <hr>
+                        <p id="pacificStatTeam1" class="teamPlayoffPosition"></p>
+                        <p id="pacificStatTeam2" class="teamPlayoffPosition"></p>
+                        <p id="pacificStatTeam3" class="teamPlayoffPosition"></p>
+                        <p id="pacificStatTeam4" class="teamPosition"></p>
+                        <p id="pacificStatTeam5" class="teamPosition"></p>
+                        <p id="pacificStatTeam6" class="teamPosition"></p>
+                        <p id="pacificStatTeam7" class="teamPosition"></p>
+                        <p id="pacificStatTeam8" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">* Wildcard</p>
+                    </div>
+                    <div id="pacificGPColumn" class="divisionColumn">
+                        <h3>GP</h3>
+                        <hr>
+                        <p id="pacificGP1" class="teamPosition"></p>
+                        <p id="pacificGP2" class="teamPosition"></p>
+                        <p id="pacificGP3" class="teamPosition"></p>
+                        <p id="pacificGP4" class="teamPosition"></p>
+                        <p id="pacificGP5" class="teamPosition"></p>
+                        <p id="pacificGP6" class="teamPosition"></p>
+                        <p id="pacificGP7" class="teamPosition"></p>
+                        <p id="pacificGP8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="pacificPTSColumn" class="divisionColumn">
+                        <h3>PTS</h3>
+                        <hr>
+                        <p id="pacificPTS1" class="teamPosition"></p>
+                        <p id="pacificPTS2" class="teamPosition"></p>
+                        <p id="pacificPTS3" class="teamPosition"></p>
+                        <p id="pacificPTS4" class="teamPosition"></p>
+                        <p id="pacificPTS5" class="teamPosition"></p>
+                        <p id="pacificPTS6" class="teamPosition"></p>
+                        <p id="pacificPTS7" class="teamPosition"></p>
+                        <p id="pacificPTS8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="pacificWLOColumn" class="divisionColumn">
+                        <h3>WLO</h3>
+                        <hr>
+                        <p id="pacificWLO1" class="teamPosition">25-10-4</p>
+                        <p id="pacificWLO2" class="teamPosition"></p>
+                        <p id="pacificWLO3" class="teamPosition"></p>
+                        <p id="pacificWLO4" class="teamPosition"></p>
+                        <p id="pacificWLO5" class="teamPosition"></p>
+                        <p id="pacificWLO6" class="teamPosition"></p>
+                        <p id="pacificWLO7" class="teamPosition"></p>
+                        <p id="pacificWLO8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="pacificSTRKColumn" class="divisionColumn">
+                        <h3>STRK</h3>
+                        <hr>
+                        <p id="pacificSTRK1" class="teamPosition"></p>
+                        <p id="pacificSTRK2" class="teamPosition"></p>
+                        <p id="pacificSTRK3" class="teamPosition"></p>
+                        <p id="pacificSTRK4" class="teamPosition"></p>
+                        <p id="pacificSTRK5" class="teamPosition"></p>
+                        <p id="pacificSTRK6" class="teamPosition"></p>
+                        <p id="pacificSTRK7" class="teamPosition"></p>
+                        <p id="pacificSTRK8" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                </div>
+            </article>
+        </section> <!-- End of divisionsSection-->
+
+        <section id="conferencesSection">
+            <article id="easternSection" class="division">
+                <div class="h2Container">
+                    <h2>Eastern Conference</h2>
+                </div>
+                <div id="easternStatboard" class="scoreboard">
+                    <div id="easternStandings" class="divisionColumn">
+                        <h3>Team</h3>
+                        <hr>
+                        <p id="easternStatTeam1" class="teamPosition"></p>
+                        <p id="easternStatTeam2" class="teamPosition"></p>
+                        <p id="easternStatTeam3" class="teamPosition"></p>
+                        <p id="easternStatTeam4" class="teamPosition"></p>
+                        <p id="easternStatTeam5" class="teamPosition"></p>
+                        <p id="easternStatTeam6" class="teamPosition"></p>
+                        <p id="easternStatTeam7" class="teamPosition"></p>
+                        <p id="easternStatTeam8" class="teamPosition"></p>
+                        <p id="easternStatTeam9" class="teamPosition"></p>
+                        <p id="easternStatTeam10" class="teamPosition"></p>
+                        <p id="easternStatTeam11" class="teamPosition"></p>
+                        <p id="easternStatTeam12" class="teamPosition"></p>
+                        <p id="easternStatTeam13" class="teamPosition"></p>
+                        <p id="easternStatTeam14" class="teamPosition"></p>
+                        <p id="easternStatTeam15" class="teamPosition"></p>
+                        <p id="easternStatTeam16" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">* Wildcard</p>
+                    </div>
+                    <div id="easternGPColumn" class="divisionColumn">
+                        <h3>GP</h3>
+                        <hr>
+                        <p id="easternGP1" class="teamPosition"></p>
+                        <p id="easternGP2" class="teamPosition"></p>
+                        <p id="easternGP3" class="teamPosition"></p>
+                        <p id="easternGP4" class="teamPosition"></p>
+                        <p id="easternGP5" class="teamPosition"></p>
+                        <p id="easternGP6" class="teamPosition"></p>
+                        <p id="easternGP7" class="teamPosition"></p>
+                        <p id="easternGP8" class="teamPosition"></p>
+                        <p id="easternGP9" class="teamPosition"></p>
+                        <p id="easternGP10" class="teamPosition"></p>
+                        <p id="easternGP11" class="teamPosition"></p>
+                        <p id="easternGP12" class="teamPosition"></p>
+                        <p id="easternGP13" class="teamPosition"></p>
+                        <p id="easternGP14" class="teamPosition"></p>
+                        <p id="easternGP15" class="teamPosition"></p>
+                        <p id="easternGP16" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="easternPTSColumn" class="divisionColumn">
+                        <h3>PTS</h3>
+                        <hr>
+                        <p id="easternPTS1" class="teamPosition"></p>
+                        <p id="easternPTS2" class="teamPosition"></p>
+                        <p id="easternPTS3" class="teamPosition"></p>
+                        <p id="easternPTS4" class="teamPosition"></p>
+                        <p id="easternPTS5" class="teamPosition"></p>
+                        <p id="easternPTS6" class="teamPosition"></p>
+                        <p id="easternPTS7" class="teamPosition"></p>
+                        <p id="easternPTS8" class="teamPosition"></p>
+                        <p id="easternPTS9" class="teamPosition"></p>
+                        <p id="easternPTS10" class="teamPosition"></p>
+                        <p id="easternPTS11" class="teamPosition"></p>
+                        <p id="easternPTS12" class="teamPosition"></p>
+                        <p id="easternPTS13" class="teamPosition"></p>
+                        <p id="easternPTS14" class="teamPosition"></p>
+                        <p id="easternPTS15" class="teamPosition"></p>
+                        <p id="easternPTS16" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="easternWLOColumn" class="divisionColumn">
+                        <h3>WLO</h3>
+                        <hr>
+                        <p id="easternWLO1" class="teamPosition"></p>
+                        <p id="easternWLO2" class="teamPosition"></p>
+                        <p id="easternWLO3" class="teamPosition"></p>
+                        <p id="easternWLO4" class="teamPosition"></p>
+                        <p id="easternWLO5" class="teamPosition"></p>
+                        <p id="easternWLO6" class="teamPosition"></p>
+                        <p id="easternWLO7" class="teamPosition"></p>
+                        <p id="easternWLO8" class="teamPosition"></p>
+                        <p id="easternWLO9" class="teamPosition"></p>
+                        <p id="easternWLO10" class="teamPosition"></p>
+                        <p id="easternWLO11" class="teamPosition"></p>
+                        <p id="easternWLO12" class="teamPosition"></p>
+                        <p id="easternWLO13" class="teamPosition"></p>
+                        <p id="easternWLO14" class="teamPosition"></p>
+                        <p id="easternWLO15" class="teamPosition"></p>
+                        <p id="easternWLO16" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="easternSTRKColumn" class="divisionColumn">
+                        <h3>STRK</h3>
+                        <hr>
+                        <p id="easternSTRK1" class="teamPosition"></p>
+                        <p id="easternSTRK2" class="teamPosition"></p>
+                        <p id="easternSTRK3" class="teamPosition"></p>
+                        <p id="easternSTRK4" class="teamPosition"></p>
+                        <p id="easternSTRK5" class="teamPosition"></p>
+                        <p id="easternSTRK6" class="teamPosition"></p>
+                        <p id="easternSTRK7" class="teamPosition"></p>
+                        <p id="easternSTRK8" class="teamPosition"></p>
+                        <p id="easternSTRK9" class="teamPosition"></p>
+                        <p id="easternSTRK10" class="teamPosition"></p>
+                        <p id="easternSTRK11" class="teamPosition"></p>
+                        <p id="easternSTRK12" class="teamPosition"></p>
+                        <p id="easternSTRK13" class="teamPosition"></p>
+                        <p id="easternSTRK14" class="teamPosition"></p>
+                        <p id="easternSTRK15" class="teamPosition"></p>
+                        <p id="easternSTRK16" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                </div>
+            </article>
+
+            <article id="westernSection" class="division">
+                <div class="h2Container">
+                    <h2>Western Conference</h2>
+                </div>
+                <div id="westernStatboard" class="scoreboard">
+                    <div id="westernStandings" class="divisionColumn">
+                        <h3>Team</h3>
+                        <hr>
+                        <p id="westernStatTeam1" class="teamPosition"></p>
+                        <p id="westernStatTeam2" class="teamPosition"></p>
+                        <p id="westernStatTeam3" class="teamPosition"></p>
+                        <p id="westernStatTeam4" class="teamPosition"></p>
+                        <p id="westernStatTeam5" class="teamPosition"></p>
+                        <p id="westernStatTeam6" class="teamPosition"></p>
+                        <p id="westernStatTeam7" class="teamPosition"></p>
+                        <p id="westernStatTeam8" class="teamPosition"></p>
+                        <p id="westernStatTeam9" class="teamPosition"></p>
+                        <p id="westernStatTeam10" class="teamPosition"></p>
+                        <p id="westernStatTeam11" class="teamPosition"></p>
+                        <p id="westernStatTeam12" class="teamPosition"></p>
+                        <p id="westernStatTeam13" class="teamPosition"></p>
+                        <p id="westernStatTeam14" class="teamPosition"></p>
+                        <p id="westernStatTeam15" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">* Wildcard</p>
+                    </div>
+                    <div id="westernGPColumn" class="divisionColumn">
+                        <h3>GP</h3>
+                        <hr>
+                        <p id="westernGP1" class="teamPosition"></p>
+                        <p id="westernGP2" class="teamPosition"></p>
+                        <p id="westernGP3" class="teamPosition"></p>
+                        <p id="westernGP4" class="teamPosition"></p>
+                        <p id="westernGP5" class="teamPosition"></p>
+                        <p id="westernGP6" class="teamPosition"></p>
+                        <p id="westernGP7" class="teamPosition"></p>
+                        <p id="westernGP8" class="teamPosition"></p>
+                        <p id="westernGP9" class="teamPosition"></p>
+                        <p id="westernGP10" class="teamPosition"></p>
+                        <p id="westernGP11" class="teamPosition"></p>
+                        <p id="westernGP12" class="teamPosition"></p>
+                        <p id="westernGP13" class="teamPosition"></p>
+                        <p id="westernGP14" class="teamPosition"></p>
+                        <p id="westernGP15" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="westernPTSColumn" class="divisionColumn">
+                        <h3>PTS</h3>
+                        <hr>
+                        <p id="westernPTS1" class="teamPosition"></p>
+                        <p id="westernPTS2" class="teamPosition"></p>
+                        <p id="westernPTS3" class="teamPosition"></p>
+                        <p id="westernPTS4" class="teamPosition"></p>
+                        <p id="westernPTS5" class="teamPosition"></p>
+                        <p id="westernPTS6" class="teamPosition"></p>
+                        <p id="westernPTS7" class="teamPosition"></p>
+                        <p id="westernPTS8" class="teamPosition"></p>
+                        <p id="westernPTS9" class="teamPosition"></p>
+                        <p id="westernPTS10" class="teamPosition"></p>
+                        <p id="westernPTS11" class="teamPosition"></p>
+                        <p id="westernPTS12" class="teamPosition"></p>
+                        <p id="westernPTS13" class="teamPosition"></p>
+                        <p id="westernPTS14" class="teamPosition"></p>
+                        <p id="westernPTS15" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="westernWLOColumn" class="divisionColumn">
+                        <h3>WLO</h3>
+                        <hr>
+                        <p id="westernWLO1" class="teamPosition"></p>
+                        <p id="westernWLO2" class="teamPosition"></p>
+                        <p id="westernWLO3" class="teamPosition"></p>
+                        <p id="westernWLO4" class="teamPosition"></p>
+                        <p id="westernWLO5" class="teamPosition"></p>
+                        <p id="westernWLO6" class="teamPosition"></p>
+                        <p id="westernWLO7" class="teamPosition"></p>
+                        <p id="westernWLO8" class="teamPosition"></p>
+                        <p id="westernWLO9" class="teamPosition"></p>
+                        <p id="westernWLO10" class="teamPosition"></p>
+                        <p id="westernWLO11" class="teamPosition"></p>
+                        <p id="westernWLO12" class="teamPosition"></p>
+                        <p id="westernWLO13" class="teamPosition"></p>
+                        <p id="westernWLO14" class="teamPosition"></p>
+                        <p id="westernWLO15" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="westernSTRKColumn" class="divisionColumn">
+                        <h3>STRK</h3>
+                        <hr>
+                        <p id="westernSTRK1" class="teamPosition"></p>
+                        <p id="westernSTRK2" class="teamPosition"></p>
+                        <p id="westernSTRK3" class="teamPosition"></p>
+                        <p id="westernSTRK4" class="teamPosition"></p>
+                        <p id="westernSTRK5" class="teamPosition"></p>
+                        <p id="westernSTRK6" class="teamPosition"></p>
+                        <p id="westernSTRK7" class="teamPosition"></p>
+                        <p id="westernSTRK8" class="teamPosition"></p>
+                        <p id="westernSTRK9" class="teamPosition"></p>
+                        <p id="westernSTRK10" class="teamPosition"></p>
+                        <p id="westernSTRK11" class="teamPosition"></p>
+                        <p id="westernSTRK12" class="teamPosition"></p>
+                        <p id="westernSTRK13" class="teamPosition"></p>
+                        <p id="westernSTRK14" class="teamPosition"></p>
+                        <p id="westernSTRK15" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section id="leagueSection">
+        </section>
 
         <article id="trophySection" class="division">
             <div class="h2Container">
