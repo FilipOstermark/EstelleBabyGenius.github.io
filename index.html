@@ -512,13 +512,29 @@ function generateConferenceStatboard(conferenceIndex, firstDivNumTeams, secDivNu
         var wloId = conferenceElementIdString[conferenceIndex] + "WLO" + conferenceRank;
         var strkId = conferenceElementIdString[conferenceIndex] + "STRK" + conferenceRank;
 
+        var leagueRank = team.leagueRank;
+        var teamIdLeague = "leagueStatTeam" + leagueRank;
+        var gpIdLeague = "leagueGP" + leagueRank;
+        var ptsIdLeague = "leaguePTS" + leagueRank;
+        var wloIdLeague = "leagueWLO" + leagueRank;
+        var strkIdLeague = "leagueSTRK" + leagueRank;
+
         document.getElementById(teamId).innerHTML = conferenceRank + ". " + teamName;
         document.getElementById(gpId).innerHTML = gp;
         document.getElementById(ptsId).innerHTML = pts;
         document.getElementById(wloId).innerHTML = wlo;
         document.getElementById(strkId).innerHTML = strk;
 
-        if (playoffTeams.includes(team.team.name)) document.getElementById(teamId).style.fontFamily = "ralewayHeavy";
+        document.getElementById(teamIdLeague).innerHTML = leagueRank + ". " + teamName;
+        document.getElementById(gpIdLeague).innerHTML = gp;
+        document.getElementById(ptsIdLeague).innerHTML = pts;
+        document.getElementById(wloIdLeague).innerHTML = wlo;
+        document.getElementById(strkIdLeague).innerHTML = strk;
+
+        if (playoffTeams.includes(team.team.name)) {
+            document.getElementById(teamId).style.fontFamily = "ralewayHeavy";
+            document.getElementById(teamIdLeague).style.fontFamily = "ralewayHeavy";
+        }
 
         i++;
     };
@@ -754,7 +770,7 @@ function execute() {
     if (viktorTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) viktorLeaderCrown.style.opacity=1;
     if (eliasTotalPoints == Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) eliasLeaderCrown.style.opacity=1;
 
-    var sectionIds = ["leagueSection", "viewSection", "metropolitanSection", "atlanticSection", "centralSection", "pacificSection", "easternSection", "westernSection", "trophySection"];
+    var sectionIds = ["leagueSection", "viewSection", "metropolitanSection", "atlanticSection", "centralSection", "pacificSection", "easternSection", "westernSection", "leagueStatSection", "trophySection"];
 
     for (var sectionIndex = 0; sectionIndex < sectionIds.length; sectionIndex++) {
         document.getElementById(sectionIds[sectionIndex]).style.opacity = 1;
@@ -793,8 +809,8 @@ function execute() {
 
         <article id="viewSection" class="division">
                     <div class="flex-center">
-                        <button id="divisionsBtn" class="betStatSelector" onclick='toggleView(0)'>Division+Bets</button>
-                        <button id="conferencesBtn" class="betStatSelector" onclick='toggleView(1)'>Conference</button>
+                        <button id="divisionsBtn" class="betStatSelector" onclick='toggleView(0)'>Bets</button>
+                        <button id="conferencesBtn" class="betStatSelector" onclick='toggleView(1)'>Stats</button>
                     </div>
         </article>
 
@@ -1567,9 +1583,195 @@ function execute() {
                     </div>
                 </div>
             </article>
-        </section>
 
-        <section id="leagueSection">
+            <article id="leagueStatSection" class="division">
+                <div class="h2Container">
+                    <h2>League</h2>
+                </div>
+                <div id="leagueStatboard" class="scoreboard">
+                    <div id="leagueStandings" class="divisionColumn">
+                        <h3>Team</h3>
+                        <hr>
+                        <p id="leagueStatTeam1" class="teamPosition"></p>
+                        <p id="leagueStatTeam2" class="teamPosition"></p>
+                        <p id="leagueStatTeam3" class="teamPosition"></p>
+                        <p id="leagueStatTeam4" class="teamPosition"></p>
+                        <p id="leagueStatTeam5" class="teamPosition"></p>
+                        <p id="leagueStatTeam6" class="teamPosition"></p>
+                        <p id="leagueStatTeam7" class="teamPosition"></p>
+                        <p id="leagueStatTeam8" class="teamPosition"></p>
+                        <p id="leagueStatTeam9" class="teamPosition"></p>
+                        <p id="leagueStatTeam10" class="teamPosition"></p>
+                        <p id="leagueStatTeam11" class="teamPosition"></p>
+                        <p id="leagueStatTeam12" class="teamPosition"></p>
+                        <p id="leagueStatTeam13" class="teamPosition"></p>
+                        <p id="leagueStatTeam14" class="teamPosition"></p>
+                        <p id="leagueStatTeam15" class="teamPosition"></p>
+                        <p id="leagueStatTeam16" class="teamPosition"></p>
+                        <p id="leagueStatTeam17" class="teamPosition"></p>
+                        <p id="leagueStatTeam18" class="teamPosition"></p>
+                        <p id="leagueStatTeam19" class="teamPosition"></p>
+                        <p id="leagueStatTeam20" class="teamPosition"></p>
+                        <p id="leagueStatTeam21" class="teamPosition"></p>
+                        <p id="leagueStatTeam22" class="teamPosition"></p>
+                        <p id="leagueStatTeam23" class="teamPosition"></p>
+                        <p id="leagueStatTeam24" class="teamPosition"></p>
+                        <p id="leagueStatTeam25" class="teamPosition"></p>
+                        <p id="leagueStatTeam26" class="teamPosition"></p>
+                        <p id="leagueStatTeam27" class="teamPosition"></p>
+                        <p id="leagueStatTeam28" class="teamPosition"></p>
+                        <p id="leagueStatTeam29" class="teamPosition"></p>
+                        <p id="leagueStatTeam30" class="teamPosition"></p>
+                        <p id="leagueStatTeam31" class="teamPosition"></p>
+                        <hr>
+                        <p class="divisionScore">* Wildcard</p>
+                    </div>
+                    <div id="leagueGPColumn" class="divisionColumn">
+                        <h3>GP</h3>
+                        <hr>
+                        <p id="leagueGP1" class="teamPosition"></p>
+                        <p id="leagueGP2" class="teamPosition"></p>
+                        <p id="leagueGP3" class="teamPosition"></p>
+                        <p id="leagueGP4" class="teamPosition"></p>
+                        <p id="leagueGP5" class="teamPosition"></p>
+                        <p id="leagueGP6" class="teamPosition"></p>
+                        <p id="leagueGP7" class="teamPosition"></p>
+                        <p id="leagueGP8" class="teamPosition"></p>
+                        <p id="leagueGP9" class="teamPosition"></p>
+                        <p id="leagueGP10" class="teamPosition"></p>
+                        <p id="leagueGP11" class="teamPosition"></p>
+                        <p id="leagueGP12" class="teamPosition"></p>
+                        <p id="leagueGP13" class="teamPosition"></p>
+                        <p id="leagueGP14" class="teamPosition"></p>
+                        <p id="leagueGP15" class="teamPosition"></p>
+                        <p id="leagueGP16" class="teamPosition"></p>
+                        <p id="leagueGP17" class="teamPosition"></p>
+                        <p id="leagueGP18" class="teamPosition"></p>
+                        <p id="leagueGP19" class="teamPosition"></p>
+                        <p id="leagueGP20" class="teamPosition"></p>
+                        <p id="leagueGP21" class="teamPosition"></p>
+                        <p id="leagueGP22" class="teamPosition"></p>
+                        <p id="leagueGP23" class="teamPosition"></p>
+                        <p id="leagueGP24" class="teamPosition"></p>
+                        <p id="leagueGP25" class="teamPosition"></p>
+                        <p id="leagueGP26" class="teamPosition"></p>
+                        <p id="leagueGP27" class="teamPosition"></p>
+                        <p id="leagueGP28" class="teamPosition"></p>
+                        <p id="leagueGP29" class="teamPosition"></p>
+                        <p id="leagueGP30" class="teamPosition"></p>
+                        <p id="leagueGP31" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="leaguePTSColumn" class="divisionColumn">
+                        <h3>PTS</h3>
+                        <hr>
+                        <p id="leaguePTS1" class="teamPosition"></p>
+                        <p id="leaguePTS2" class="teamPosition"></p>
+                        <p id="leaguePTS3" class="teamPosition"></p>
+                        <p id="leaguePTS4" class="teamPosition"></p>
+                        <p id="leaguePTS5" class="teamPosition"></p>
+                        <p id="leaguePTS6" class="teamPosition"></p>
+                        <p id="leaguePTS7" class="teamPosition"></p>
+                        <p id="leaguePTS8" class="teamPosition"></p>
+                        <p id="leaguePTS9" class="teamPosition"></p>
+                        <p id="leaguePTS10" class="teamPosition"></p>
+                        <p id="leaguePTS11" class="teamPosition"></p>
+                        <p id="leaguePTS12" class="teamPosition"></p>
+                        <p id="leaguePTS13" class="teamPosition"></p>
+                        <p id="leaguePTS14" class="teamPosition"></p>
+                        <p id="leaguePTS15" class="teamPosition"></p>
+                        <p id="leaguePTS16" class="teamPosition"></p>
+                        <p id="leaguePTS17" class="teamPosition"></p>
+                        <p id="leaguePTS18" class="teamPosition"></p>
+                        <p id="leaguePTS19" class="teamPosition"></p>
+                        <p id="leaguePTS20" class="teamPosition"></p>
+                        <p id="leaguePTS21" class="teamPosition"></p>
+                        <p id="leaguePTS22" class="teamPosition"></p>
+                        <p id="leaguePTS23" class="teamPosition"></p>
+                        <p id="leaguePTS24" class="teamPosition"></p>
+                        <p id="leaguePTS25" class="teamPosition"></p>
+                        <p id="leaguePTS26" class="teamPosition"></p>
+                        <p id="leaguePTS27" class="teamPosition"></p>
+                        <p id="leaguePTS28" class="teamPosition"></p>
+                        <p id="leaguePTS29" class="teamPosition"></p>
+                        <p id="leaguePTS30" class="teamPosition"></p>
+                        <p id="leaguePTS31" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="leagueWLOColumn" class="divisionColumn">
+                        <h3>WLO</h3>
+                        <hr>
+                        <p id="leagueWLO1" class="teamPosition"></p>
+                        <p id="leagueWLO2" class="teamPosition"></p>
+                        <p id="leagueWLO3" class="teamPosition"></p>
+                        <p id="leagueWLO4" class="teamPosition"></p>
+                        <p id="leagueWLO5" class="teamPosition"></p>
+                        <p id="leagueWLO6" class="teamPosition"></p>
+                        <p id="leagueWLO7" class="teamPosition"></p>
+                        <p id="leagueWLO8" class="teamPosition"></p>
+                        <p id="leagueWLO9" class="teamPosition"></p>
+                        <p id="leagueWLO10" class="teamPosition"></p>
+                        <p id="leagueWLO11" class="teamPosition"></p>
+                        <p id="leagueWLO12" class="teamPosition"></p>
+                        <p id="leagueWLO13" class="teamPosition"></p>
+                        <p id="leagueWLO14" class="teamPosition"></p>
+                        <p id="leagueWLO15" class="teamPosition"></p>
+                        <p id="leagueWLO16" class="teamPosition"></p>
+                        <p id="leagueWLO17" class="teamPosition"></p>
+                        <p id="leagueWLO18" class="teamPosition"></p>
+                        <p id="leagueWLO19" class="teamPosition"></p>
+                        <p id="leagueWLO20" class="teamPosition"></p>
+                        <p id="leagueWLO21" class="teamPosition"></p>
+                        <p id="leagueWLO22" class="teamPosition"></p>
+                        <p id="leagueWLO23" class="teamPosition"></p>
+                        <p id="leagueWLO24" class="teamPosition"></p>
+                        <p id="leagueWLO25" class="teamPosition"></p>
+                        <p id="leagueWLO26" class="teamPosition"></p>
+                        <p id="leagueWLO27" class="teamPosition"></p>
+                        <p id="leagueWLO28" class="teamPosition"></p>
+                        <p id="leagueWLO29" class="teamPosition"></p>
+                        <p id="leagueWLO30" class="teamPosition"></p>
+                        <p id="leagueWLO31" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                    <div id="leagueSTRKColumn" class="divisionColumn">
+                        <h3>STRK</h3>
+                        <hr>
+                        <p id="leagueSTRK1" class="teamPosition"></p>
+                        <p id="leagueSTRK2" class="teamPosition"></p>
+                        <p id="leagueSTRK3" class="teamPosition"></p>
+                        <p id="leagueSTRK4" class="teamPosition"></p>
+                        <p id="leagueSTRK5" class="teamPosition"></p>
+                        <p id="leagueSTRK6" class="teamPosition"></p>
+                        <p id="leagueSTRK7" class="teamPosition"></p>
+                        <p id="leagueSTRK8" class="teamPosition"></p>
+                        <p id="leagueSTRK9" class="teamPosition"></p>
+                        <p id="leagueSTRK10" class="teamPosition"></p>
+                        <p id="leagueSTRK11" class="teamPosition"></p>
+                        <p id="leagueSTRK12" class="teamPosition"></p>
+                        <p id="leagueSTRK13" class="teamPosition"></p>
+                        <p id="leagueSTRK14" class="teamPosition"></p>
+                        <p id="leagueSTRK15" class="teamPosition"></p>
+                        <p id="leagueSTRK16" class="teamPosition"></p>
+                        <p id="leagueSTRK17" class="teamPosition"></p>
+                        <p id="leagueSTRK18" class="teamPosition"></p>
+                        <p id="leagueSTRK19" class="teamPosition"></p>
+                        <p id="leagueSTRK20" class="teamPosition"></p>
+                        <p id="leagueSTRK21" class="teamPosition"></p>
+                        <p id="leagueSTRK22" class="teamPosition"></p>
+                        <p id="leagueSTRK23" class="teamPosition"></p>
+                        <p id="leagueSTRK24" class="teamPosition"></p>
+                        <p id="leagueSTRK25" class="teamPosition"></p>
+                        <p id="leagueSTRK26" class="teamPosition"></p>
+                        <p id="leagueSTRK27" class="teamPosition"></p>
+                        <p id="leagueSTRK28" class="teamPosition"></p>
+                        <p id="leagueSTRK29" class="teamPosition"></p>
+                        <p id="leagueSTRK30" class="teamPosition"></p>
+                        <p id="leagueSTRK31" class="teamPosition"></p>
+                        <hr>
+                    </div>
+                </div>
+            </article>
         </section>
 
         <article id="trophySection" class="division">
