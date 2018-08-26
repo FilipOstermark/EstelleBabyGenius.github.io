@@ -65,21 +65,12 @@ h2 {
 }
 @media only screen and (max-width: 850px) {
     h2 { font-size: 200%;}
-    #leagueSection h2 {
-        margin-bottom: 15px;
-    }
 }
 @media only screen and (max-width: 849px) {
     h2 { font-size: 150%;}
-    #leagueSection h2 {
-        margin-bottom: 15px;
-    }
 }
 @media only screen and (max-width: 350px) {
     h2 { font-size: 130%;}
-    #leagueSection h2 {
-        margin-bottom: 15px;
-    }
 }
 .h2Container {
     position: relative;
@@ -353,10 +344,6 @@ a:hover {
 
 /* Trophy section style*/
 
-#trophySection img {
-    opacity: 0.85;
-}
-
 .h3Trophy {
     width: auto;
 }
@@ -378,7 +365,6 @@ a:hover {
 }
 
 .trophyWinner {
-    opacity: 0.85;
     font-family: ralewayHeavy;
     color: white;
     display: flex;
