@@ -6,6 +6,16 @@
 }
 
 @font-face {
+    font-family: megabomb;
+    src: url(megabomb/Megabomb.ttf);
+}
+
+@font-face {
+    font-family: krinkes;
+    src: url(krinkes/KrinkesRegularPERSONAL.ttf);
+}
+
+@font-face {
     font-family: raleway;
     src: url(raleway/Raleway-Medium.ttf);
 }
@@ -16,20 +26,23 @@
 }
 
 body {
-    background-color: #5b4b50;
+    background-image: url("bg.jpg");
     margin: 0;
     width: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 h1 {
-    color: #c7c6c5;
-    font-family: halfshell;
-    font-size: 4em;
+    color: #ffffff;
+    font-family: megabomb;
+    font-size: 5em;
     display: inline-block;
     vertical-align: top;
     margin-top: 80px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
     width: 12%;
+    opacity: 0.9;
 }
 @media only screen and (max-width: 1100px) {
     h1 { font-size: 300%; margin-top: 10%; width: 15%;}
@@ -39,16 +52,16 @@ h1 {
 }
 
 h2 {
-    font-family: halfshell;
+    font-family: krinkes;
     margin: 0;
     margin-bottom: 0px;
-    color: black;
     text-align: center;
-    font-size: 2.4em;
+    font-size: 2.6em;
     color: white;
+    opacity: 0.85;
     
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #ee5f60;
+    /*-webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #939080;*/
 }
 @media only screen and (max-width: 850px) {
     h2 { font-size: 200%;}
@@ -66,9 +79,9 @@ h2 {
 }
 
 h3 {
-    font-family: halfshell;
+    font-family: ralewayHeavy;
     font-size: 1.7em;
-    color: #5b4b50;
+    color: white;
     text-align: center;
     border-radius: 50%;
     width: 40px;
@@ -78,6 +91,7 @@ h3 {
     display:flex;
     align-items: center;
     justify-content: center;
+    opacity: 0.85;
 }
 @media only screen and (max-width: 849px) {
     h3 { font-size: 100%; width: 30px; height: 30px;}
@@ -85,20 +99,24 @@ h3 {
 .h3Filip {
     background-color: #f5b660;
     color: white;
+    opacity: 0.85;
 }
 .h3Viktor {
     background-color: #0a223f;
     color: white;
+    opacity: 0.85;
 }
 .h3Elias {
     background-color: #8cbeb2;
     color: white;
+    opacity: 0.85;
 }
 
 hr {
-    background-color: #5b4b50;
+    background-color: white;
     height: 1px;
     border: 0;
+    opacity: 0.75;
 }
 
 a {
@@ -147,14 +165,14 @@ a:hover {
 /* Total score style */
 
 .totalPoints {
-    color: #5b4b50;
+    color: white;
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 2.3em;
     text-align: center;
-    font-family: halfshell;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #c5be93;
+    font-family: megabomb;
+    /*-webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #c5be93;*/
 }
 @media only screen and (max-width: 849px) {
     .totalPoints { font-size: 1.6em;}
@@ -199,7 +217,7 @@ a:hover {
 
 .division {
     position: relative;
-    background-color: #f2edc0;
+    background-color: rgba(21, 29, 43, 0.45);
     border-radius: 30px;
     padding: 30px 30px;
     margin: 20px auto;
@@ -254,14 +272,14 @@ a:hover {
 }
 
 .betStatSelector {
-    font-family: halfshell;
+    font-family: megabomb;
     font-size: 1.2em;
     color: #5b4b50;
     margin: 10px 10px 0px 10px;
     background: none;
     border: none;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: transparent;
+    /* -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: transparent;*/
 
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
     -webkit-tap-highlight-color: transparent;
@@ -277,7 +295,8 @@ a:hover {
     font-size: 0.85em;
     text-align: left;
     margin: 5px;
-    color: #5b4b50;
+    color: white;
+    opacity: 0.85;
 }
 @media only screen and (max-width: 849px) {
     .teamPosition { font-size: 60%;}
@@ -294,7 +313,8 @@ a:hover {
     font-size: 0.85em;
     text-align: left;
     margin: 5px;
-    color: #5b4b50;
+    color: white;
+    opacity: 0.85;
 }
 @media only screen and (max-width: 849px) {
     .teamPlayoffPosition { font-size: 60%;}
@@ -312,7 +332,8 @@ a:hover {
     text-align: center;
     margin: 5px;
     padding: 0;
-    color: #5b4b50;
+    color: white;
+    opacity: 0.85;
 }
 @media only screen and (max-width: 400px) {
     .divisionScore { font-size: 50%;}
@@ -345,7 +366,7 @@ a:hover {
 
 .trophyWinner {
     font-family: ralewayHeavy;
-    color: #5b4b50;
+    color: white;
     display: flex;
     justify-content: center;
     margin-top: 25px;
@@ -364,6 +385,7 @@ a:hover {
 /* Footer style */
 
 #seasonFooter {
+    opacity: 0.85;
     width: 100%;
     margin: auto;
     margin-top: 30px;
@@ -377,8 +399,9 @@ a:hover {
 }
 #seasonFooter hr {
     width: 10%;
-    background-color: black;
+    background-color: white;
     display: block;
+    opacity: 0.75;
 }
 #misc {
     font-family: raleway;
