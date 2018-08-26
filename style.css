@@ -65,21 +65,12 @@ h2 {
 }
 @media only screen and (max-width: 850px) {
     h2 { font-size: 200%;}
-    #leagueSection h2 {
-        margin-bottom: 15px;
-    }
 }
 @media only screen and (max-width: 849px) {
     h2 { font-size: 150%;}
-    #leagueSection h2 {
-        margin-bottom: 15px;
-    }
 }
 @media only screen and (max-width: 350px) {
     h2 { font-size: 130%;}
-    #leagueSection h2 {
-        margin-bottom: 15px;
-    }
 }
 .h2Container {
     position: relative;
@@ -283,7 +274,7 @@ a:hover {
 .betStatSelector {
     font-family: megabomb;
     font-size: 1.2em;
-    color: #5b4b50;
+    color: #827e8c;
     margin: 10px 10px 0px 10px;
     background: none;
     border: none;
