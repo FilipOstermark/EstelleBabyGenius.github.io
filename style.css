@@ -39,6 +39,10 @@ body {
     height: 100vh;
 }
 
+.background-image {
+    transform: translate3d(0,0,0);
+}
+
 h1 {
     color: #ffffff;
     font-family: megabomb;
