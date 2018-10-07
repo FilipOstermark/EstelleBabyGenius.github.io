@@ -37,6 +37,8 @@ const pacificIndex = 3;
 
 let playoffTeams = [];
 
+const divisionShort = ["metro", "atlantic", "central", "pacific"];
+
 const shortName = {
     "teams" : {
         "New Jersey Devils" : "New Jersey",
@@ -343,19 +345,48 @@ function main() {
 }
 
 function generateDivisionRankings(divisionIndex, divisionNumTeams) {
-    const elementIdString = ["metro", "atlantic", "central", "pacific"];
 
     for (let i = 0; i < divisionNumTeams; i++) {
-        let teamName = parsedStandings.records[divisionIndex].teamRecords[i].team.name;
-        let teamPts = parsedStandings.records[divisionIndex].teamRecords[i].points;
-        let filipBetName = parsedBets.filip.division[divisionIndex].rank[i];
-        let viktorBetName = parsedBets.viktor.division[divisionIndex].rank[i];
-        let eliasBetName = parsedBets.elias.division[divisionIndex].rank[i];
+        const points = 1;
+        const team = parsedStandings.records[divisionIndex].teamRecords[i];
+        let teamName = team.team.name;
+        const gp = team.gamesPlayed;
+        const pts = team.points;
+        const wlo = team.leagueRecord.wins + "-" + team.leagueRecord.losses + "-" + team.leagueRecord.ot;
+        const strk = team.streak.streakCode;
+        const filipBetName = parsedBets.filip.division[divisionIndex].rank[i];
+        const viktorBetName = parsedBets.viktor.division[divisionIndex].rank[i];
+        const eliasBetName = parsedBets.elias.division[divisionIndex].rank[i];
 
-        let elementActualId = elementIdString[divisionIndex] + "Actual" + (i+1);
-        let elementFilipId = elementIdString[divisionIndex] + "Filip" + (i+1);
-        let elementViktorId = elementIdString[divisionIndex] + "Viktor" + (i+1);
-        let elementEliasId = elementIdString[divisionIndex] + "Elias" + (i+1);
+        if (filipBetName === teamName) {
+            filipTotalPoints += points;
+            filipDivisionScore[divisionIndex] += points;
+        }
+        if (viktorBetName === teamName) {
+            viktorTotalPoints += points;
+            viktorDivisionScore[divisionIndex] += points;
+        }
+        if (eliasBetName === teamName) {
+            eliasTotalPoints += points;
+            eliasDivisionScore[divisionIndex] += points;
+        }
+
+        const divisionShortCurrent = divisionShort[divisionIndex];
+        const idIndex = i+1;
+        const elementActualId = divisionShortCurrent + "Actual" + idIndex;
+        const elementFilipId = divisionShortCurrent + "Filip" + idIndex;
+        const elementViktorId = divisionShortCurrent + "Viktor" + idIndex;
+        const elementEliasId = divisionShortCurrent + "Elias" + idIndex;
+        const teamId = divisionShortCurrent + "StatTeam" + idIndex;
+        const gpId = divisionShortCurrent + "GP" + idIndex;
+        const ptsId = divisionShortCurrent + "PTS" + idIndex;
+        const wloId = divisionShortCurrent + "WLO" + idIndex;
+        const strkId = divisionShortCurrent + "STRK" + idIndex;
+        const teamElement = document.getElementById(teamId);
+        document.getElementById(gpId).innerHTML = gp;
+        document.getElementById(ptsId).innerHTML = pts;
+        document.getElementById(wloId).innerHTML = wlo;
+        document.getElementById(strkId).innerHTML = strk;
 
         let elementActual = document.getElementById(elementActualId);
         let elementFilip = document.getElementById(elementFilipId);
@@ -363,17 +394,17 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
         let elementElias = document.getElementById(elementEliasId);
 
         if (screen.width < 350) {
-            elementActual.innerHTML = teamPts + "p - " + acrName.teams[teamName];
+            elementActual.innerHTML = pts + "p - " + acrName.teams[teamName];
             elementFilip.innerHTML = acrName.teams[filipBetName];
             elementViktor.innerHTML = acrName.teams[viktorBetName];
             elementElias.innerHTML = acrName.teams[eliasBetName];
         } else if (screen.width < 750) {
-            elementActual.innerHTML = teamPts + "p - " + shortName.teams[teamName];
+            elementActual.innerHTML = pts + "p - " + shortName.teams[teamName];
             elementFilip.innerHTML = shortName.teams[filipBetName];
             elementViktor.innerHTML = shortName.teams[viktorBetName];
             elementElias.innerHTML = shortName.teams[eliasBetName];
-        }else {
-            elementActual.innerHTML = teamPts + " p - " + teamName;
+        } else {
+            elementActual.innerHTML = pts + " p - " + teamName;
             elementFilip.innerHTML = filipBetName;
             elementViktor.innerHTML = viktorBetName;
             elementElias.innerHTML = eliasBetName;
@@ -381,8 +412,8 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
 
         if (i < 3) playoffTeams.push(teamName);
 
-        if (parsedStandings.records[divisionIndex].teamRecords[i].wildCardRank === "1" ||
-            parsedStandings.records[divisionIndex].teamRecords[i].wildCardRank === "2") {
+        const wildcardRank = team.wildCardRank;
+        if (wildcardRank === "1" || wildcardRank === "2") {
             playoffTeams.push(teamName);
             elementActual.style.fontFamily="ralewayHeavy";
         }
@@ -397,29 +428,18 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
         if (teamName === filipBetName) elementFilip.style.fontStyle="italic";
         if (teamName === viktorBetName) elementViktor.style.fontStyle="italic";
         if (teamName === eliasBetName) elementElias.style.fontStyle="italic";
-    }
-}
 
-function compareDivisionRankings(divisionIndex, divisionNumTeams) {
-    for (let i = 0; i < divisionNumTeams; i++) {
-        let teamName = parsedStandings.records[divisionIndex].teamRecords[i].team.name;
-        let filipBetName = parsedBets.filip.division[divisionIndex].rank[i];
-        let viktorBetName = parsedBets.viktor.division[divisionIndex].rank[i];
-        let eliasBetName = parsedBets.elias.division[divisionIndex].rank[i];
-        let points = 1;
+        if (screen.width < 350) {
+            teamName = acrName.teams[teamName];
+        }
 
-        if (filipBetName === teamName) {
-            filipTotalPoints += points;
-            filipDivisionScore[divisionIndex] += points;
+        const teamWildcardRank = team.wildCardRank;
+        if (teamWildcardRank === "1" || teamWildcardRank === "2") {
+            teamName += " *";
+            teamElement.style.fontFamily = "ralewayHeavy";
         }
-        if (viktorBetName === teamName) {
-            viktorTotalPoints += points;
-            viktorDivisionScore[divisionIndex] += points;
-        }
-        if (eliasBetName === teamName) {
-            eliasTotalPoints += points;
-            eliasDivisionScore[divisionIndex] += points;
-        }
+
+        teamElement.innerHTML = idIndex + ". " + teamName;
     }
 }
 
@@ -427,77 +447,53 @@ function comparePlayoffTeams() {
     let points = 2;
 
     for (let divisionIndex = 0; divisionIndex < 4; divisionIndex++) { // Division index
-        for (let rankIndex = 0; rankIndex < 3; rankIndex++) { // Rank index
+        const filipDivision = parsedBets.filip.division[divisionIndex];
+        const filipDivisionRanks = filipDivision.rank;
+        const filipDivisionWildcards = filipDivision.wildcards;
 
-            const filipBetName = parsedBets.filip.division[divisionIndex].rank[rankIndex];
-            const viktorBetName = parsedBets.viktor.division[divisionIndex].rank[rankIndex];
-            const eliasBetName = parsedBets.elias.division[divisionIndex].rank[rankIndex];
+        const viktorDivision = parsedBets.viktor.division[divisionIndex];
+        const viktorDivisionRanks = viktorDivision.rank;
+        const viktorDivisionWildcards = viktorDivision.wildcards;
 
-            // Filip
-            if (playoffTeams.includes(filipBetName)) {
-                filipDivisionScore[divisionIndex] += points;
-                filipTotalPoints += points;
-            }
-            // Viktor
-            if (playoffTeams.includes(viktorBetName)) {
-                viktorDivisionScore[divisionIndex] += points;
-                viktorTotalPoints += points;
-            }
-            // Elias
-            if (playoffTeams.includes(eliasBetName)) {
-                eliasDivisionScore[divisionIndex] += points;
-                eliasTotalPoints += points;
-            }
-        }
+        const eliasDivision = parsedBets.elias.division[divisionIndex];
+        const eliasDivisionRanks = eliasDivision.rank;
+        const eliasDivisionWildcards = eliasDivision.wildcards;
 
-        // Wild Cards
-        for (let wildCardIndex = 0; wildCardIndex < 4; wildCardIndex++) { // Wild card index
-            if (playoffTeams.includes(parsedBets.filip.division[divisionIndex].wildcards[wildCardIndex])) {
+        for (let rankIndex = 0; rankIndex < 4; rankIndex++) { // Rank index
+            if (playoffTeams.includes(filipDivisionWildcards[rankIndex])) {
                 filipTotalPoints += points;
                 filipDivisionScore[divisionIndex] += points;
             }
-            if (playoffTeams.includes(parsedBets.viktor.division[divisionIndex].wildcards[wildCardIndex])) {
+            if (playoffTeams.includes(viktorDivisionWildcards[rankIndex])) {
                 viktorTotalPoints += points;
                 viktorDivisionScore[divisionIndex] += points;
             }
-            if (playoffTeams.includes(parsedBets.elias.division[divisionIndex].wildcards[wildCardIndex])) {
+            if (playoffTeams.includes(eliasDivisionWildcards[rankIndex])) {
                 eliasTotalPoints += points;
                 eliasDivisionScore[divisionIndex] += points;
             }
+            if (rankIndex >= 3) {} else {
+                const filipBetName = filipDivisionRanks[rankIndex];
+                const viktorBetName = viktorDivisionRanks[rankIndex];
+                const eliasBetName = eliasDivisionRanks[rankIndex];
+
+                // Filip
+                if (playoffTeams.includes(filipBetName)) {
+                    filipDivisionScore[divisionIndex] += points;
+                    filipTotalPoints += points;
+                }
+                // Viktor
+                if (playoffTeams.includes(viktorBetName)) {
+                    viktorDivisionScore[divisionIndex] += points;
+                    viktorTotalPoints += points;
+                }
+                // Elias
+                if (playoffTeams.includes(eliasBetName)) {
+                    eliasDivisionScore[divisionIndex] += points;
+                    eliasTotalPoints += points;
+                }
+            }
         }
-    }
-}
-
-function generateStatboard(divisionIndex, divisionNumTeams) {
-    const elementIdString = ["metro", "atlantic", "central", "pacific"];
-
-    for (let i = 0; i < divisionNumTeams; i++) {
-        let team = parsedStandings.records[divisionIndex].teamRecords[i];
-        let teamName = team.team.name;
-        if (screen.width < 350) {
-            teamName = acrName.teams[teamName];
-        }
-        let gp = team.gamesPlayed;
-        let pts = team.points;
-        let wlo = team.leagueRecord.wins + "-" + team.leagueRecord.losses + "-" + team.leagueRecord.ot;
-        let strk = team.streak.streakCode;
-
-        let teamId = elementIdString[divisionIndex] + "StatTeam" + (i+1);
-        let gpId = elementIdString[divisionIndex] + "GP" + (i+1);
-        let ptsId = elementIdString[divisionIndex] + "PTS" + (i+1);
-        let wloId = elementIdString[divisionIndex] + "WLO" + (i+1);
-        let strkId = elementIdString[divisionIndex] + "STRK" + (i+1);
-
-        if (team.wildCardRank === "1" || team.wildCardRank === "2") {
-            teamName += " *";
-            document.getElementById(teamId).style.fontFamily = "ralewayHeavy";
-        }
-
-        document.getElementById(teamId).innerHTML = (i+1) + ". " + teamName;
-        document.getElementById(gpId).innerHTML = gp;
-        document.getElementById(ptsId).innerHTML = pts;
-        document.getElementById(wloId).innerHTML = wlo;
-        document.getElementById(strkId).innerHTML = strk;
     }
 }
 
@@ -529,11 +525,12 @@ function generateConferenceStatboard(conferenceIndex, firstDivNumTeams, secDivNu
         let strk = team.streak.streakCode;
         let conferenceRank = team.conferenceRank;
 
-        let teamId = conferenceElementIdString[conferenceIndex] + "StatTeam" + conferenceRank;
-        let gpId = conferenceElementIdString[conferenceIndex] + "GP" + conferenceRank;
-        let ptsId = conferenceElementIdString[conferenceIndex] + "PTS" + conferenceRank;
-        let wloId = conferenceElementIdString[conferenceIndex] + "WLO" + conferenceRank;
-        let strkId = conferenceElementIdString[conferenceIndex] + "STRK" + conferenceRank;
+        const idStart = conferenceElementIdString[conferenceIndex];
+        let teamId = idStart + "StatTeam" + conferenceRank;
+        let gpId = idStart + "GP" + conferenceRank;
+        let ptsId = idStart + "PTS" + conferenceRank;
+        let wloId = idStart + "WLO" + conferenceRank;
+        let strkId = idStart + "STRK" + conferenceRank;
 
         let leagueRank = team.leagueRank;
         let teamIdLeague = "leagueStatTeam" + leagueRank;
@@ -645,7 +642,7 @@ function trophies() {
         [parsedBets.viktor.president, parsedBets.viktor.antipresident],
         [parsedBets.elias.president, parsedBets.elias.antipresident]];
 
-    let trophyScores = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
+    let trophyScores = [[0, 0],[0, 0],[0, 0]];
 
     const userIdString = ["ActualP", "FilipP", "ViktorP", "EliasP"];
     const trophyString = ["president", "antiPresident"];
@@ -688,17 +685,18 @@ function toggleBetStat(divisionIndex, betStatSelect) {
     const divisionNames = ["metro", "atlantic", "central", "pacific"];
     let primaryBoard, secondaryBoard;
     let primaryBtn, secondaryBtn;
+    const divName = divisionNames[divisionIndex];
 
     if (betStatSelect === 0) {
-        primaryBoard = document.getElementById(divisionNames[divisionIndex] + "Scoreboard");
-        primaryBtn = document.getElementById(divisionNames[divisionIndex] + "BetBtn");
-        secondaryBoard = document.getElementById(divisionNames[divisionIndex] + "Statboard");
-        secondaryBtn = document.getElementById(divisionNames[divisionIndex] + "StatBtn");
+        primaryBoard = document.getElementById(divName + "Scoreboard");
+        primaryBtn = document.getElementById(divName + "BetBtn");
+        secondaryBoard = document.getElementById(divName + "Statboard");
+        secondaryBtn = document.getElementById(divName + "StatBtn");
     } else {
-        primaryBoard = document.getElementById(divisionNames[divisionIndex] + "Statboard");
-        primaryBtn = document.getElementById(divisionNames[divisionIndex] + "StatBtn");
-        secondaryBoard = document.getElementById(divisionNames[divisionIndex] + "Scoreboard");
-        secondaryBtn = document.getElementById(divisionNames[divisionIndex] + "BetBtn");
+        primaryBoard = document.getElementById(divName + "Statboard");
+        primaryBtn = document.getElementById(divName + "StatBtn");
+        secondaryBoard = document.getElementById(divName + "Scoreboard");
+        secondaryBtn = document.getElementById(divName + "BetBtn");
     }
 
     primaryBoard.style.display = "flex";
@@ -713,31 +711,32 @@ function toggleBetStat(divisionIndex, betStatSelect) {
 }
 
 function toggleView(viewSelection) {
-    const sectionNames = ["divisions", "conferences"];
     let primarySection, secondarySection;
     let primaryBtn, secondaryBtn;
 
     if (viewSelection === 0) {
-        primarySection = document.getElementById(sectionNames[0] + "Section");
-        primaryBtn = document.getElementById(sectionNames[0] + "Btn");
-        secondarySection = document.getElementById(sectionNames[1] + "Section");
-        secondaryBtn = document.getElementById(sectionNames[1] + "Btn");
+        primarySection = document.getElementById("divisionsSection");
+        primaryBtn = document.getElementById("divisionsBtn");
+        secondarySection = document.getElementById("conferencesSection");
+        secondaryBtn = document.getElementById("conferencesBtn");
     } else {
-        primarySection = document.getElementById(sectionNames[1] + "Section");
-        primaryBtn = document.getElementById(sectionNames[1] + "Btn");
-        secondarySection = document.getElementById(sectionNames[0] + "Section");
-        secondaryBtn = document.getElementById(sectionNames[0] + "Btn");
+        primarySection = document.getElementById("conferencesSection");
+        primaryBtn = document.getElementById("conferencesBtn");
+        secondarySection = document.getElementById("divisionsSection");
+        secondaryBtn = document.getElementById("divisionsBtn");
     }
 
     primarySection.style.display = "block";
-    primaryBtn.style.color = "white";
-    primaryBtn.style.webkitTextStrokeColor = "#ee5f60";
-    primaryBtn.style.transform = "scale(1.1)";
+    let primButtonStyle = primaryBtn.style;
+    primButtonStyle.color = "white";
+    primButtonStyle.webkitTextStrokeColor = "#ee5f60";
+    primButtonStyle.transform = "scale(1.1)";
 
+    let secButtonStyle = secondaryBtn.style;
     secondarySection.style.display = "none";
-    secondaryBtn.style.color = "#827e8c";
-    secondaryBtn.style.webkitTextStrokeColor = "transparent";
-    secondaryBtn.style.transform = "scale(0.9)";
+    secButtonStyle.color = "#827e8c";
+    secButtonStyle.webkitTextStrokeColor = "transparent";
+    secButtonStyle.transform = "scale(0.9)";
 }
 
 function execute() {
@@ -751,20 +750,10 @@ function execute() {
     viktorDivisionScore = [0, 0, 0, 0];
     eliasDivisionScore = [0, 0, 0, 0];
 
-    compareDivisionRankings(metropolitanIndex, metropolitanNumTeams);
-    compareDivisionRankings(atlanticIndex, atlanticNumTeams);
-    compareDivisionRankings(centralIndex, centralNumTeams);
-    compareDivisionRankings(pacificIndex, pacificNumTeams);
-
     generateDivisionRankings(metropolitanIndex, metropolitanNumTeams);
     generateDivisionRankings(atlanticIndex, atlanticNumTeams);
     generateDivisionRankings(centralIndex, centralNumTeams);
     generateDivisionRankings(pacificIndex, pacificNumTeams);
-
-    generateStatboard(metropolitanIndex, metropolitanNumTeams);
-    generateStatboard(atlanticIndex, atlanticNumTeams);
-    generateStatboard(centralIndex, centralNumTeams);
-    generateStatboard(pacificIndex, pacificNumTeams);
 
     generateConferenceStatboard(0, metropolitanNumTeams, atlanticNumTeams);
     generateConferenceStatboard(1, centralNumTeams, pacificNumTeams);
@@ -785,7 +774,6 @@ function execute() {
     document.getElementById("viktorTotal").innerHTML = viktorTotalPoints + " p";
     document.getElementById("eliasTotal").innerHTML = eliasTotalPoints + " p";
 
-    const divisionShort = ["metro", "atlantic", "central", "pacific"];
     for (let divisionIndex = 0; divisionIndex < 4; divisionIndex++) {
         document.getElementById(divisionShort[divisionIndex] + "FilipScore").innerHTML = filipDivisionScore[divisionIndex] + " p";
         document.getElementById(divisionShort[divisionIndex] + "ViktorScore").innerHTML = viktorDivisionScore[divisionIndex] + " p";
@@ -803,11 +791,7 @@ function execute() {
     if (viktorTotalPoints === Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) leaderCrowns[1].style.opacity="1";
     if (eliasTotalPoints === Math.max(filipTotalPoints, viktorTotalPoints, eliasTotalPoints)) leaderCrowns[2].style.opacity="1";
 
-    const sectionIds = ["leagueSection", "viewSection", "metropolitanSection", "atlanticSection", "centralSection", "pacificSection", "easternSection", "westernSection", "leagueStatSection", "trophySection"];
-
-    for (let sectionIndex = 0; sectionIndex < sectionIds.length; sectionIndex++) {
-        document.getElementById(sectionIds[sectionIndex]).style.opacity = "0.85";
-    }
+    document.getElementById("mainContent").style.opacity = "1";
 
     console.log( ( new Date() ).getTime() - test );
 }

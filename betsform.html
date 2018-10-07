@@ -7,7 +7,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
 <script type="text/javascript">
 
-var bets = `{
+const bets = `{
     "filip" : {
         "division" : [ {
             "name" : "Metropolitan",
@@ -203,58 +203,72 @@ var bets = `{
     }
 }`;
 
-var parsedBets = JSON.parse(bets);
+let parsedBets = JSON.parse(bets);
 
 function main() {
-    document.getElementById("leagueSection").style.opacity = 0.85;
+    document.getElementById("leagueSection").style.opacity = "0.85";
+
+    for (let id = 1; id <= 31; id++) {
+        document.getElementById(id.toString()).addEventListener('dragstart', drag, false);
+        document.getElementById(id.toString()).addEventListener('dragenter', allowDrop, false);
+        document.getElementById(id.toString()).addEventListener('dragover', dragOver, false);
+        document.getElementById(id.toString()).addEventListener('dragleave', dragLeave, false);
+        document.getElementById(id.toString()).addEventListener('drop', drop, false);
+    }
 }
 
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
+    console.log("Start drag!")
 }
 
 function allowDrop(ev) {
     ev.preventDefault();
 
-    ev.target.style.opacity = 0.5
+    ev.target.style.opacity = "0.5";
 
+    return false;
+}
+
+function dragOver(ev) {
+    ev.preventDefault();
     return false;
 }
 
 function dragLeave(ev) {
     ev.preventDefault();
 
-    ev.target.style.opacity = 1.0
+    ev.target.style.opacity = "1.0";
 
     return false;
 }
 
 function drop(ev) {
     ev.preventDefault();
-    ev.target.style.opacity = 1.0
+    ev.target.style.opacity = "1.0";
 
-    var source_element = ev.dataTransfer.getData("text");
-    var prev_inner = ev.target.innerHTML;
+    let source_element = ev.dataTransfer.getData("text");
+    let prev_inner = ev.target.innerHTML;
 
     ev.target.innerHTML = document.getElementById(source_element).innerHTML;
 
-    var source_id = parseInt(source_element, 10);
-    var target_id = parseInt(ev.target.id, 10);   
+    let source_id = parseInt(source_element, 10);
+    let target_id = parseInt(ev.target.id, 10);
 
-    var listelements = document.querySelectorAll("#atlanticList.teamPosition");
+    let listelements = document.querySelectorAll("#atlanticList.teamPosition");
 
     if (target_id < source_id) {
-        var new_inner;
-        for (var i = target_id+1; i <= source_id; i++) {
-            new_inner = document.getElementById(i.toString()).innerHTML
-            document.getElementById(i.toString()).innerHTML = prev_inner
+        let new_inner;
+        for (let i = target_id+1; i <= source_id; i++) {
+            new_inner = document.getElementById(i.toString()).innerHTML;
+            document.getElementById(i.toString()).innerHTML = prev_inner;
             prev_inner = new_inner
         }
     } else {
-        var new_inner;
-        for (var i = target_id-1; i >= source_id; i--) {
-            new_inner = document.getElementById(i.toString()).innerHTML
-            document.getElementById(i.toString()).innerHTML = prev_inner
+        let new_inner;
+        for (let i = target_id-1; i >= source_id; i--) {
+            new_inner = document.getElementById(i.toString()).innerHTML;
+            document.getElementById(i.toString()).innerHTML = prev_inner;
             prev_inner = new_inner
         }
     }
@@ -264,71 +278,67 @@ function drop(ev) {
 </head>
 
 <body>
+    <div id="background-image"></div>
     <header id="titlelogo" class="inline-block-center">
         <h1>KM</h1>
         <img id="logo" src="nhllogo.svg" alt="nhllogo">
         <h1>BETS</h1>
     </header>
 
-
     <section id="mainContent">
         <article id="leagueSection" class="division">
             <div id="totalScoreboard" class="scoreboard">
-                <form action="" method="GET" id="my_form" submitbutton>
+                <form action="" method="GET" id="my_form">
                     <h2>Atlantic Division</h2>
                     <ol id="atlanticList">
-                        <li class="teamPosition" id="1" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Toronto Maple Leafs</li>
-                        <li class="teamPosition" id="2" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Boston Bruins</li>
-                        <li class="teamPosition" id="3" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Detroit Red Wings</li>
-                        <li class="teamPosition" id="4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Montréal Canadiens</li>
-                        <li class="teamPosition" id="5" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Ottawa Senators</li>
-                        <li class="teamPosition" id="6" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Florida Panthers</li>
-                        <li class="teamPosition" id="7" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Tampa Bay Lightning</li>
-                        <li class="teamPosition" id="8" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Buffalo Sabres</li>
+                        <li class="teamPosition" id="1" draggable="true">Toronto Maple Leafs</li>
+                        <li class="teamPosition" id="2" draggable="true">Boston Bruins</li>
+                        <li class="teamPosition" id="3" draggable="true">Detroit Red Wings</li>
+                        <li class="teamPosition" id="4" draggable="true">Montréal Canadiens</li>
+                        <li class="teamPosition" id="5" draggable="true">Ottawa Senators</li>
+                        <li class="teamPosition" id="6" draggable="true">Florida Panthers</li>
+                        <li class="teamPosition" id="7" draggable="true">Tampa Bay Lightning</li>
+                        <li class="teamPosition" id="8" draggable="true">Buffalo Sabres</li>
                     </ol>
                 
                     <h2>Metropolitan Division</h2>
                     <ol id="metropolitanList">
-                        <li class="teamPosition" id="9" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Toronto Maple Leafs</li>
-                        <li class="teamPosition" id="10" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Boston Bruins</li>
-                        <li class="teamPosition" id="11" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Detroit Red Wings</li>
-                        <li class="teamPosition" id="12" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Montréal Canadiens</li>
-                        <li class="teamPosition" id="13" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Ottawa Senators</li>
-                        <li class="teamPosition" id="14" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Florida Panthers</li>
-                        <li class="teamPosition" id="15" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Tampa Bay Lightning</li>
-                        <li class="teamPosition" id="16" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Buffalo Sabres</li>
+                        <li class="teamPosition" id="9" draggable="true">Toronto Maple Leafs</li>
+                        <li class="teamPosition" id="10" draggable="true">Boston Bruins</li>
+                        <li class="teamPosition" id="11" draggable="true">Detroit Red Wings</li>
+                        <li class="teamPosition" id="12" draggable="true">Montréal Canadiens</li>
+                        <li class="teamPosition" id="13" draggable="true">Ottawa Senators</li>
+                        <li class="teamPosition" id="14" draggable="true">Florida Panthers</li>
+                        <li class="teamPosition" id="15" draggable="true">Tampa Bay Lightning</li>
+                        <li class="teamPosition" id="16" draggable="true">Buffalo Sabres</li>
                     </ol>
 
                     <h2>Central Division</h2>
                     <ol id="centralList">
-                        <li class="teamPosition" id="17" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Toronto Maple Leafs</li>
-                        <li class="teamPosition" id="18" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Boston Bruins</li>
-                        <li class="teamPosition" id="19" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Detroit Red Wings</li>
-                        <li class="teamPosition" id="20" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Montréal Canadiens</li>
-                        <li class="teamPosition" id="21" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Ottawa Senators</li>
-                        <li class="teamPosition" id="22" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Florida Panthers</li>
-                        <li class="teamPosition" id="23" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Tampa Bay Lightning</li>
+                        <li class="teamPosition" id="17" draggable="true">Toronto Maple Leafs</li>
+                        <li class="teamPosition" id="18" draggable="true">Boston Bruins</li>
+                        <li class="teamPosition" id="19" draggable="true">Detroit Red Wings</li>
+                        <li class="teamPosition" id="20" draggable="true">Montréal Canadiens</li>
+                        <li class="teamPosition" id="21" draggable="true">Ottawa Senators</li>
+                        <li class="teamPosition" id="22" draggable="true">Florida Panthers</li>
+                        <li class="teamPosition" id="23" draggable="true">Tampa Bay Lightning</li>
                     </ol>
                
                     <h2>Pacific Division</h2>
                     <ol id="pacificList">
-                        <li class="teamPosition" id="24" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Toronto Maple Leafs</li>
-                        <li class="teamPosition" id="25" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Boston Bruins</li>
-                        <li class="teamPosition" id="26" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Detroit Red Wings</li>
-                        <li class="teamPosition" id="27" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Montréal Canadiens</li>
-                        <li class="teamPosition" id="28" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Ottawa Senators</li>
-                        <li class="teamPosition" id="29" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Florida Panthers</li>
-                        <li class="teamPosition" id="30" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Tampa Bay Lightning</li>
-                        <li class="teamPosition" id="31" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Buffalo Sabres</li>
+                        <li class="teamPosition" id="24" draggable="true">Toronto Maple Leafs</li>
+                        <li class="teamPosition" id="25" draggable="true">Boston Bruins</li>
+                        <li class="teamPosition" id="26" draggable="true">Detroit Red Wings</li>
+                        <li class="teamPosition" id="27" draggable="true">Montréal Canadiens</li>
+                        <li class="teamPosition" id="28" draggable="true">Ottawa Senators</li>
+                        <li class="teamPosition" id="29" draggable="true">Florida Panthers</li>
+                        <li class="teamPosition" id="30" draggable="true">Tampa Bay Lightning</li>
+                        <li class="teamPosition" id="31" draggable="true">Buffalo Sabres</li>
                     </ol>
                     <input class="betStatSelector" type="submit" name="">
                 </form>
             </div>
         </article>
-    </section>
-
-    <section id="mainContent">
-        
     </section>
 
     <footer id="seasonFooter">
