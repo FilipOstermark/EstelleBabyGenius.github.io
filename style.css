@@ -1,7 +1,7 @@
 /* General style */
 
 html {
-    height: 100vh;
+    height: 100%;
 }
 
 @font-face {
@@ -30,22 +30,27 @@ html {
 }
 
 body {
-    background-image: url("bg.jpg");
     margin: 0;
+    position: relative;
     width: 100%;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    transform: translate3d(0,0,0);
-    height: 100vh;
+    height: 100%;
 }
 
-.background-image {
+#background-image {
+    z-index: -1;
+    margin: 0;
+    width: 100%;
+    background: url("bg.jpg") no-repeat fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: fixed;
     transform: translate3d(0,0,0);
 }
 
 h1 {
     color: #ffffff;
-    font-family: megabomb;
+    font-family: megabomb, sans-serif;
     font-size: 5em;
     display: inline-block;
     vertical-align: top;
@@ -62,9 +67,8 @@ h1 {
 }
 
 h2 {
-    font-family: krinkes;
-    margin: 0;
-    margin-bottom: 0px;
+    font-family: krinkes, sans-serif;
+    margin: 0 0 0;
     text-align: center;
     font-size: 2.6em;
     color: white;
@@ -88,15 +92,14 @@ h2 {
 }
 
 h3 {
-    font-family: ralewayHeavy;
+    font-family: ralewayHeavy, sans-serif;
     font-size: 1.7em;
     color: white;
     text-align: center;
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    margin: auto;
-    margin-bottom: 15px;
+    margin: auto auto 15px;
     display:flex;
     align-items: center;
     justify-content: center;
@@ -126,7 +129,7 @@ hr {
 
 a {
     color: #f2edc0;
-    font-family: raleway;
+    font-family: raleway, sans-serif;
     text-align: center;
     font-size: 0.8em;
     text-decoration: none;
@@ -175,7 +178,7 @@ a:hover {
     margin-bottom: 10px;
     font-size: 2.3em;
     text-align: center;
-    font-family: megabomb;
+    font-family: megabomb, sans-serif;
     /*-webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #c5be93;*/
 }
@@ -184,7 +187,6 @@ a:hover {
 }
 
 .totalColumn {
-    margin-top: 20px;
     margin: 0 8%;
 }
 
@@ -193,6 +195,7 @@ a:hover {
     margin: 5px auto;
     fill: white;
     opacity: 0;
+    width: 60px;
 
     position: relative;
 
@@ -212,7 +215,7 @@ a:hover {
 }
 
 #leagueSection h3 {
-    margin-top: 0px;
+    margin-top: 0;
     font-size: 3em;
     width: 60px;
     height: 60px;
@@ -237,7 +240,7 @@ a:hover {
 }
 @media only screen and (max-width: 849px) {
     .division { 
-        padding: 30px 0px;
+        padding: 30px 0;
         margin: 10px auto;
         width: 95%;
     }
@@ -256,7 +259,7 @@ a:hover {
 }
 
 .scoreboard {
-    font-family: raleway;
+    font-family: raleway, sans-serif;
     text-align: left;
     margin-top: 15px;
     overflow: hidden;
@@ -277,16 +280,13 @@ a:hover {
 }
 
 .betStatSelector {
-    font-family: megabomb;
+    font-family: megabomb, sans-serif;
     font-size: 1.2em;
     color: #827e8c;
-    margin: 10px 10px 0px 10px;
+    margin: 10px 10px 0 10px;
     background: none;
     border: none;
-    /* -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: transparent;*/
 
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
     -webkit-tap-highlight-color: transparent;
 
     transition: all 0.12s linear;
@@ -296,7 +296,7 @@ a:hover {
 }
 
 .teamPosition {
-    font-family: raleway;
+    font-family: raleway, sans-serif;
     font-size: 0.85em;
     text-align: left;
     margin: 5px;
@@ -311,9 +311,13 @@ a:hover {
 @media only screen and (max-width: 350px) {
     .teamPosition { font-size: 65%;}
 }
+.teamPosition.over {
+    color: black;
+    font-size: 1.5em;
+}
 
 .teamPlayoffPosition {
-    font-family: ralewayHeavy;
+    font-family: ralewayHeavy, sans-serif;
     font-size: 0.85em;
     text-align: left;
     margin: 5px;
@@ -330,7 +334,7 @@ a:hover {
 }
 
 .divisionScore {
-    font-family: ralewayHeavy;
+    font-family: ralewayHeavy, sans-serif;
     font-size: 0.85em;
     text-align: center;
     margin: 5px;
@@ -366,8 +370,13 @@ a:hover {
     text-align: center;
 }
 
+.trophyImage {
+    width: 80px;
+    height: 100px;
+}
+
 .trophyWinner {
-    font-family: ralewayHeavy;
+    font-family: ralewayHeavy, sans-serif;
     color: white;
     display: flex;
     justify-content: center;
@@ -406,7 +415,7 @@ a:hover {
     opacity: 0.75;
 }
 #misc {
-    font-family: raleway;
+    font-family: raleway, sans-serif;
     font-size: 0.7em;
     color: #f2edc0;
     text-align: center;
@@ -422,7 +431,7 @@ a:hover {
 }
 
 #copyright {
-    font-family: raleway;
+    font-family: raleway, sans-serif;
     font-size: 0.6em;
     color: #f2edc0;
     text-align: center;

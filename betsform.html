@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>KMHL 18/19 - BETS</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+<script type="text/javascript">
+
+var bets = `{
+    "filip" : {
+        "division" : [ {
+            "name" : "Metropolitan",
+            "rank" : [ 
+                "Pittsburgh Penguins",
+                "Columbus Blue Jackets",
+                "New York Rangers",
+                "Washington Capitals",
+                "New York Islanders",
+                "Philadelphia Flyers",
+                "New Jersey Devils",
+                "Carolina Hurricanes"
+                ],
+            "wildcards" : [
+                "Washington Capitals"
+            ]
+        }, {
+            "name" : "Atlantic",
+            "rank" : [ 
+                "Ottawa Senators",
+                "Boston Bruins",
+                "Montréal Canadiens",
+                "Toronto Maple Leafs",
+                "Florida Panthers",
+                "Tampa Bay Lightning",
+                "Buffalo Sabres",
+                "Detroit Red Wings"
+                ],
+            "wildcards" : [
+                "Toronto Maple Leafs"
+            ]
+        }, {
+            "name" : "Central",
+            "rank" : [ 
+                "Nashville Predators",
+                "Minnesota Wild",
+                "Chicago Blackhawks",
+                "Winnipeg Jets",
+                "St. Louis Blues",
+                "Dallas Stars",
+                "Colorado Avalanche"
+                ],
+            "wildcards" : [
+                "Winnipeg Jets",
+                "St. Louis Blues"
+            ]
+        }, {
+            "name" : "Pacific",
+            "rank" : [ 
+                "Edmonton Oilers",
+                "Anaheim Ducks",
+                "San Jose Sharks",
+                "Los Angeles Kings",
+                "Calgary Flames",
+                "Vegas Golden Knights",
+                "Vancouver Canucks",
+                "Arizona Coyotes"
+                ],
+            "wildcards" : []
+        }],
+        "president" : "Pittsburgh Penguins",
+        "antipresident" : "Colorado Avalanche",
+        "prince" : "Pittsburgh Penguins",
+        "clarence" : "Chicago Blackhawks"
+    },
+    "viktor" : {
+        "division" : [ {
+            "name" : "Metropolitan",
+            "rank" : [ 
+                "Carolina Hurricanes",
+                "Pittsburgh Penguins",
+                "Columbus Blue Jackets",
+                "New York Rangers",
+                "Philadelphia Flyers",
+                "Washington Capitals",
+                "New York Islanders",
+                "New Jersey Devils"
+                ],
+            "wildcards" : [
+                "New York Rangers",
+                "Philadelphia Flyers"
+            ]
+        }, {
+            "name" : "Atlantic",
+            "rank" : [ 
+                "Tampa Bay Lightning",
+                "Toronto Maple Leafs",
+                "Montréal Canadiens",
+                "Buffalo Sabres",
+                "Boston Bruins",
+                "Ottawa Senators",
+                "Florida Panthers",
+                "Detroit Red Wings"
+                ],
+            "wildcards" : []
+        }, {
+            "name" : "Central",
+            "rank" : [ 
+                "Dallas Stars",
+                "Nashville Predators",
+                "Winnipeg Jets",
+                "Minnesota Wild",
+                "Chicago Blackhawks",
+                "St. Louis Blues",
+                "Colorado Avalanche"
+                ],
+            "wildcards" : [
+                "Minnesota Wild"
+            ]
+        }, {
+            "name" : "Pacific",
+            "rank" : [ 
+                "Edmonton Oilers",
+                "Calgary Flames",
+                "Anaheim Ducks",
+                "Los Angeles Kings",
+                "Arizona Coyotes",
+                "San Jose Sharks",
+                "Vegas Golden Knights",
+                "Vancouver Canucks"
+                ],
+            "wildcards" : [
+                "Los Angeles Kings"
+            ]
+        }],
+        "president" : "Dallas Stars",
+        "antipresident" : "Vancouver Canucks",
+        "prince" : "Tampa Bay Lightning",
+        "clarence" : "Minnesota Wild"
+    },
+    "elias" : {
+        "division" : [ {
+            "name" : "Metropolitan",
+            "rank" : [ 
+                "Pittsburgh Penguins",
+                "Washington Capitals",
+                "Carolina Hurricanes",
+                "New York Rangers",
+                "Philadelphia Flyers",
+                "Columbus Blue Jackets",
+                "New York Islanders",
+                "New Jersey Devils"
+                ],
+            "wildcards" : [
+                "New York Rangers",
+                "Philadelphia Flyers"
+            ]
+        }, {
+            "name" : "Atlantic",
+            "rank" : [ 
+                "Tampa Bay Lightning",
+                "Toronto Maple Leafs",
+                "Montréal Canadiens",
+                "Buffalo Sabres",
+                "Ottawa Senators",
+                "Boston Bruins",
+                "Detroit Red Wings",
+                "Florida Panthers"
+                ],
+            "wildcards" : []
+        }, {
+            "name" : "Central",
+            "rank" : [ 
+                "Dallas Stars",
+                "Nashville Predators",
+                "Minnesota Wild",
+                "Winnipeg Jets",
+                "Chicago Blackhawks",
+                "St. Louis Blues",
+                "Colorado Avalanche"
+                ],
+            "wildcards" : [
+                "Winnipeg Jets",
+                "Chicago Blackhawks"
+            ] }, {
+            "name" : "Pacific",
+            "rank" : [ 
+                "Anaheim Ducks",
+                "Edmonton Oilers",
+                "Calgary Flames",
+                "San Jose Sharks",
+                "Arizona Coyotes",
+                "Los Angeles Kings",
+                "Vancouver Canucks",
+                "Vegas Golden Knights"
+                ],
+            "wildcards" : []
+        }],
+        "president" : "Pittsburgh Penguins",
+        "antipresident" : "Vegas Golden Knights",
+        "prince" : "Tampa Bay Lightning",
+        "clarence" : "Edmonton Oilers"
+    }
+}`;
+
+var parsedBets = JSON.parse(bets);
+
+function main() {
+    document.getElementById("leagueSection").style.opacity = 0.85;
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+
+    ev.target.style.opacity = 0.5
+
+    return false;
+}
+
+function dragLeave(ev) {
+    ev.preventDefault();
+
+    ev.target.style.opacity = 1.0
+
+    return false;
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    ev.target.style.opacity = 1.0
+
+    var source_element = ev.dataTransfer.getData("text");
+    var prev_inner = ev.target.innerHTML;
+
+    ev.target.innerHTML = document.getElementById(source_element).innerHTML;
+
+    var source_id = parseInt(source_element, 10);
+    var target_id = parseInt(ev.target.id, 10);   
+
+    var listelements = document.querySelectorAll("#atlanticList.teamPosition");
+
+    if (target_id < source_id) {
+        var new_inner;
+        for (var i = target_id+1; i <= source_id; i++) {
+            new_inner = document.getElementById(i.toString()).innerHTML
+            document.getElementById(i.toString()).innerHTML = prev_inner
+            prev_inner = new_inner
+        }
+    } else {
+        var new_inner;
+        for (var i = target_id-1; i >= source_id; i--) {
+            new_inner = document.getElementById(i.toString()).innerHTML
+            document.getElementById(i.toString()).innerHTML = prev_inner
+            prev_inner = new_inner
+        }
+    }
+}
+
+</script>
+</head>
+
+<body>
+    <header id="titlelogo" class="inline-block-center">
+        <h1>KM</h1>
+        <img id="logo" src="nhllogo.svg" alt="nhllogo">
+        <h1>BETS</h1>
+    </header>
+
+
+    <section id="mainContent">
+        <article id="leagueSection" class="division">
+            <div id="totalScoreboard" class="scoreboard">
+                <form action="" method="GET" id="my_form" submitbutton>
+                    <h2>Atlantic Division</h2>
+                    <ol id="atlanticList">
+                        <li class="teamPosition" id="1" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Toronto Maple Leafs</li>
+                        <li class="teamPosition" id="2" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Boston Bruins</li>
+                        <li class="teamPosition" id="3" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Detroit Red Wings</li>
+                        <li class="teamPosition" id="4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Montréal Canadiens</li>
+                        <li class="teamPosition" id="5" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Ottawa Senators</li>
+                        <li class="teamPosition" id="6" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Florida Panthers</li>
+                        <li class="teamPosition" id="7" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Tampa Bay Lightning</li>
+                        <li class="teamPosition" id="8" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Buffalo Sabres</li>
+                    </ol>
+                
+                    <h2>Metropolitan Division</h2>
+                    <ol id="metropolitanList">
+                        <li class="teamPosition" id="9" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Toronto Maple Leafs</li>
+                        <li class="teamPosition" id="10" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Boston Bruins</li>
+                        <li class="teamPosition" id="11" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Detroit Red Wings</li>
+                        <li class="teamPosition" id="12" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Montréal Canadiens</li>
+                        <li class="teamPosition" id="13" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Ottawa Senators</li>
+                        <li class="teamPosition" id="14" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Florida Panthers</li>
+                        <li class="teamPosition" id="15" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Tampa Bay Lightning</li>
+                        <li class="teamPosition" id="16" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Buffalo Sabres</li>
+                    </ol>
+
+                    <h2>Central Division</h2>
+                    <ol id="centralList">
+                        <li class="teamPosition" id="17" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Toronto Maple Leafs</li>
+                        <li class="teamPosition" id="18" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Boston Bruins</li>
+                        <li class="teamPosition" id="19" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Detroit Red Wings</li>
+                        <li class="teamPosition" id="20" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Montréal Canadiens</li>
+                        <li class="teamPosition" id="21" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Ottawa Senators</li>
+                        <li class="teamPosition" id="22" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Florida Panthers</li>
+                        <li class="teamPosition" id="23" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Tampa Bay Lightning</li>
+                    </ol>
+               
+                    <h2>Pacific Division</h2>
+                    <ol id="pacificList">
+                        <li class="teamPosition" id="24" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Toronto Maple Leafs</li>
+                        <li class="teamPosition" id="25" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Boston Bruins</li>
+                        <li class="teamPosition" id="26" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Detroit Red Wings</li>
+                        <li class="teamPosition" id="27" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Montréal Canadiens</li>
+                        <li class="teamPosition" id="28" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Ottawa Senators</li>
+                        <li class="teamPosition" id="29" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Florida Panthers</li>
+                        <li class="teamPosition" id="30" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Tampa Bay Lightning</li>
+                        <li class="teamPosition" id="31" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">Buffalo Sabres</li>
+                    </ol>
+                    <input class="betStatSelector" type="submit" name="">
+                </form>
+            </div>
+        </article>
+    </section>
+
+    <section id="mainContent">
+        
+    </section>
+
+    <footer id="seasonFooter">
+        <h1>2018</h1>
+        <hr>
+        <h1>2019</h1>
+        <br>
+        <p id="misc">Misc:</p>
+        <a href="km-nhl-bets-20172018.pdf" class="miscLink">Bet PDF</a>
+        <a href="weekday/index.html" class="miscLink">Weekday Calculator</a>
+        <a href="retroradio/index.html" class="miscLink">RetroRadio</a>
+        <p id="copyright">&copy; 2018 Filip Östermark<p>
+    </footer>
+
+    <script type="text/javascript">
+    window.onload = main();
+    </script>
+</body>
+</html>
