@@ -46,7 +46,7 @@ const shortName = {
         "Pittsburgh Penguins" : "Pittsburgh",
         "Boston Bruins" : "Boston",
         "Buffalo Sabres" : "Buffalo",
-        "Montréal Canadiens" : "Montréal",
+        "Montr\xc3\xa9al Canadiens" : "Montréal",
         "Ottawa Senators" : "Ottawa",
         "Toronto Maple Leafs" : "Toronto",
         "Carolina Hurricanes" : "Carolina",
@@ -82,7 +82,7 @@ const acrName = {
         "Pittsburgh Penguins" : "PIT",
         "Boston Bruins" : "BOS",
         "Buffalo Sabres" : "BUF",
-        "Montréal Canadiens" : "MTL",
+        "Montr\xc3\xa9al Canadiens" : "MTL",
         "Ottawa Senators" : "OTT",
         "Toronto Maple Leafs" : "TOR",
         "Carolina Hurricanes" : "CAR",
@@ -575,71 +575,114 @@ function generateConferenceStatboard(conferenceIndex, firstDivNumTeams, secDivNu
     }
 }
 
-function findPresident() {
-    for (let i = 0; i < metropolitanNumTeams; i++) {
-        if (parsedStandings.records[metropolitanIndex].teamRecords[i].leagueRank === "1")
-            return parsedStandings.records[metropolitanIndex].teamRecords[i].team.name;
-    }
-    for (let i = 0; i < atlanticNumTeams; i++) {
-        if (parsedStandings.records[atlanticIndex].teamRecords[i].leagueRank === "1")
-            return parsedStandings.records[atlanticIndex].teamRecords[i].team.name;
-    }
-    for (let i = 0; i < centralNumTeams; i++) {
-        if (parsedStandings.records[centralIndex].teamRecords[i].leagueRank === "1")
-            return parsedStandings.records[centralIndex].teamRecords[i].team.name;
-    }
-    for (let i = 0; i < pacificNumTeams; i++) {
-        if (parsedStandings.records[pacificIndex].teamRecords[i].leagueRank === "1")
-            return parsedStandings.records[pacificIndex].teamRecords[i].team.name;
-    }
-}
+function findTrophies() {
+    let trophies = ["", "", "", ""];
+    let found = 0b0000;
+    let foundPres = 0;
+    let foundAnti = 0;
+    let foundClarence = 0;
+    let foundPrince = 0;
+    let ctli = 0;
 
-function findAntiPresident() {
-    for (let i = 0; i < metropolitanNumTeams; i++) {
-        if (parsedStandings.records[metropolitanIndex].teamRecords[i].leagueRank === "31")
-            return parsedStandings.records[metropolitanIndex].teamRecords[i].team.name;
-    }
-    for (let i = 0; i < atlanticNumTeams; i++) {
-        if (parsedStandings.records[atlanticIndex].teamRecords[i].leagueRank === "31")
-            return parsedStandings.records[atlanticIndex].teamRecords[i].team.name;
-    }
-    for (let i = 0; i < centralNumTeams; i++) {
-        if (parsedStandings.records[centralIndex].teamRecords[i].leagueRank === "31")
-            return parsedStandings.records[centralIndex].teamRecords[i].team.name;
-    }
-    for (let i = 0; i < pacificNumTeams; i++) {
-        if (parsedStandings.records[pacificIndex].teamRecords[i].leagueRank === "31")
-            return parsedStandings.records[pacificIndex].teamRecords[i].team.name;
-    }
-}
+    for (let i = 0; found < 0xf && i < 8; i++) {
+        let metroRec = parsedStandings.records[metropolitanIndex].teamRecords[i];
+        let atlanticRec = parsedStandings.records[atlanticIndex].teamRecords[i];
+        if (i === 7) ctli = 6;
+        else ctli = i;
+        let centralRec = parsedStandings.records[centralIndex].teamRecords[ctli];
+        let pacificRec = parsedStandings.records[pacificIndex].teamRecords[i];
 
-function findPrinceOfWales() {
-    // Eastern
-    for (let i = 0; i < metropolitanNumTeams; i++) {
-        if (parsedStandings.records[metropolitanIndex].teamRecords[i].conferenceRank === "1")
-            return parsedStandings.records[metropolitanIndex].teamRecords[i].team.name;
-    }
-    for (let i = 0; i < atlanticNumTeams; i++) {
-        if (parsedStandings.records[atlanticIndex].teamRecords[i].conferenceRank === "1")
-            return parsedStandings.records[atlanticIndex].teamRecords[i].team.name;
-    }
-}
+        let metroRank = metroRec.leagueRank;
+        let atlanticRank = atlanticRec.leagueRank;
+        let centralRank = centralRec.leagueRank;
+        let pacificRank = pacificRec.leagueRank;
 
-function findClarenceSCambell() {
-    // Western
-    for (let i = 0; i < centralNumTeams; i++) {
-        if (parsedStandings.records[centralIndex].teamRecords[i].conferenceRank === "1")
-            return parsedStandings.records[centralIndex].teamRecords[i].team.name;
+        if (!foundPres) {
+            if (metroRank === "1") {
+                trophies[0] = metroRec.team.name;
+                trophies[2] = metroRec.team.name;
+                foundPres = 1;
+                foundClarence = 1;
+                continue
+            }
+            else if (atlanticRank === "1") {
+                trophies[0] = atlanticRec.team.name;
+                trophies[2] = atlanticRec.team.name;
+                foundPres = 1;
+                foundClarence = 1;
+                continue
+            }
+            else if (centralRank === "1") {
+                trophies[0] = centralRec.team.name;
+                trophies[3] = centralRec.team.name;
+                foundPres = 1;
+                foundPrince = 1;
+                continue
+            }
+            else if (pacificRank === "1") {
+                trophies[0] = pacificRec.team.name;
+                trophies[3] = pacificRec.team.name;
+                foundPres = 1;
+                foundPrince = 1;
+                continue
+            }
+        }
+        if (!foundAnti) {
+            if (metroRank === "31") {
+                trophies[1] = metroRec.team.name;
+                foundPres = 1;
+                continue
+            }
+            else if (atlanticRank === "31") {
+                trophies[1] = atlanticRec.team.name;
+                foundPres = 1;
+                continue
+            }
+            else if (centralRank === "31") {
+                trophies[1] = centralRec.team.name;
+                foundPres = 1;
+                continue
+            }
+            else if (pacificRank === "31") {
+                trophies[1] = pacificRec.team.name;
+                foundPres = 1;
+                continue
+            }
+        }
+        if (!foundClarence) {
+            if (metroRec.conferenceRank === "1") {
+                trophies[2] = metroRec.team.name;
+                foundClarence = 1;
+                continue
+            }
+            else if (atlanticRec.conferenceRank === "1") {
+                trophies[2] = atlanticRec.team.name;
+                foundClarence = 1;
+                continue
+            }
+        }
+        if (!foundPrince) {
+            if (centralRec.conferenceRank === "1") {
+                trophies[3] = metroRec.team.name;
+                foundPrince = 1;
+                continue
+            }
+            else if (pacificRec.conferenceRank === "1") {
+                trophies[3] = atlanticRec.team.name;
+                foundPrince = 1;
+                continue
+            }
+        }
+
+        found = foundPres && foundAnti && foundClarence && foundPrince;
     }
-    for (let i = 0; i < pacificNumTeams; i++) {
-        if (parsedStandings.records[pacificIndex].teamRecords[i].conferenceRank === "1")
-            return parsedStandings.records[pacificIndex].teamRecords[i].team.name;
-    }
+
+    return trophies;
 }
 
 function trophies() {
     let nameStrings = [
-        [findPresident(), findAntiPresident(), findPrinceOfWales(), findClarenceSCambell()],
+        findTrophies(),
         [parsedBets.filip.president, parsedBets.filip.antipresident, parsedBets.filip.prince, parsedBets.filip.clarence],
         [parsedBets.viktor.president, parsedBets.viktor.antipresident, parsedBets.viktor.prince, parsedBets.viktor.clarence],
         [parsedBets.elias.president, parsedBets.elias.antipresident, parsedBets.elias.prince, parsedBets.elias.clarence]];
@@ -740,6 +783,8 @@ function toggleView(viewSelection) {
 }
 
 function execute() {
+    var test = ( new Date() ).getTime();
+    
     filipTotalPoints = 0;
     viktorTotalPoints = 0;
     eliasTotalPoints = 0;
@@ -805,4 +850,6 @@ function execute() {
     for (let sectionIndex = 0; sectionIndex < sectionIds.length; sectionIndex++) {
         document.getElementById(sectionIds[sectionIndex]).style.opacity = "0.85";
     }
+
+    console.log( ( new Date() ).getTime() - test );
 }
