@@ -46,7 +46,7 @@ const shortName = {
         "Pittsburgh Penguins" : "Pittsburgh",
         "Boston Bruins" : "Boston",
         "Buffalo Sabres" : "Buffalo",
-        "Montr\xc3\xa9al Canadiens" : "Montréal",
+        "Montréal Canadiens" : "Montréal",
         "Ottawa Senators" : "Ottawa",
         "Toronto Maple Leafs" : "Toronto",
         "Carolina Hurricanes" : "Carolina",
@@ -82,7 +82,7 @@ const acrName = {
         "Pittsburgh Penguins" : "PIT",
         "Boston Bruins" : "BOS",
         "Buffalo Sabres" : "BUF",
-        "Montr\xc3\xa9al Canadiens" : "MTL",
+        "Montréal Canadiens" : "MTL",
         "Ottawa Senators" : "OTT",
         "Toronto Maple Leafs" : "TOR",
         "Carolina Hurricanes" : "CAR",
@@ -128,7 +128,7 @@ const acrName = {
  * @param bets.elias.president
  * @param bets.elias.antipresident
  * @param bets.elias.prince
- * @param bets.elias.clarenc
+ * @param bets.elias.clarence
  *
  * @param bets.viktor
  * @param bets.viktor.division
@@ -577,14 +577,12 @@ function generateConferenceStatboard(conferenceIndex, firstDivNumTeams, secDivNu
 
 function findTrophies() {
     let trophies = ["", "", "", ""];
-    let found = 0b0000;
+    let found = 0;
     let foundPres = 0;
     let foundAnti = 0;
-    let foundClarence = 0;
-    let foundPrince = 0;
     let ctli = 0;
 
-    for (let i = 0; found < 0xf && i < 8; i++) {
+    for (let i = 0; !found && i < 8; i++) {
         let metroRec = parsedStandings.records[metropolitanIndex].teamRecords[i];
         let atlanticRec = parsedStandings.records[atlanticIndex].teamRecords[i];
         if (i === 7) ctli = 6;
@@ -602,79 +600,51 @@ function findTrophies() {
                 trophies[0] = metroRec.team.name;
                 trophies[2] = metroRec.team.name;
                 foundPres = 1;
-                foundClarence = 1;
                 continue
             }
             else if (atlanticRank === "1") {
                 trophies[0] = atlanticRec.team.name;
                 trophies[2] = atlanticRec.team.name;
                 foundPres = 1;
-                foundClarence = 1;
                 continue
             }
             else if (centralRank === "1") {
                 trophies[0] = centralRec.team.name;
                 trophies[3] = centralRec.team.name;
                 foundPres = 1;
-                foundPrince = 1;
                 continue
             }
             else if (pacificRank === "1") {
                 trophies[0] = pacificRec.team.name;
                 trophies[3] = pacificRec.team.name;
                 foundPres = 1;
-                foundPrince = 1;
                 continue
             }
         }
         if (!foundAnti) {
             if (metroRank === "31") {
                 trophies[1] = metroRec.team.name;
-                foundPres = 1;
+                foundAnti = 1;
                 continue
             }
             else if (atlanticRank === "31") {
                 trophies[1] = atlanticRec.team.name;
-                foundPres = 1;
+                foundAnti = 1;
                 continue
             }
             else if (centralRank === "31") {
                 trophies[1] = centralRec.team.name;
-                foundPres = 1;
+                foundAnti = 1;
                 continue
             }
             else if (pacificRank === "31") {
                 trophies[1] = pacificRec.team.name;
-                foundPres = 1;
-                continue
-            }
-        }
-        if (!foundClarence) {
-            if (metroRec.conferenceRank === "1") {
-                trophies[2] = metroRec.team.name;
-                foundClarence = 1;
-                continue
-            }
-            else if (atlanticRec.conferenceRank === "1") {
-                trophies[2] = atlanticRec.team.name;
-                foundClarence = 1;
-                continue
-            }
-        }
-        if (!foundPrince) {
-            if (centralRec.conferenceRank === "1") {
-                trophies[3] = metroRec.team.name;
-                foundPrince = 1;
-                continue
-            }
-            else if (pacificRec.conferenceRank === "1") {
-                trophies[3] = atlanticRec.team.name;
-                foundPrince = 1;
+                foundAnti = 1;
                 continue
             }
         }
 
-        found = foundPres && foundAnti && foundClarence && foundPrince;
+        found = foundPres && foundAnti;
     }
 
     return trophies;
@@ -683,32 +653,32 @@ function findTrophies() {
 function trophies() {
     let nameStrings = [
         findTrophies(),
-        [parsedBets.filip.president, parsedBets.filip.antipresident, parsedBets.filip.prince, parsedBets.filip.clarence],
-        [parsedBets.viktor.president, parsedBets.viktor.antipresident, parsedBets.viktor.prince, parsedBets.viktor.clarence],
-        [parsedBets.elias.president, parsedBets.elias.antipresident, parsedBets.elias.prince, parsedBets.elias.clarence]];
+        [parsedBets.filip.president, parsedBets.filip.antipresident],
+        [parsedBets.viktor.president, parsedBets.viktor.antipresident],
+        [parsedBets.elias.president, parsedBets.elias.antipresident]];
 
     let trophyScores = [[0, 0, 0, 0],[0, 0, 0, 0],[0, 0, 0, 0]];
 
     const userIdString = ["ActualP", "FilipP", "ViktorP", "EliasP"];
-    const trophyString = ["president", "antiPresident", "prince", "clarence"];
+    const trophyString = ["president", "antiPresident"];
 
     // Trophy loop
-    for (let trophyIndex = 0; trophyIndex < 4; trophyIndex++) {
+    for (let userIndex = 0; userIndex < 4; userIndex++) {
         // User loop
-        for (let userIndex = 0; userIndex < 4; userIndex++) {
+        for (let trophyIndex = 0; trophyIndex < 2; trophyIndex++) {
 
-            let teamName = nameStrings[trophyIndex][userIndex];
-            let trophyWinner = nameStrings[0][userIndex];
-            let trophyElement = document.getElementById(trophyString[userIndex] + userIdString[trophyIndex]);
+            let teamName = nameStrings[userIndex][trophyIndex];
+            let trophyWinner = nameStrings[0][trophyIndex];
+            let trophyElement = document.getElementById(trophyString[trophyIndex] + userIdString[userIndex]);
 
             if (screen.width < 850) {
                 // Use short team names for narrow screens
                 teamName = shortName.teams[teamName];
                 trophyWinner = shortName.teams[trophyWinner];
             }
-            if (trophyIndex !== 0 && teamName === trophyWinner) {
+            if (userIndex !== 0 && teamName === trophyWinner) {
                 trophyElement.style.fontStyle="italic";
-                trophyScores[trophyIndex-1][userIndex] += 3;
+                trophyScores[userIndex-1][trophyIndex] += 3;
             }
 
             trophyElement.innerHTML = teamName;
@@ -783,7 +753,7 @@ function toggleView(viewSelection) {
 }
 
 function execute() {
-    var test = ( new Date() ).getTime();
+    let test = ( new Date() ).getTime();
     
     filipTotalPoints = 0;
     viktorTotalPoints = 0;
