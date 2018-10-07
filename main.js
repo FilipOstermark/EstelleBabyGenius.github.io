@@ -117,8 +117,6 @@ const acrName = {
  * @param bets.filip.division[].wildcards
  * @param bets.filip.president
  * @param bets.filip.antipresident
- * @param bets.filip.prince
- * @param bets.filip.clarence
  *
  * @param bets.elias
  * @param bets.elias.division
@@ -127,8 +125,6 @@ const acrName = {
  * @param bets.elias.division[].wildcards
  * @param bets.elias.president
  * @param bets.elias.antipresident
- * @param bets.elias.prince
- * @param bets.elias.clarence
  *
  * @param bets.viktor
  * @param bets.viktor.division
@@ -137,8 +133,6 @@ const acrName = {
  * @param bets.viktor.division[].wildcards
  * @param bets.viktor.president
  * @param bets.viktor.antipresident
- * @param bets.viktor.prince
- * @param bets.viktor.clarenc
  *
  * @type {string}
  */
@@ -204,9 +198,7 @@ const bets = `{
             "wildcards" : []
         }],
         "president" : "Pittsburgh Penguins",
-        "antipresident" : "Colorado Avalanche",
-        "prince" : "Pittsburgh Penguins",
-        "clarence" : "Chicago Blackhawks"
+        "antipresident" : "Colorado Avalanche"
     },
     "viktor" : {
         "division" : [ {
@@ -269,9 +261,7 @@ const bets = `{
             ]
         }],
         "president" : "Dallas Stars",
-        "antipresident" : "Vancouver Canucks",
-        "prince" : "Tampa Bay Lightning",
-        "clarence" : "Minnesota Wild"
+        "antipresident" : "Vancouver Canucks"
     },
     "elias" : {
         "division" : [ {
@@ -332,9 +322,7 @@ const bets = `{
             "wildcards" : []
         }],
         "president" : "Pittsburgh Penguins",
-        "antipresident" : "Vegas Golden Knights",
-        "prince" : "Tampa Bay Lightning",
-        "clarence" : "Edmonton Oilers"
+        "antipresident" : "Vegas Golden Knights"
     }
 }`;
 
