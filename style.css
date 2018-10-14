@@ -230,6 +230,17 @@ a:hover {
     height: 60px;
 }
 
+input {
+    border-radius: 10px;
+    height: 20px;
+    background-color: transparent;
+    border-color: white;
+    border-width: 2px;
+    color: white;
+    padding-left: 10px;
+    font-family: raleway, sans-serif;
+}
+
 /* Division style */
 
 .division {
@@ -292,14 +303,18 @@ a:hover {
 
 .betsformSubmit {
     font-family: megabomb, sans-serif;
-    font-size: 1.2em;
-    color: #827e8c;
+    font-size: 3em;
+    color: white;
     margin: 10px 10px 0 10px;
     background: none;
     border: none;
     display: inline-block;
 
     -webkit-tap-highlight-color: transparent;
+}
+
+.betsformSubmit:hover {
+    color: #8cb8ff;
 }
 
 .betStatSelector {
@@ -326,6 +341,9 @@ select {
     text-align: left;
     margin: 5px;
     color: white;
+    border-radius: 10px;
+    height: 25px;
+    padding-left: 5px;
 }
 
 option {
@@ -335,6 +353,14 @@ option {
     text-align: left;
     margin: 5px;
     color: black;
+}
+
+.betsformTeam {
+    font-family: raleway, sans-serif;
+    font-size: 1em;
+    text-align: left;
+    margin: 5px;
+    color: white;
 }
 
 .teamPosition {

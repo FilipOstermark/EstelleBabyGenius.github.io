@@ -2,9 +2,11 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="style.css">
 <title>KMHL 18/19 - BETS</title>
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+<script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
 <script type="text/javascript">
 
 const bets = `{
@@ -21,8 +23,7 @@ const bets = `{
                 "",
                 "",
                 ""
-                ],
-            "wildcards" : []
+                ]
         }, {
             "name" : "Atlantic",
             "rank" : [ 
@@ -34,8 +35,7 @@ const bets = `{
                 "",
                 "",
                 ""
-                ],
-            "wildcards" : []
+                ]
         }, {
             "name" : "Central",
             "rank" : [ 
@@ -46,8 +46,7 @@ const bets = `{
                 "",
                 "",
                 ""
-                ],
-            "wildcards" : []
+                ]
         }, {
             "name" : "Pacific",
             "rank" : [ 
@@ -59,11 +58,16 @@ const bets = `{
                 "",
                 "",
                 ""
-                ],
-            "wildcards" : []
+                ]
         }],
+        "easternWildcards" : [],
+        "westernWildcards" : [],
         "president" : "",
-        "antipresident" : ""
+        "antipresident" : "",
+        "mostPoints" : "",
+        "mostGoals" : "",
+        "mostWins" : "",
+        "mostShutouts" : ""
     }
 }`;
 
@@ -80,6 +84,26 @@ const bets = `{
 let parsedBets = JSON.parse(bets);
 
 function main() {
+
+// Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyDV49EuvG-kDxL0Kg_TcjVwkptDioKNiKA",
+        authDomain: "kmhl-920918.firebaseapp.com",
+        databaseURL: "https://kmhl-920918.firebaseio.com",
+        projectId: "kmhl-920918",
+        storageBucket: "kmhl-920918.appspot.com",
+        messagingSenderId: "985632290219"
+    };
+    firebase.initializeApp(config);
+
+    firebase.auth().signInWithEmailAndPassword("asd", "password").catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+    });
+
+
     document.getElementById("mainContent").style.opacity = "0.85";
 
     for (let i = 1; i <= 8; i++) {
@@ -125,7 +149,7 @@ function allowDrop(ev) {
 
     let style = ev.target.style;
     style.opacity = "0.75";
-    style.color = "orange";
+    style.color = "#8cb8ff";
 
     return false;
 }
@@ -191,7 +215,7 @@ function send_bets() {
     let name = url.searchParams.get("name");
     console.log(name);
 
-    parsedBets.name = "xxx";
+    parsedBets.name = name;
 
     for (let i=0; i < 8; i++) {
         let element_id = "m" + (i+1).toString();
@@ -210,8 +234,27 @@ function send_bets() {
         parsedBets.bets.division[3].rank[i] = document.getElementById(element_id).innerHTML;
     }
 
+    parsedBets.bets.president = document.getElementById("president").value;
+    parsedBets.bets.antipresident = document.getElementById("antiPresident").value;
+
+    parsedBets.bets.easternWildcards[0] = document.getElementById("easternWildcard1").value;
+    parsedBets.bets.easternWildcards[1] = document.getElementById("easternWildcard2").value;
+    parsedBets.bets.westernWildcards[0] = document.getElementById("westernWildcard1").value;
+    parsedBets.bets.westernWildcards[1] = document.getElementById("westernWildcard2").value;
+
+    parsedBets.bets.mostPoints = document.getElementById("mostPoints").value;
+    parsedBets.bets.mostGoals = document.getElementById("mostGoals").value;
+    parsedBets.bets.mostWins = document.getElementById("mostWins").value;
+    parsedBets.bets.mostShutouts = document.getElementById("mostShutouts").value;
+
     let bets_json = JSON.stringify(parsedBets);
-    alert(bets_json);
+
+    const firestore = firebase.firestore();
+    const settings = {/* your settings... */ timestampsInSnapshots: true};
+    firestore.settings(settings);
+
+    var db = firebase.firestore();
+    db.collection("bets").add(parsedBets);
 }
 
 </script>
@@ -228,66 +271,73 @@ function send_bets() {
     <section id="mainContent">
         <article id="leagueSection" class="division">
             <div id="totalScoreboard" class="betsform">
+            <h2 style="font-size: 4em;">Division Rankings0</h2>
                 <div class="divisionColumn">
+                <br>
                     <h2>Metropolitan Division</h2>
                     <ol id="metropolitanList">
-                        <li class="teamPosition" id="m1" draggable="true">Washington Capitals</li>
-                        <li class="teamPosition" id="m2" draggable="true">Pittsburgh Penguins</li>
-                        <li class="teamPosition" id="m3" draggable="true">Columbus Blue Jackets</li>
-                        <li class="teamPosition" id="m4" draggable="true">New Jersey Devils</li>
-                        <li class="teamPosition" id="m5" draggable="true">New York Rangers</li>
-                        <li class="teamPosition" id="m6" draggable="true">Philadelphia Flyers</li>
-                        <li class="teamPosition" id="m7" draggable="true">New York Islanders</li>
-                        <li class="teamPosition" id="m8" draggable="true">Carolina Hurricanes</li>
+                        <li class="betsformTeam" id="m1" draggable="true">Washington Capitals</li>
+                        <li class="betsformTeam" id="m2" draggable="true">Pittsburgh Penguins</li>
+                        <li class="betsformTeam" id="m3" draggable="true">Columbus Blue Jackets</li>
+                        <li class="betsformTeam" id="m4" draggable="true">New Jersey Devils</li>
+                        <li class="betsformTeam" id="m5" draggable="true">New York Rangers</li>
+                        <li class="betsformTeam" id="m6" draggable="true">Philadelphia Flyers</li>
+                        <li class="betsformTeam" id="m7" draggable="true">New York Islanders</li>
+                        <li class="betsformTeam" id="m8" draggable="true">Carolina Hurricanes</li>
                     </ol>
                 </div>
 
                 <div class="divisionColumn">
+                <br>
                     <h2>Atlantic Division</h2>
                     <ol id="atlanticList">
-                        <li class="teamPosition" id="a1" draggable="true">Toronto Maple Leafs</li>
-                        <li class="teamPosition" id="a2" draggable="true">Boston Bruins</li>
-                        <li class="teamPosition" id="a3" draggable="true">Detroit Red Wings</li>
-                        <li class="teamPosition" id="a4" draggable="true">Montréal Canadiens</li>
-                        <li class="teamPosition" id="a5" draggable="true">Ottawa Senators</li>
-                        <li class="teamPosition" id="a6" draggable="true">Florida Panthers</li>
-                        <li class="teamPosition" id="a7" draggable="true">Tampa Bay Lightning</li>
-                        <li class="teamPosition" id="a8" draggable="true">Buffalo Sabres</li>
+                        <li class="betsformTeam" id="a1" draggable="true">Toronto Maple Leafs</li>
+                        <li class="betsformTeam" id="a2" draggable="true">Boston Bruins</li>
+                        <li class="betsformTeam" id="a3" draggable="true">Detroit Red Wings</li>
+                        <li class="betsformTeam" id="a4" draggable="true">Montréal Canadiens</li>
+                        <li class="betsformTeam" id="a5" draggable="true">Ottawa Senators</li>
+                        <li class="betsformTeam" id="a6" draggable="true">Florida Panthers</li>
+                        <li class="betsformTeam" id="a7" draggable="true">Tampa Bay Lightning</li>
+                        <li class="betsformTeam" id="a8" draggable="true">Buffalo Sabres</li>
                     </ol>
                 </div>
 
                 <div class="divisionColumn">
+                <br>
                     <h2>Central Division</h2>
                     <ol id="centralList">
-                        <li class="teamPosition" id="c1" draggable="true">Chicago Blackhawks</li>
-                        <li class="teamPosition" id="c2" draggable="true">Nashville Predators</li>
-                        <li class="teamPosition" id="c3" draggable="true">St. Louis Blues</li>
-                        <li class="teamPosition" id="c4" draggable="true">Winnipeg Jets</li>
-                        <li class="teamPosition" id="c5" draggable="true">Colorado Avalanche</li>
-                        <li class="teamPosition" id="c6" draggable="true">Dallas Stars</li>
-                        <li class="teamPosition" id="c7" draggable="true">Minnesota Wild</li>
-                        <li class="teamPosition" id="filler" style="opacity: 0" draggable="false"></li>
+                        <li class="betsformTeam" id="c1" draggable="true">Chicago Blackhawks</li>
+                        <li class="betsformTeam" id="c2" draggable="true">Nashville Predators</li>
+                        <li class="betsformTeam" id="c3" draggable="true">St. Louis Blues</li>
+                        <li class="betsformTeam" id="c4" draggable="true">Winnipeg Jets</li>
+                        <li class="betsformTeam" id="c5" draggable="true">Colorado Avalanche</li>
+                        <li class="betsformTeam" id="c6" draggable="true">Dallas Stars</li>
+                        <li class="betsformTeam" id="c7" draggable="true">Minnesota Wild</li>
+                        <li class="betsformTeam" id="filler" style="opacity: 0" draggable="false"></li>
                     </ol>
                 </div>
 
                 <div class="divisionColumn">
+                <br>
                     <h2>Pacific Division</h2>
                     <ol id="pacificList">
-                        <li class="teamPosition" id="p1" draggable="true">Anaheim Ducks</li>
-                        <li class="teamPosition" id="p2" draggable="true">Edmonton Oilers</li>
-                        <li class="teamPosition" id="p3" draggable="true">San Jose Sharks</li>
-                        <li class="teamPosition" id="p4" draggable="true">Los Angeles Kings</li>
-                        <li class="teamPosition" id="p5" draggable="true">Calgary Flames</li>
-                        <li class="teamPosition" id="p6" draggable="true">Vancouver Canucks</li>
-                        <li class="teamPosition" id="p7" draggable="true">Arizona Coyotes</li>
-                        <li class="teamPosition" id="p8" draggable="true">Vegas Golden Knights</li>
+                        <li class="betsformTeam" id="p1" draggable="true">Anaheim Ducks</li>
+                        <li class="betsformTeam" id="p2" draggable="true">Edmonton Oilers</li>
+                        <li class="betsformTeam" id="p3" draggable="true">San Jose Sharks</li>
+                        <li class="betsformTeam" id="p4" draggable="true">Los Angeles Kings</li>
+                        <li class="betsformTeam" id="p5" draggable="true">Calgary Flames</li>
+                        <li class="betsformTeam" id="p6" draggable="true">Vancouver Canucks</li>
+                        <li class="betsformTeam" id="p7" draggable="true">Arizona Coyotes</li>
+                        <li class="betsformTeam" id="p8" draggable="true">Vegas Golden Knights</li>
                     </ol>
                 </div>
 
+                <h2 style="font-size: 3.5em;">Wildcards9</h2>
 
                 <div class="divisionColumn">
+                <br>
                     <h2>Eastern Wildcards</h2>
-                    <select title="Eastern Wildcard 1">
+                    <select id="easternWildcard1" title="Eastern Wildcard 1">
                         <option value="Washington Capitals">Washington Capitals</option>
                         <option value="Pittsburgh Penguins">Pittsburgh Penguins</option>
                         <option value="Columbus Blue Jackets">Columbus Blue Jackets</option>
@@ -305,7 +355,7 @@ function send_bets() {
                         <option value="Tampa Bay Lightning">Tampa Bay Lightning</option>
                         <option value="Buffalo Sabres">Buffalo Sabres</option>
                     </select>
-                    <select title="Eastern Wildcard 2">
+                    <select id="easternWildcard2" title="Eastern Wildcard 2">
                         <option value="Washington Capitals">Washington Capitals</option>
                         <option value="Pittsburgh Penguins">Pittsburgh Penguins</option>
                         <option value="Columbus Blue Jackets">Columbus Blue Jackets</option>
@@ -324,9 +374,11 @@ function send_bets() {
                         <option value="Buffalo Sabres">Buffalo Sabres</option>
                     </select>
                 </div>
-
+                <br>
+                <br>
+                <br>
                 <h2>Western Wildcards</h2>
-                <select title="Western Wildcard 1">
+                <select id="westernWildcard1" title="Western Wildcard 1">
                     <option value="Chicago Blackhawks">Chicago Blackhawks</option>
                     <option value="Nashville Predators">Nashville Predators</option>
                     <option value="St. Louis Blues">St. Louis Blues</option>
@@ -343,7 +395,7 @@ function send_bets() {
                     <option value="Arizona Coyotes">Arizona Coyotes</option>
                     <option value="Vegas Golden Knights">Vegas Golden Knights</option>
                 </select>
-                <select title="Western Wildcard 2">
+                <select id="westernWildcard2" title="Western Wildcard 2">
                     <option value="Chicago Blackhawks">Chicago Blackhawks</option>
                     <option value="Nashville Predators">Nashville Predators</option>
                     <option value="St. Louis Blues">St. Louis Blues</option>
@@ -360,8 +412,10 @@ function send_bets() {
                     <option value="Arizona Coyotes">Arizona Coyotes</option>
                     <option value="Vegas Golden Knights">Vegas Golden Knights</option>
                 </select>
+                <br><br><br>
+                <h2 style="font-size: 3.5em;">Trophies8</h2>
                 <h2>President's Trophy</h2>
-                <select title="Presidents">
+                <select id="president" title="Presidents">
                     <option value="Washington Capitals">Washington Capitals</option>
                     <option value="Pittsburgh Penguins">Pittsburgh Penguins</option>
                     <option value="Columbus Blue Jackets">Columbus Blue Jackets</option>
@@ -394,8 +448,9 @@ function send_bets() {
                     <option value="Arizona Coyotes">Arizona Coyotes</option>
                     <option value="Vegas Golden Knights">Vegas Golden Knights</option>
                 </select>
+                <br><br><br>
                 <h2>Anti-President's Trophy</h2>
-                <select title="Western Wildcard 1">
+                <select id="antiPresident" title="Western Wildcard 1">
                     <option value="Washington Capitals">Washington Capitals</option>
                     <option value="Pittsburgh Penguins">Pittsburgh Penguins</option>
                     <option value="Columbus Blue Jackets">Columbus Blue Jackets</option>
@@ -428,11 +483,28 @@ function send_bets() {
                     <option value="Arizona Coyotes">Arizona Coyotes</option>
                     <option value="Vegas Golden Knights">Vegas Golden Knights</option>
                 </select>
-
+                <br><br><br>
                 <h2>Player Bets0</h2>
-                <input title="Most points" type="text">
+                <div class="divisionColumn">
+                    <p class="betsformTeam">Most points scored:</p>
+                    <input id="mostPoints" label="Most points scored" title="Most points" type="text">
+                </div>
+                <div class="divisionColumn">
+                    <p class="betsformTeam">Most goals scored:</p>
+                    <input id="mostGoals" label="Most goals scored" title="Most goals" type="text">
+                </div>
+                <br>
+                <div class="divisionColumn">
+                    <p class="betsformTeam">Winningest goalie:</p>
+                    <input id="mostWins" label="Most wins goalie" title="Most wins" type="text">
+                </div>
+                <div class="divisionColumn">
+                    <p class="betsformTeam">Most shutouts goalie:</p>
+                    <input id="mostShutouts" label="Most shutouts goalie" title="Most shutouts" type="text">
+                </div>
+                <br>
 
-                <button class="betsformSubmit" type="submit" onclick="send_bets()">Skicka!</button>
+                <button class="betsformSubmit" type="submit" onclick="send_bets()">SUBMIT</button>
             </div>
         </article>
     </section>
