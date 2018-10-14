@@ -96,14 +96,6 @@ function main() {
     };
     firebase.initializeApp(config);
 
-    firebase.auth().signInWithEmailAndPassword("asd", "password").catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-    });
-
-
     document.getElementById("mainContent").style.opacity = "0.85";
 
     for (let i = 1; i <= 8; i++) {
@@ -254,7 +246,9 @@ function send_bets() {
     firestore.settings(settings);
 
     var db = firebase.firestore();
-    db.collection("bets").add(parsedBets);
+    db.collection("bets").doc(name).set(parsedBets);
+
+    document.getElementById("mainContent").innerHTML = "<h2 style=\"font-size: 5em;\">Gött bror!9</h2>"
 }
 
 </script>
