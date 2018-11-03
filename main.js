@@ -143,188 +143,202 @@ const bets = `{
         "division" : [ {
             "name" : "Metropolitan",
             "rank" : [ 
-                "Pittsburgh Penguins",
-                "Columbus Blue Jackets",
-                "New York Rangers",
                 "Washington Capitals",
-                "New York Islanders",
-                "Philadelphia Flyers",
+                "Pittsburgh Penguins",
                 "New Jersey Devils",
+                "Columbus Blue Jackets",
+                "Philadelphia Flyers",
+                "New York Rangers",
+                "New York Islanders",
                 "Carolina Hurricanes"
                 ],
             "wildcards" : [
-                "Washington Capitals"
-            ]
-        }, {
-            "name" : "Atlantic",
-            "rank" : [ 
-                "Ottawa Senators",
-                "Boston Bruins",
-                "Montréal Canadiens",
-                "Toronto Maple Leafs",
-                "Florida Panthers",
-                "Tampa Bay Lightning",
-                "Buffalo Sabres",
-                "Detroit Red Wings"
-                ],
-            "wildcards" : [
-                "Toronto Maple Leafs"
-            ]
-        }, {
-            "name" : "Central",
-            "rank" : [ 
-                "Nashville Predators",
-                "Minnesota Wild",
-                "Chicago Blackhawks",
-                "Winnipeg Jets",
-                "St. Louis Blues",
-                "Dallas Stars",
-                "Colorado Avalanche"
-                ],
-            "wildcards" : [
-                "Winnipeg Jets",
-                "St. Louis Blues"
-            ]
-        }, {
-            "name" : "Pacific",
-            "rank" : [ 
-                "Edmonton Oilers",
-                "Anaheim Ducks",
-                "San Jose Sharks",
-                "Los Angeles Kings",
-                "Calgary Flames",
-                "Vegas Golden Knights",
-                "Vancouver Canucks",
-                "Arizona Coyotes"
-                ],
-            "wildcards" : []
-        }],
-        "president" : "Pittsburgh Penguins",
-        "antipresident" : "Colorado Avalanche"
-    },
-    "viktor" : {
-        "division" : [ {
-            "name" : "Metropolitan",
-            "rank" : [ 
-                "Carolina Hurricanes",
-                "Pittsburgh Penguins",
                 "Columbus Blue Jackets",
-                "New York Rangers",
-                "Philadelphia Flyers",
-                "Washington Capitals",
-                "New York Islanders",
-                "New Jersey Devils"
-                ],
-            "wildcards" : [
-                "New York Rangers",
                 "Philadelphia Flyers"
             ]
         }, {
             "name" : "Atlantic",
             "rank" : [ 
-                "Tampa Bay Lightning",
                 "Toronto Maple Leafs",
+                "Tampa Bay Lightning",
+                "Boston Bruins",
+                "Florida Panthers",
                 "Montréal Canadiens",
                 "Buffalo Sabres",
-                "Boston Bruins",
-                "Ottawa Senators",
-                "Florida Panthers",
-                "Detroit Red Wings"
+                "Detroit Red Wings",
+                "Ottawa Senators"
                 ],
             "wildcards" : []
         }, {
             "name" : "Central",
             "rank" : [ 
-                "Dallas Stars",
                 "Nashville Predators",
                 "Winnipeg Jets",
-                "Minnesota Wild",
-                "Chicago Blackhawks",
                 "St. Louis Blues",
-                "Colorado Avalanche"
+                "Chicago Blackhawks",
+                "Colorado Avalanche",
+                "Minnesota Wild",
+                "Dallas Stars"
                 ],
             "wildcards" : [
-                "Minnesota Wild"
+                "Chicago Blackhawks"
             ]
         }, {
             "name" : "Pacific",
             "rank" : [ 
-                "Edmonton Oilers",
-                "Calgary Flames",
-                "Anaheim Ducks",
-                "Los Angeles Kings",
-                "Arizona Coyotes",
                 "San Jose Sharks",
                 "Vegas Golden Knights",
+                "Anaheim Ducks",
+                "Edmonton Oilers",
+                "Los Angeles Kings",
+                "Calgary Flames",
+                "Arizona Coyotes",
                 "Vancouver Canucks"
                 ],
             "wildcards" : [
-                "Los Angeles Kings"
+                "Edmonton Oilers"
             ]
         }],
-        "president" : "Dallas Stars",
-        "antipresident" : "Vancouver Canucks"
+        "president" : "Nashville Predators",
+        "antipresident" : "Vancouver Canucks",
+        "mostgoals" : "Nikita Kucherov",
+        "mostpoints" : "Connor McDavid",
+        "mostshutouts" : "Sergei Bobrovsky",
+        "mostwins" : "Pekka Rinne"
+    },
+    "viktor" : {
+        "division" : [ {
+            "name" : "Metropolitan",
+            "rank" : [ 
+                "Philadelphia Flyers",
+                "Washington Capitals",
+                "Carolina Hurricanes",
+                "Columbus Blue Jackets",
+                "Pittsburgh Penguins",
+                "New Jersey Devils",
+                "New York Islanders",
+                "New York Rangers"
+                ],
+            "wildcards" : [
+                "Columbus Blue Jackets"
+            ]
+        }, {
+            "name" : "Atlantic",
+            "rank" : [ 
+                "Toronto Maple Leafs",
+                "Tampa Bay Lightning",
+                "Boston Bruins",
+                "Florida Panthers",
+                "Montréal Canadiens",
+                "Buffalo Sabres",
+                "Ottawa Senators",
+                "Detroit Red Wings"
+                ],
+            "wildcards" : [
+                "Florida Panthers"
+            ]
+        }, {
+            "name" : "Central",
+            "rank" : [ 
+                "Winnipeg Jets",
+                "Nashville Predators",
+                "St. Louis Blues",
+                "Dallas Stars",
+                "Colorado Avalanche",
+                "Minnesota Wild",
+                "Chicago Blackhawks"
+                ],
+            "wildcards" : [
+                "Dallas Stars"
+            ]
+        }, {
+            "name" : "Pacific",
+            "rank" : [ 
+                "San Jose Sharks",
+                "Los Angeles Kings",
+                "Vegas Golden Knights",
+                "Calgary Flames",
+                "Arizona Coyotes",
+                "Edmonton Oilers",
+                "Vancouver Canucks",
+                "Anaheim Ducks"
+                ],
+            "wildcards" : [
+                "Calgary Flames"
+            ]
+        }],
+        "president" : "Toronto Maple Leafs",
+        "antipresident" : "Detroit Red Wings",
+        "mostgoals" : "Patrik Laine",
+        "mostpoints" : "Claude Giroux",
+        "mostshutouts" : "Andrei Vasilevskiy",
+        "mostwins" : "Frederik Andersen"
     },
     "elias" : {
         "division" : [ {
             "name" : "Metropolitan",
             "rank" : [ 
                 "Pittsburgh Penguins",
+                "Philadelphia Flyers",
                 "Washington Capitals",
                 "Carolina Hurricanes",
-                "New York Rangers",
-                "Philadelphia Flyers",
                 "Columbus Blue Jackets",
                 "New York Islanders",
-                "New Jersey Devils"
+                "New Jersey Devils",
+                "New York Rangers"
                 ],
             "wildcards" : [
-                "New York Rangers",
-                "Philadelphia Flyers"
+                "Carolina Hurricanes",
+                "Columbus Blue Jackets"
             ]
         }, {
             "name" : "Atlantic",
             "rank" : [ 
-                "Tampa Bay Lightning",
                 "Toronto Maple Leafs",
-                "Montréal Canadiens",
-                "Buffalo Sabres",
-                "Ottawa Senators",
+                "Tampa Bay Lightning",
                 "Boston Bruins",
+                "Buffalo Sabres",
+                "Florida Panthers",
+                "Montréal Canadiens",
                 "Detroit Red Wings",
-                "Florida Panthers"
+                "Ottawa Senators"
                 ],
             "wildcards" : []
         }, {
             "name" : "Central",
             "rank" : [ 
-                "Dallas Stars",
                 "Nashville Predators",
-                "Minnesota Wild",
+                "Dallas Stars",
                 "Winnipeg Jets",
-                "Chicago Blackhawks",
                 "St. Louis Blues",
-                "Colorado Avalanche"
+                "Colorado Avalanche",
+                "Chicago Blackhawks",
+                "Minnesota Wild"
                 ],
             "wildcards" : [
-                "Winnipeg Jets",
-                "Chicago Blackhawks"
+                "St. Louis Blues"
             ] }, {
             "name" : "Pacific",
             "rank" : [ 
+                "San Jose Sharks",
+                "Calgary Flames",
                 "Anaheim Ducks",
                 "Edmonton Oilers",
-                "Calgary Flames",
-                "San Jose Sharks",
-                "Arizona Coyotes",
-                "Los Angeles Kings",
+                "Vegas Golden Knights",
                 "Vancouver Canucks",
-                "Vegas Golden Knights"
+                "Arizona Coyotes",
+                "Los Angeles Kings"
                 ],
-            "wildcards" : []
+            "wildcards" : [
+                "Edmonton Oilers"
+            ]
         }],
-        "president" : "Pittsburgh Penguins",
-        "antipresident" : "Vegas Golden Knights"
+        "president" : "Toronto Maple Leafs",
+        "antipresident" : "New York Rangers",
+        "mostgoals" : "Auston Matthews",
+        "mostpoints" : "Connor McDavid",
+        "mostshutouts" : "John Gibson",
+        "mostwins" : "Frederik Andersen"
     }
 }`;
 
@@ -342,34 +356,63 @@ function main() {
     };
     xhttp.open("GET", "https://statsapi.web.nhl.com/api/v1/standings", true);
     xhttp.send();
+
+    let xhttp2 = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            // Typical action to be performed when the document is ready:
+            const parsedLeaders = JSON.parse(xhttp.responseText);
+
+            alert(parsedLeaders.goalie[1].measure);
+
+            execute();
+        }
+    };
+    xhttp.open("GET", "http://www.nhl.com/stats/rest/leaders", true);
+    xhttp.send();
+}
+
+function unmain() {
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            // Typical action to be performed when the document is ready:
+            const parsedLeaders = JSON.parse(xhttp.responseText);
+
+            alert(parsedLeaders.goalie[1].measure);
+
+            execute();
+        }
+    };
+    xhttp.open("GET", "https://www.nhl.com/stats/rest/leaders", true);
+    xhttp.send();
+
 }
 
 function generateDivisionRankings(divisionIndex, divisionNumTeams) {
 
+    const exact_color = "#91ff96";
+    const adjacent_color = "#fff591";
+
     for (let i = 0; i < divisionNumTeams; i++) {
-        const points = 1;
+        const exact_points = 2;
+        const adjacent_points = 1;
+
         const team = parsedStandings.records[divisionIndex].teamRecords[i];
         let teamName = team.team.name;
         const gp = team.gamesPlayed;
         const pts = team.points;
         const wlo = team.leagueRecord.wins + "-" + team.leagueRecord.losses + "-" + team.leagueRecord.ot;
         const strk = team.streak.streakCode;
-        const filipBetName = parsedBets.filip.division[divisionIndex].rank[i];
-        const viktorBetName = parsedBets.viktor.division[divisionIndex].rank[i];
-        const eliasBetName = parsedBets.elias.division[divisionIndex].rank[i];
 
-        if (filipBetName === teamName) {
-            filipTotalPoints += points;
-            filipDivisionScore[divisionIndex] += points;
-        }
-        if (viktorBetName === teamName) {
-            viktorTotalPoints += points;
-            viktorDivisionScore[divisionIndex] += points;
-        }
-        if (eliasBetName === teamName) {
-            eliasTotalPoints += points;
-            eliasDivisionScore[divisionIndex] += points;
-        }
+        const filipRank = parsedBets.filip.division[divisionIndex].rank;
+        const viktorRank = parsedBets.viktor.division[divisionIndex].rank;
+        const eliasRank = parsedBets.elias.division[divisionIndex].rank;
+
+        const filipExactName = filipRank[i];
+        const viktorExactName = viktorRank[i];
+        const eliasExactName = eliasRank[i];
 
         const divisionShortCurrent = divisionShort[divisionIndex];
         const idIndex = i+1;
@@ -392,22 +435,57 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
         let elementFilip = document.getElementById(elementFilipId);
         let elementViktor = document.getElementById(elementViktorId);
         let elementElias = document.getElementById(elementEliasId);
+        const filipBetName = filipRank[i];
+        const viktorBetName = viktorRank[i];
+        const eliasBetName = eliasRank[i];
+
+        for (let j = i - 1; j <= i + 1; j++) {
+            if (j < 0 || j >= divisionNumTeams) continue;
+
+            let points = adjacent_points;
+            let color = adjacent_color;
+            if (i === j) {
+                points = exact_points;
+                color = exact_color;
+            }
+
+            const adjacentTeamName = parsedStandings.records[divisionIndex].teamRecords[j].team.name;
+
+            if (filipBetName === adjacentTeamName) {
+                filipTotalPoints += points;
+                filipDivisionScore[divisionIndex] += points;
+                if (i === j) elementFilip.style.fontStyle="italic";
+                elementFilip.style.color=color;
+            }
+            if (viktorBetName === adjacentTeamName) {
+                viktorTotalPoints += points;
+                viktorDivisionScore[divisionIndex] += points;
+                if (i === j) elementViktor.style.fontStyle="italic";
+                elementViktor.style.color=color;
+            }
+            if (eliasBetName === adjacentTeamName) {
+                eliasTotalPoints += points;
+                eliasDivisionScore[divisionIndex] += points;
+                if (i === j) elementElias.style.fontStyle="italic";
+                elementElias.style.color=color;
+            }
+        }
 
         if (screen.width < 350) {
             elementActual.innerHTML = pts + "p - " + acrName.teams[teamName];
-            elementFilip.innerHTML = acrName.teams[filipBetName];
-            elementViktor.innerHTML = acrName.teams[viktorBetName];
-            elementElias.innerHTML = acrName.teams[eliasBetName];
+            elementFilip.innerHTML = acrName.teams[filipExactName];
+            elementViktor.innerHTML = acrName.teams[viktorExactName];
+            elementElias.innerHTML = acrName.teams[eliasExactName];
         } else if (screen.width < 750) {
             elementActual.innerHTML = pts + "p - " + shortName.teams[teamName];
-            elementFilip.innerHTML = shortName.teams[filipBetName];
-            elementViktor.innerHTML = shortName.teams[viktorBetName];
-            elementElias.innerHTML = shortName.teams[eliasBetName];
+            elementFilip.innerHTML = shortName.teams[filipExactName];
+            elementViktor.innerHTML = shortName.teams[viktorExactName];
+            elementElias.innerHTML = shortName.teams[eliasExactName];
         } else {
             elementActual.innerHTML = pts + " p - " + teamName;
-            elementFilip.innerHTML = filipBetName;
-            elementViktor.innerHTML = viktorBetName;
-            elementElias.innerHTML = eliasBetName;
+            elementFilip.innerHTML = filipExactName;
+            elementViktor.innerHTML = viktorExactName;
+            elementElias.innerHTML = eliasExactName;
         }
 
         if (i < 3) playoffTeams.push(teamName);
@@ -418,16 +496,12 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
             elementActual.style.fontFamily="ralewayHeavy";
         }
 
-        if (parsedBets.filip.division[divisionIndex].wildcards.includes(filipBetName))
+        if (parsedBets.filip.division[divisionIndex].wildcards.includes(filipExactName))
             elementFilip.style.fontFamily="ralewayHeavy";
-        if (parsedBets.viktor.division[divisionIndex].wildcards.includes(viktorBetName))
+        if (parsedBets.viktor.division[divisionIndex].wildcards.includes(viktorExactName))
             elementViktor.style.fontFamily="ralewayHeavy";
-        if (parsedBets.elias.division[divisionIndex].wildcards.includes(eliasBetName))
+        if (parsedBets.elias.division[divisionIndex].wildcards.includes(eliasExactName))
             elementElias.style.fontFamily="ralewayHeavy";
-
-        if (teamName === filipBetName) elementFilip.style.fontStyle="italic";
-        if (teamName === viktorBetName) elementViktor.style.fontStyle="italic";
-        if (teamName === eliasBetName) elementElias.style.fontStyle="italic";
 
         if (screen.width < 350) {
             teamName = acrName.teams[teamName];
@@ -565,6 +639,10 @@ function findTrophies() {
     let found = 0;
     let foundPres = 0;
     let foundAnti = 0;
+    let foundMostGoals = 0;
+    let foundMostPoints = 0;
+    let foundMostShutouts = 0;
+    let foundMostWins = 0;
     let ctli = 0;
 
     for (let i = 0; !found && i < 8; i++) {
