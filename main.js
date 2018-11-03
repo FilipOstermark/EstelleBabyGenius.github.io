@@ -358,7 +358,7 @@ function main() {
     xhttp.send();
 
     let xhttp2 = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp2.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             // Typical action to be performed when the document is ready:
             const parsedLeaders = JSON.parse(xhttp.responseText);
