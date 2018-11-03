@@ -356,44 +356,12 @@ function main() {
     };
     xhttp.open("GET", "https://statsapi.web.nhl.com/api/v1/standings", true);
     xhttp.send();
-
-    let xhttp2 = new XMLHttpRequest();
-    xhttp2.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            // Typical action to be performed when the document is ready:
-            const parsedLeaders = JSON.parse(xhttp.responseText);
-
-            alert(parsedLeaders.goalie[1].measure);
-
-            execute();
-        }
-    };
-    xhttp.open("GET", "https://www.nhl.com/stats/rest/leaders", true);
-    xhttp.send();
-}
-
-function unmain() {
-
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            // Typical action to be performed when the document is ready:
-            const parsedLeaders = JSON.parse(xhttp.responseText);
-
-            alert(parsedLeaders.goalie[1].measure);
-
-            execute();
-        }
-    };
-    xhttp.open("GET", "https://www.nhl.com/stats/rest/leaders", true);
-    xhttp.send();
-
 }
 
 function generateDivisionRankings(divisionIndex, divisionNumTeams) {
 
-    const exact_color = "#91ff96";
-    const adjacent_color = "#fff591";
+    const exact_color = "#bef0ff";
+    const adjacent_color = "#ffefc1";
 
     for (let i = 0; i < divisionNumTeams; i++) {
         const exact_points = 2;
@@ -454,19 +422,16 @@ function generateDivisionRankings(divisionIndex, divisionNumTeams) {
             if (filipBetName === adjacentTeamName) {
                 filipTotalPoints += points;
                 filipDivisionScore[divisionIndex] += points;
-                if (i === j) elementFilip.style.fontStyle="italic";
                 elementFilip.style.color=color;
             }
             if (viktorBetName === adjacentTeamName) {
                 viktorTotalPoints += points;
                 viktorDivisionScore[divisionIndex] += points;
-                if (i === j) elementViktor.style.fontStyle="italic";
                 elementViktor.style.color=color;
             }
             if (eliasBetName === adjacentTeamName) {
                 eliasTotalPoints += points;
                 eliasDivisionScore[divisionIndex] += points;
-                if (i === j) elementElias.style.fontStyle="italic";
                 elementElias.style.color=color;
             }
         }
@@ -639,10 +604,6 @@ function findTrophies() {
     let found = 0;
     let foundPres = 0;
     let foundAnti = 0;
-    let foundMostGoals = 0;
-    let foundMostPoints = 0;
-    let foundMostShutouts = 0;
-    let foundMostWins = 0;
     let ctli = 0;
 
     for (let i = 0; !found && i < 8; i++) {
@@ -658,29 +619,89 @@ function findTrophies() {
         let centralRank = centralRec.leagueRank;
         let pacificRank = pacificRec.leagueRank;
 
+        if (metroRank === "30") {
+            document.getElementById("antiPresidentActualP2").innerHTML = "30. " + metroRec.team.name;
+        }
+        else if (metroRank === "29") {
+            document.getElementById("antiPresidentActualP3").innerHTML = "29. " + metroRec.team.name;
+        }
+
+        if (atlanticRank === "30") {
+            document.getElementById("antiPresidentActualP2").innerHTML = "30. " + atlanticRec.team.name;
+        }
+        else if (atlanticRank === "29") {
+            document.getElementById("antiPresidentActualP3").innerHTML = "29. " + atlanticRec.team.name;
+        }
+
+        if (centralRank === "30") {
+            document.getElementById("antiPresidentActualP2").innerHTML = "30. " + centralRec.team.name;
+        }
+        else if (centralRank === "29") {
+            document.getElementById("antiPresidentActualP3").innerHTML = "29. " + centralRec.team.name;
+        }
+
+        if (pacificRank === "30") {
+            document.getElementById("antiPresidentActualP2").innerHTML = "30. " + pacificRec.team.name;
+        }
+        else if (pacificRank === "29") {
+            document.getElementById("antiPresidentActualP3").innerHTML = "29. " + pacificRec.team.name;
+        }
+
+        if (metroRank === "2") {
+            document.getElementById("presidentActualP2").innerHTML = "2. " + metroRec.team.name;
+        }
+        else if (metroRank === "3") {
+            document.getElementById("presidentActualP3").innerHTML = "3. " + metroRec.team.name;
+        }
+
+        if (atlanticRank === "2") {
+            document.getElementById("presidentActualP2").innerHTML = "2. " + atlanticRec.team.name;
+        }
+        else if (atlanticRank === "3") {
+            document.getElementById("presidentActualP3").innerHTML = "3. " + atlanticRec.team.name;
+        }
+
+        if (centralRank === "2") {
+            document.getElementById("presidentActualP2").innerHTML = "2. " + centralRec.team.name;
+        }
+        else if (centralRank === "3") {
+            document.getElementById("presidentActualP3").innerHTML = "3. " + centralRec.team.name;
+        }
+
+        if (pacificRank === "2") {
+            document.getElementById("presidentActualP2").innerHTML = "2. " + pacificRec.team.name;
+        }
+        else if (pacificRank === "3") {
+            document.getElementById("presidentActualP3").innerHTML = "3. " + pacificRec.team.name;
+        }
+
         if (!foundPres) {
             if (metroRank === "1") {
                 trophies[0] = metroRec.team.name;
                 trophies[2] = metroRec.team.name;
                 foundPres = 1;
+                document.getElementById("presidentActualP").innerHTML = "1. " + metroRec.team.name;
                 continue
             }
             else if (atlanticRank === "1") {
                 trophies[0] = atlanticRec.team.name;
                 trophies[2] = atlanticRec.team.name;
                 foundPres = 1;
+                document.getElementById("presidentActualP").innerHTML = "1. " + atlanticRec.team.name;
                 continue
             }
             else if (centralRank === "1") {
                 trophies[0] = centralRec.team.name;
                 trophies[3] = centralRec.team.name;
                 foundPres = 1;
+                document.getElementById("presidentActualP").innerHTML = "1. " + centralRec.team.name;
                 continue
             }
             else if (pacificRank === "1") {
                 trophies[0] = pacificRec.team.name;
                 trophies[3] = pacificRec.team.name;
                 foundPres = 1;
+                document.getElementById("presidentActualP").innerHTML = "1. " + pacificRec.team.name;
                 continue
             }
         }
@@ -688,21 +709,25 @@ function findTrophies() {
             if (metroRank === "31") {
                 trophies[1] = metroRec.team.name;
                 foundAnti = 1;
+                document.getElementById("antiPresidentActualP").innerHTML = "31. " + metroRec.team.name;
                 continue
             }
             else if (atlanticRank === "31") {
                 trophies[1] = atlanticRec.team.name;
                 foundAnti = 1;
+                document.getElementById("antiPresidentActualP").innerHTML = "31. " + atlanticRec.team.name;
                 continue
             }
             else if (centralRank === "31") {
                 trophies[1] = centralRec.team.name;
                 foundAnti = 1;
+                document.getElementById("antiPresidentActualP").innerHTML = "31. " + centralRec.team.name;
                 continue
             }
             else if (pacificRank === "31") {
                 trophies[1] = pacificRec.team.name;
                 foundAnti = 1;
+                document.getElementById("antiPresidentActualP").innerHTML = "31. " + pacificRec.team.name;
                 continue
             }
         }
@@ -740,11 +765,12 @@ function trophies() {
                 trophyWinner = shortName.teams[trophyWinner];
             }
             if (userIndex !== 0 && teamName === trophyWinner) {
-                trophyElement.style.fontStyle="italic";
+                trophyElement.style.color="#bef0ff";
+                trophyElement.style.fontFamily="ralewayHeavy";
                 trophyScores[userIndex-1][trophyIndex] += 3;
             }
 
-            trophyElement.innerHTML = teamName;
+            if (userIndex !== 0) trophyElement.innerHTML = teamName;
         }
     }
 

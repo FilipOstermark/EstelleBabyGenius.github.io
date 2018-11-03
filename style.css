@@ -441,6 +441,7 @@ option {
 .trophyImage {
     width: 80px;
     height: 100px;
+    margin-bottom: 25px;
 }
 
 .trophyWinner {
@@ -448,9 +449,31 @@ option {
     color: white;
     display: flex;
     justify-content: center;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    font-size: 1.1em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 1.3em;
+}
+
+.trophySecond {
+    font-family: ralewayHeavy, sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 0.95em;
+    opacity: 0.6;
+}
+
+.trophyThird {
+    font-family: ralewayHeavy, sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 0.8em;
+    opacity: 0.25;
 }
 
 #trophySummary {
