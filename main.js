@@ -354,7 +354,7 @@ function main() {
             execute();
         }
     };
-    xhttp.open("GET", "http://statsapi.web.nhl.com/api/v1/standings", true);
+    xhttp.open("GET", "https://statsapi.web.nhl.com/api/v1/standings", true);
     xhttp.send();
 
     let xhttp2 = new XMLHttpRequest();
@@ -368,7 +368,7 @@ function main() {
             execute();
         }
     };
-    xhttp.open("GET", "http://www.nhl.com/stats/rest/leaders", true);
+    xhttp.open("GET", "https://www.nhl.com/stats/rest/leaders", true);
     xhttp.send();
 }
 
@@ -385,7 +385,7 @@ function unmain() {
             execute();
         }
     };
-    xhttp.open("GET", "http://www.nhl.com/stats/rest/leaders", true);
+    xhttp.open("GET", "https://www.nhl.com/stats/rest/leaders", true);
     xhttp.send();
 
 }
