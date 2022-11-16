@@ -354,7 +354,7 @@ function main() {
             execute();
         }
     };
-    xhttp.open("GET", "https://statsapi.web.nhl.com/api/v1/standings", true);
+    xhttp.open("GET", "https://statsapi.web.nhl.com/api/v1/standings?season=20182019", true);
     xhttp.send();
 }
 
